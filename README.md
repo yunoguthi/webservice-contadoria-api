@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Spring Boot JWT Authentication example with Spring Security & Spring Data JPA
 
 For more detail, please visit:
@@ -72,3 +73,7 @@ INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
 INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 ```
+=======
+# Base backend
+
+>>>>>>> 2820c32af501564c767a2ed8e6c75606709a1f22
