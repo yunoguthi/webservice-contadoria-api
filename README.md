@@ -1,4 +1,4 @@
-Projeto base para backend de sistemas utilizando tecnologia Spring.
+API para importação e disponibilização de dados para contadoria.
 Para rodar, primeiro é necessário editar o arquivo application.properties com as configurações do banco de dados a ser utilizado.
 Então no console ou prompt, entrar na pasta do projeto (base-backend) e digitar os seguintes comandos:
 mvn package
