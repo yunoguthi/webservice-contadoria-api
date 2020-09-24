@@ -8,20 +8,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TR {
+public class Trd {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	private Date dataFim;
+	
 	private Date data;
 	
 	private Double valor;
 	
-	public TR() {
-		super();
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -30,6 +28,14 @@ public class TR {
 		this.id = id;
 	}
 
+	public Date getDataFim() {
+		return dataFim;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
+	}
+	
 	public Date getData() {
 		return data;
 	}
