@@ -12,8 +12,16 @@ import java.util.Locale;
 
 public class ManipulaData {
 	
-	public static String ANO_MES_DIA = "yyyy-MM-dd"; // 2016-09-27
-	public static String DIA_MES_ANO = "dd/MM/yyyy"; // 27/09/2016
+	public static String 
+		ANO_MES_DIA = "yyyy-MM-dd", // 2016-09-27
+		DIA_MES_ANO = "dd/MM/yyyy", // 27/09/2016
+		ANO_MES = "yyyydd";			// 201609
+	
+	public static String dateToStringAnoMes(Date data) {
+		DateFormat dateFormat = new SimpleDateFormat(ANO_MES);  
+		String strDate = dateFormat.format(data); 	
+		return strDate;
+	}
 	
 	public static String dateToStringDiaMesAno(Date data) {
 		DateFormat dateFormat = new SimpleDateFormat(DIA_MES_ANO);  
