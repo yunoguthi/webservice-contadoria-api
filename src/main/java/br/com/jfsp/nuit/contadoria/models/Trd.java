@@ -1,11 +1,14 @@
 package br.com.jfsp.nuit.contadoria.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Trd {
@@ -14,11 +17,17 @@ public class Trd {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Date dataFim;
 	
-	private Date data;
+	@Temporal(TemporalType.DATE)
+	private Calendar dataFim;
+	
+	@Temporal(TemporalType.DATE)
+    private Calendar data;
 	
 	private Double valor;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date ultimaAtualizacao;
 	
 	public Long getId() {
 		return id;
@@ -28,19 +37,19 @@ public class Trd {
 		this.id = id;
 	}
 
-	public Date getDataFim() {
+	public Calendar getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(Calendar dataFim) {
 		this.dataFim = dataFim;
 	}
 	
-	public Date getData() {
+	public Calendar getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(Calendar data) {
 		this.data = data;
 	}
 
@@ -50,6 +59,14 @@ public class Trd {
 
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+
+	public Date getUltimaAtualizacao() {
+		return ultimaAtualizacao;
+	}
+
+	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
+		this.ultimaAtualizacao = ultimaAtualizacao;
 	}
 	
 }

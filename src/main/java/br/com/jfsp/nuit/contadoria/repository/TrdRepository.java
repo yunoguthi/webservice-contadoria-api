@@ -1,5 +1,6 @@
 package br.com.jfsp.nuit.contadoria.repository;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -12,11 +13,11 @@ import br.com.jfsp.nuit.contadoria.models.Trd;
 @Repository
 public interface TrdRepository extends JpaRepository<Trd, Long> {
 	
-	Optional<Trd> findByData(Date data);
+	Optional<Trd> findByData(Calendar data);
 
-	Boolean existsByData(Date data);
+	Boolean existsByData(Calendar data);
 		
 	@Query("select max(data) from Trd")
-	Date findMaxData();
+	Calendar findMaxData();
 
 }

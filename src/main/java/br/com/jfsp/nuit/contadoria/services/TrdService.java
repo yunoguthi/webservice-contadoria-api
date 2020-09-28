@@ -2,6 +2,7 @@ package br.com.jfsp.nuit.contadoria.services;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -29,11 +30,11 @@ public class TrdService extends SgsBacenService {
 	
 	public void importa() {
 		
-		Date dataInicial = repository.findMaxData();
+		Calendar dataInicial = repository.findMaxData();
 		
 		String conteudoUrl = "";
 		try {
-			conteudoUrl = urlReaderService.getConteudo(getUrl(TRD, dataInicial));
+			conteudoUrl = urlReaderService.getConteudo(getUrl(TRD, ManipulaData.toDate(dataInicial)));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
@@ -55,10 +56,11 @@ public class TrdService extends SgsBacenService {
 				}
 				Double valor = new Double(lMap.get("valor")+"");
 				Trd tr = new Trd();
-				tr.setData(data);
-				tr.setDataFim(dataFim);
+				tr.setData(ManipulaData.toCalendar(data));
+				tr.setDataFim(ManipulaData.toCalendar(dataFim));
 				tr.setValor(valor);
-				if (!repository.existsByData(data)) {
+				tr.setUltimaAtualizacao(ManipulaData.getHoje());
+				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(tr);
 				}
 			}

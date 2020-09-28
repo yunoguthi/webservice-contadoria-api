@@ -19,7 +19,7 @@ public class IpcaService extends SidraIbgeService {
 	    IPCA_NUMERO_INDICE =  "2266",
 	    IPCA_PERCENTUAL_MES =  "63",
 	    PRECISAO_NUMERO_INDICE = "13",
-	    PRECISAO_PERCENTUAL_MES = "13"
+	    PRECISAO_PERCENTUAL_MES = "2"
 	    ;
 	
 	@Autowired
@@ -68,12 +68,17 @@ public class IpcaService extends SidraIbgeService {
 						numeroIndice = new Double(lMap.get(VALOR)+"");	
 						ipca.setNumeroIndice(numeroIndice);
 					} else if (lMap.get(CODIGO_VARIAVEL).equals(IPCA_PERCENTUAL_MES)) {
-						variacaoMensal = new Float(lMap.get(VALOR)+"");	
-						ipca.setVariacaoMensal(variacaoMensal);
+						try {
+							variacaoMensal = new Float(lMap.get(VALOR)+"");	
+							ipca.setVariacaoMensal(variacaoMensal);
+						} catch (Exception e) {
+							System.out.println(lMap.get(VALOR)+"");
+						}
 					}
 					ipca.setData(data);
 					ipca.setAno(ano);
 					ipca.setMes(mes);
+					ipca.setUltimaAtualizacao(ManipulaData.getHoje());
 					save(ipca);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -88,9 +93,11 @@ public class IpcaService extends SidraIbgeService {
 	
 	public Ipca save(Ipca ipca) {
 		if (!repository.existsByData(ipca.getData())) {
+			
 			return repository.save(ipca);
 		} else {
 			Optional<Ipca> i = repository.findByData(ipca.getData());
+			ipca.setId(i.get().getId());
 			ipca.setAno(i.get().getAno());
 			ipca.setMes(i.get().getMes());
 			if (ipca.getNumeroIndice()==null) {

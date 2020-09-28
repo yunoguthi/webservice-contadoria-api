@@ -1,9 +1,14 @@
 package br.com.jfsp.nuit.contadoria.models;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
 public class Ipca {
@@ -21,6 +26,9 @@ public class Ipca {
 	private Double numeroIndice;
 	
 	private Float variacaoMensal;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date ultimaAtualizacao;
 	
 	public Long getId() {
 		return id;
@@ -68,6 +76,14 @@ public class Ipca {
 
 	public void setVariacaoMensal(Float variacaoMensal) {
 		this.variacaoMensal = variacaoMensal;
+	}
+
+	public Date getUltimaAtualizacao() {
+		return ultimaAtualizacao;
+	}
+
+	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
+		this.ultimaAtualizacao = ultimaAtualizacao;
 	}
 	
 }
