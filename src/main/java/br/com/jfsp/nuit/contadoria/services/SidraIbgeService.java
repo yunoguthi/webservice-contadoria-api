@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 public class SidraIbgeService {
 	
 	protected static final String 
-		INPC = "1736",
-		IRSM = "90",
+		//INPC = "1736",
+		//IRSM = "90",
 		//IPCA =  "1737",
-		IPCA15 =  "1705",
-		INPC_NUMERO_INDICE = "2289",
-	    INPC_PERCENTUAL_MES = "44",
-	    IRSM_PERCENTUAL_MES = "64/C73/2639",
+		//IPCA15 =  "1705",
+		//INPC_NUMERO_INDICE = "2289",
+	    //INPC_PERCENTUAL_MES = "44",
+	    //IRSM_PERCENTUAL_MES = "64/C73/2639",
 	    //IPCA_NUMERO_INDICE =  "2266",
-	    IPCA_PERCENTUAL_MES =  "63",
-	    IPCA15_PERCENTUAL_MES =  "355/c315/7169",
+	    //IPCA_PERCENTUAL_MES =  "63",
+	    //IPCA15_PERCENTUAL_MES =  "355/c315/7169",
 	    
 	    
 	    DATA = "D3C",
@@ -31,7 +31,7 @@ public class SidraIbgeService {
 		url5 = "%20",
 		url6 = "?formato=json";
 	
-	private String montaVariavel(String[] variaveis) {
+	protected String montaVariavel(String[] variaveis) {
 		String retorno = "";
 		for (int i = 0; i < variaveis.length; i++) {
 			retorno += variaveis[i] + ",";
@@ -39,7 +39,7 @@ public class SidraIbgeService {
 		return retorno.substring(0, retorno.length()-1);
 	}
 	
-	private String montaPrecisao(String[] variaveis, String[] precisoes) {
+	protected String montaPrecisao(String[] variaveis, String[] precisoes) {
 		String retorno = url4;
 		for (int i = 0; i < variaveis.length; i++) {
 			retorno += v + variaveis[i] + url5 + precisoes[i] + ",";

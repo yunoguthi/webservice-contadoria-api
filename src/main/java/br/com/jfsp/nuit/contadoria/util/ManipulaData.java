@@ -13,7 +13,7 @@ public class ManipulaData {
 	public static String 
 		ANO_MES_DIA = "yyyy-MM-dd", // 2016-09-27
 		DIA_MES_ANO = "dd/MM/yyyy", // 27/09/2016
-		ANO_MES = "yyyydd";			// 201609
+		ANO_MES = "yyyyMM";			// 201609
 	
 	public static Calendar toCalendar(Date data) {
 		Calendar calendar = Calendar.getInstance();
