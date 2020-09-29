@@ -1,5 +1,6 @@
 package br.com.jfsp.nuit.contadoria.repository;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import java.util.Optional;
@@ -13,12 +14,12 @@ import br.com.jfsp.nuit.contadoria.models.TrMensal;
 @Repository
 public interface TrMensalRepository extends JpaRepository<TrMensal, Long> {
 	
-	Optional<TrMensal> findByData(Date data);
+	Optional<TrMensal> findByData(Calendar data);
 	
-	Boolean existsByData(Date data);
+	Boolean existsByData(Calendar data);
 	
 	@Query("select max(data) from TrMensal")
-	Date findMaxData();
+	Calendar findMaxData();
 
 	
 }

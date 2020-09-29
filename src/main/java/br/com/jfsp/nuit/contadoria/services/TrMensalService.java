@@ -1,6 +1,7 @@
 package br.com.jfsp.nuit.contadoria.services;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.util.LinkedHashMap;
@@ -26,12 +27,12 @@ public class TrMensalService extends SgsBacenService {
 	
 	public void importa() {
 		
-		Date dataInicial = repository.findMaxData();
+		Calendar dataInicial = repository.findMaxData();
 		
 		String conteudoUrl = "";
 		
 		try {
-			conteudoUrl = urlReaderService.getConteudo(getUrl(TR_MENSAL_PRIMEIRO_DIA, dataInicial));
+			conteudoUrl = urlReaderService.getConteudo(getUrl(TR_MENSAL_PRIMEIRO_DIA, ManipulaData.toDate(dataInicial)));
 		} catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -52,9 +53,9 @@ public class TrMensalService extends SgsBacenService {
 				}
 				Double valor = new Double(lMap.get("valor")+"");
 				TrMensal trMensal = new TrMensal();
-				trMensal.setData(data);
+				trMensal.setData(ManipulaData.toCalendar(data));
 				trMensal.setValor(valor);
-				if(!repository.existsByData(data)) {
+				if(!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(trMensal);
 				}
 			}
