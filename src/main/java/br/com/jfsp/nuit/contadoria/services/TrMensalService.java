@@ -55,6 +55,7 @@ public class TrMensalService extends SgsBacenService {
 				TrMensal trMensal = new TrMensal();
 				trMensal.setData(ManipulaData.toCalendar(data));
 				trMensal.setValor(valor);
+				trMensal.setUltimaAtualizacao(ManipulaData.getHoje());
 				if(!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(trMensal);
 				}
