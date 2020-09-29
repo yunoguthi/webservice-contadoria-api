@@ -1,6 +1,5 @@
 package br.com.jfsp.nuit.contadoria.repository;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -8,16 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.com.jfsp.nuit.contadoria.models.Trd;
+import br.com.jfsp.nuit.contadoria.models.Ipca;
 
 @Repository
-public interface TrdRepository extends JpaRepository<Trd, Long> {
+public interface IpcaRepository extends JpaRepository<Ipca, Long> {
 	
-	Optional<Trd> findByData(Calendar data);
+	Optional<Ipca> findByData(String data);
 
-	Boolean existsByData(Calendar data);
+	Boolean existsByData(String data);
 		
-	@Query("select max(data) from Trd")
-	Calendar findMaxData();
+	@Query("select max(data) from Ipca")
+	String findMaxData();
 
 }

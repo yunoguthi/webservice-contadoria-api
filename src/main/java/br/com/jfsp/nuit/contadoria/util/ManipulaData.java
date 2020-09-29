@@ -6,14 +6,30 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
 public class ManipulaData {
 	
-	public static String ANO_MES_DIA = "yyyy-MM-dd"; // 2016-09-27
-	public static String DIA_MES_ANO = "dd/MM/yyyy"; // 27/09/2016
+	public static String 
+		ANO_MES_DIA = "yyyy-MM-dd", // 2016-09-27
+		DIA_MES_ANO = "dd/MM/yyyy", // 27/09/2016
+		ANO_MES = "yyyyMM";			// 201609
+	
+	public static Calendar toCalendar(Date data) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(data);
+		return calendar;
+	}
+	
+	public static Date toDate(Calendar calendar) {
+		return calendar!=null?calendar.getTime():null;
+	}
+	
+	public static String dateToStringAnoMes(Date data) {
+		DateFormat dateFormat = new SimpleDateFormat(ANO_MES);  
+		String strDate = dateFormat.format(data); 	
+		return strDate;
+	}
 	
 	public static String dateToStringDiaMesAno(Date data) {
 		DateFormat dateFormat = new SimpleDateFormat(DIA_MES_ANO);  

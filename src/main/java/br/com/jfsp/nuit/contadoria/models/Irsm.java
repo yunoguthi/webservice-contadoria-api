@@ -1,6 +1,5 @@
 package br.com.jfsp.nuit.contadoria.models;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -10,21 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 @Entity
-public class Trd {
+public class Irsm {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	private String ano;
 	
-	@Temporal(TemporalType.DATE)
-	private Calendar dataFim;
+	private String mes;
 	
-	@Temporal(TemporalType.DATE)
-    private Calendar data;
-	
-	private Double valor;
+	private String data;
+		
+	private Float variacaoMensal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date ultimaAtualizacao;
@@ -37,28 +36,36 @@ public class Trd {
 		this.id = id;
 	}
 
-	public Calendar getDataFim() {
-		return dataFim;
+	public String getAno() {
+		return ano;
 	}
 
-	public void setDataFim(Calendar dataFim) {
-		this.dataFim = dataFim;
+	public void setAno(String ano) {
+		this.ano = ano;
 	}
-	
-	public Calendar getData() {
+
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Calendar data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
-	public Double getValor() {
-		return valor;
+	public String getMes() {
+		return mes;
 	}
 
-	public void setValor(Double valor) {
-		this.valor = valor;
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public Float getVariacaoMensal() {
+		return variacaoMensal;
+	}
+
+	public void setVariacaoMensal(Float variacaoMensal) {
+		this.variacaoMensal = variacaoMensal;
 	}
 
 	public Date getUltimaAtualizacao() {
