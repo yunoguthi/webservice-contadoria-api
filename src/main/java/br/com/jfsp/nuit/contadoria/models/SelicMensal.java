@@ -12,9 +12,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class SelicMetaCopom {
-	
-	public SelicMetaCopom() {
+public class SelicMensal {
+
+	public SelicMensal() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -85,7 +85,7 @@ public class SelicMetaCopom {
 	 */
 	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
 		this.ultimaAtualizacao = ultimaAtualizacao;
-	}
+	}    
 
-
+	
 }
