@@ -1,5 +1,6 @@
 package br.com.jfsp.nuit.contadoria.services;
 
+import br.com.jfsp.nuit.contadoria.models.IpcaE;
 import br.com.jfsp.nuit.contadoria.models.SelicMensal;
 import br.com.jfsp.nuit.contadoria.repository.SelicMensalRepository;
 import br.com.jfsp.nuit.contadoria.util.ManipulaData;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -60,5 +63,16 @@ public class SelicMensalService extends SgsBacenService{
 		}
 	}
 
+	public List<SelicMensal> findAll() {
+		return repository.findAll();
+	}
+
+	public Optional<SelicMensal> findByData(Calendar data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<SelicMensal> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
+	}
 
 }

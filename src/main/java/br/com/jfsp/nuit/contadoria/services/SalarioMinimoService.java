@@ -5,7 +5,10 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
+import br.com.jfsp.nuit.contadoria.models.IpcaE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +65,17 @@ public class SalarioMinimoService extends SgsBacenService {
 			e.printStackTrace();
 		}
 	
+	}
+
+	public List<SalarioMinimo> findAll() {
+		return repository.findAll();
+	}
+
+	public Optional<SalarioMinimo> findByData(Calendar data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<SalarioMinimo> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
 	}
 }

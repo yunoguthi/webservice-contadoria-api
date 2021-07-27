@@ -5,7 +5,10 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
+import br.com.jfsp.nuit.contadoria.models.IpcaE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +71,17 @@ public class TrdService extends SgsBacenService {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public List<Trd> findAll() {
+		return repository.findAll();
+	}
+
+	public Optional<Trd> findByData(Calendar data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<Trd> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
+	}
+
 }

@@ -1,9 +1,12 @@
 package br.com.jfsp.nuit.contadoria.services;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
+import br.com.jfsp.nuit.contadoria.models.BtnMensal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -111,5 +114,17 @@ public class Ipca15Service extends SidraIbgeService {
 			return repository.save(ipca15);
 		}
 	}
-		
+
+	public List<Ipca15> findAll() {
+		return repository.findAll();
+	}
+
+	public Optional<Ipca15> findByData(String data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<Ipca15> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
+	}
+
 }

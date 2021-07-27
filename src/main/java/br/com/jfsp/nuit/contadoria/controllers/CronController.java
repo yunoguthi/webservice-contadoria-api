@@ -15,8 +15,10 @@ import br.com.jfsp.nuit.contadoria.services.TrdService;
 import br.com.jfsp.nuit.contadoria.services.UfirService;
 import br.com.jfsp.nuit.contadoria.services.UrvService;
 import br.com.jfsp.nuit.contadoria.util.ManipulaData;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Component
+@EnableScheduling
 public class CronController {
 	
 	@Autowired
@@ -49,9 +51,10 @@ public class CronController {
 	@Autowired
 	private UrvService urvService;
 	
-	@Scheduled(cron = "0 0 8 ? * *")
+	//@Scheduled(cron = "0 0 8 ? * *")
+	@Scheduled(cron = "0 0/1 * 1/1 * ?")
 	public void importaTudo() throws Exception {
-		System.out.println("Começo" + ManipulaData.getHoje());
+		System.out.println("Começo " + ManipulaData.getHoje());
 		inpcService.importa();
 		ipca15Service.importa();
 		ipcaService.importa();
@@ -62,7 +65,7 @@ public class CronController {
 		trdService.importa();
 		ufirService.importa();
 		urvService.importa();
-		System.out.println("Fim" + ManipulaData.getHoje());
+		System.out.println("Fim " + ManipulaData.getHoje());
 
 		
 	}
