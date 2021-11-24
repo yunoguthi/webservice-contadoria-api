@@ -1,0 +1,90 @@
+package br.jus.jfsp.nuit.contadoria.service;
+
+import br.jus.jfsp.nuit.contadoria.models.BtnMensal;
+import br.jus.jfsp.nuit.contadoria.repository.BtnMensalRepository;
+import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Optional;
+
+@Service
+public class BtnMensalService extends SgsBacenService {
+	
+	@Autowired
+	private BtnMensalRepository repository;
+	
+	@Autowired
+	private JsonReader jsonReader;
+
+	@Autowired
+	private UrlReaderService urlReader;
+	
+	public void importa() {
+			
+		Calendar dataInicial = repository.findMaxData();
+		
+		String conteudoUrl = "";
+		try {
+			conteudoUrl = urlReader.getConteudo(getUrl(BTN_MENSAL, ManipulaData.toDate(dataInicial)));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		try {
+			Object[] map = jsonReader.getJsonArray(conteudoUrl);
+			for (int i = 0; i < map.length; i++) {
+				LinkedHashMap lMap = (LinkedHashMap) map[i];
+				Date data;
+
+				try {
+					data = ManipulaData.stringToDateDiaMesAno(lMap.get("data")+"");
+				} catch (ParseException e) {
+					e.printStackTrace();
+					continue;
+				}
+				Double valor = new Double(lMap.get("valor")+"");
+				BtnMensal bm = new BtnMensal();
+				bm.setData(ManipulaData.toCalendar(data));
+				bm.setValor(valor);
+				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
+					repository.save(bm);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+	}
+	
+	public BtnMensal save(BtnMensal btnMensal) {
+		return repository.save(btnMensal);
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+	
+	public Iterable<BtnMensal> findAll() {
+		return repository.findAll();
+	}
+	
+	public Optional<BtnMensal> findById(Long id) {
+		return repository.findById(id);
+	}
+
+	public Optional<BtnMensal> findByData(Calendar data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<BtnMensal> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
+	}
+
+}
