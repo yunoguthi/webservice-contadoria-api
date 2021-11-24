@@ -9,8 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.jfsp.nuit.contadoria.repository.Auditable;
+
 @Entity
-public class BtnMensal {
+public class BtnMensal extends Auditable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

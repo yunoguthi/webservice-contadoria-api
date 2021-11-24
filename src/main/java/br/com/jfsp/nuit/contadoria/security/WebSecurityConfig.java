@@ -18,12 +18,12 @@ import br.com.jfsp.nuit.contadoria.security.jwt.AuthEntryPointJwt;
 import br.com.jfsp.nuit.contadoria.security.jwt.AuthTokenFilter;
 import br.com.jfsp.nuit.contadoria.security.services.UserDetailsServiceImpl;
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(
 		// securedEnabled = true,
 		// jsr250Enabled = true,
-		prePostEnabled = true)
+//		prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;

@@ -32,9 +32,9 @@ import br.com.jfsp.nuit.contadoria.repository.UserRepository;
 import br.com.jfsp.nuit.contadoria.security.jwt.JwtUtils;
 import br.com.jfsp.nuit.contadoria.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/api/auth")
+//@CrossOrigin(origins = "*", maxAge = 3600)
+//@RestController
+//@RequestMapping("/api/auth")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
