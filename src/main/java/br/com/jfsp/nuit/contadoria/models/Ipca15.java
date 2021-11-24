@@ -1,5 +1,6 @@
 package br.com.jfsp.nuit.contadoria.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -20,9 +21,9 @@ public class Ipca15 {
 	private String ano;
 	
 	private String mes;
-	
+
 	private String data;
-		
+
 	private Float variacaoMensal;
 	
 	@Temporal(TemporalType.TIMESTAMP)

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,13 @@ public class BtnMensalService extends SgsBacenService{
 	public Optional<BtnMensal> findById(Long id) {
 		return repository.findById(id);
 	}
-	
+
+	public Optional<BtnMensal> findByData(Calendar data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<BtnMensal> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
+	}
 
 }

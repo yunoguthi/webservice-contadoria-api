@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
+import br.com.jfsp.nuit.contadoria.models.IpcaE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +65,18 @@ public class SelicMetaCopomService extends SgsBacenService{
 			e.printStackTrace();
 		}
 		
+	}
+
+	public List<SelicMetaCopom> findAll() {
+		return repository.findAll();
+	}
+
+	public Optional<SelicMetaCopom> findByData(Calendar data) {
+		return repository.findByData(data);
+	}
+
+	public Iterable<SelicMetaCopom> findByDataBetween(Calendar data1, Calendar data2) {
+		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
 	}
 
 }
