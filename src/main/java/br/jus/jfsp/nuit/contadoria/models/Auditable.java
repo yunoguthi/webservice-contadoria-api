@@ -12,9 +12,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
-@Audited
+//@Audited
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable extends BaseEntity {
 	
     @CreatedDate
@@ -26,7 +26,7 @@ public abstract class Auditable extends BaseEntity {
     protected Date modifiedDate;
     
     @CreatedBy
-    protected String createdBy;
+    public String createdBy;
 
     @LastModifiedBy
     protected String modifiedBy;

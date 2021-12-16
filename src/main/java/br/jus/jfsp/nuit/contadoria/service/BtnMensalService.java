@@ -1,9 +1,13 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
+import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.BtnMensal;
 import br.jus.jfsp.nuit.contadoria.repository.BtnMensalRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -53,6 +57,7 @@ public class BtnMensalService extends SgsBacenService {
 				BtnMensal bm = new BtnMensal();
 				bm.setData(ManipulaData.toCalendar(data));
 				bm.setValor(valor);
+				bm.setFonte(Consts.SGS_BACEN);
 				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(bm);
 				}
@@ -62,6 +67,10 @@ public class BtnMensalService extends SgsBacenService {
 		}
 			
 	}
+
+	public BtnMensal create(BtnMensal btnMensal) {
+		return repository.save(btnMensal);
+	}
 	
 	public BtnMensal save(BtnMensal btnMensal) {
 		return repository.save(btnMensal);
@@ -70,13 +79,39 @@ public class BtnMensalService extends SgsBacenService {
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
-	
-	public Iterable<BtnMensal> findAll() {
+
+	public BtnMensal update(BtnMensal btnMensal) throws RecordNotFoundException {
+		findByIdOrThrowException(btnMensal.getId());
+		return repository.save(btnMensal);
+	}
+
+	public Iterable<BtnMensal> getAll(){
 		return repository.findAll();
 	}
-	
+
+	public Page<BtnMensal> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+
+	public BtnMensal read(Long id) throws RecordNotFoundException {
+		return findByIdOrThrowException(id);
+	}
+
 	public Optional<BtnMensal> findById(Long id) {
 		return repository.findById(id);
+	}
+
+	public Page<BtnMensal> findLike(Pageable pageable, String like) throws RecordNotFoundException {
+		Page<BtnMensal> retorno = repository.findLikePage(pageable, like);
+		if (retorno.getTotalElements()==0) {
+			throw new RecordNotFoundException("Valor não encontado");
+		}
+		return retorno;
+	}
+
+	private BtnMensal findByIdOrThrowException(Long id) throws RecordNotFoundException{
+		return repository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Registro não encontrado com o id " + id));
 	}
 
 	public Optional<BtnMensal> findByData(Calendar data) {
@@ -86,5 +121,7 @@ public class BtnMensalService extends SgsBacenService {
 	public Iterable<BtnMensal> findByDataBetween(Calendar data1, Calendar data2) {
 		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
 	}
+
+
 
 }

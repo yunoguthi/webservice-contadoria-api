@@ -1,13 +1,19 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
+import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
+import br.jus.jfsp.nuit.contadoria.models.Irsm;
 import br.jus.jfsp.nuit.contadoria.models.Irsm;
 import br.jus.jfsp.nuit.contadoria.repository.IrsmRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +50,7 @@ public class IrsmService extends SidraIbgeService {
 	
 	public void importa() {
 		
-		String dataInicial = repository.findMaxData();
+		String dataInicial = repository.findMaxDataStr();
 		
 		String conteudoUrl = "";
 		try {
@@ -83,10 +89,12 @@ public class IrsmService extends SidraIbgeService {
 							System.out.println(lMap.get(VALOR)+"");
 						}
 					}
-					irsm.setData(data);
+					irsm.setDataStr(data);
+					irsm.setData(ManipulaData.toCalendar(ManipulaData.getData(data + "01", ManipulaData.ANO_MES_DIA_SEM_TRACO)));
 					irsm.setAno(ano);
 					irsm.setMes(mes);
 					irsm.setUltimaAtualizacao(ManipulaData.getHoje());
+					irsm.setFonte(Consts.SIDRA_IBGE);
 					save(irsm);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -98,27 +106,52 @@ public class IrsmService extends SidraIbgeService {
 			e.printStackTrace();
 		}
 	}
-	
-	public Irsm save(Irsm irsm) {
-		if (!repository.existsByData(irsm.getData())) {
-			
-			return repository.save(irsm);
-		} else {
-			Optional<Irsm> i = repository.findByData(irsm.getData());
-			irsm.setId(i.get().getId());
-			irsm.setAno(i.get().getAno());
-			irsm.setMes(i.get().getMes());
-			if (irsm.getVariacaoMensal()==null) {
-				irsm.setVariacaoMensal(i.get().getVariacaoMensal());
-			}
-			return repository.save(irsm);
-		}
+
+	public Irsm create(Irsm irsm) {
+		return repository.save(irsm);
 	}
 
-	public List<Irsm> findAll() {
+	public Irsm save(Irsm irsm) {
+		return repository.save(irsm);
+	}
+
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+
+	public Irsm update(Irsm irsm) throws RecordNotFoundException {
+		findByIdOrThrowException(irsm.getId());
+		return repository.save(irsm);
+	}
+
+	public Iterable<Irsm> getAll(){
 		return repository.findAll();
 	}
 
+	public Page<Irsm> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+
+	public Irsm read(Long id) throws RecordNotFoundException {
+		return findByIdOrThrowException(id);
+	}
+
+	public Optional<Irsm> findById(Long id) {
+		return repository.findById(id);
+	}
+
+	public Page<Irsm> findLike(Pageable pageable, String like) throws RecordNotFoundException {
+		Page<Irsm> retorno = repository.findLikePage(pageable, like);
+		if (retorno.getTotalElements()==0) {
+			throw new RecordNotFoundException("Valor não encontado");
+		}
+		return retorno;
+	}
+
+	private Irsm findByIdOrThrowException(Long id) throws RecordNotFoundException{
+		return repository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Registro não encontrado com o id " + id));
+	}
 	public Optional<Irsm> findByData(String data) {
 		return repository.findByData(data);
 	}

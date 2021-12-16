@@ -1,63 +1,57 @@
 package br.jus.jfsp.nuit.contadoria.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-public class TrMensal {
+@Table
+//@Table(name = "btn_mensal", indexes = @Index(
+//		name="idx_ar_condicionado_equipamento", unique=true, columnList = "equipamento_eletrico_id"
+//))
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Audited
+@AuditTable(value = "tr_mensal_audit")
+@EntityListeners(AuditingEntityListener.class)
+public class TrMensal extends BaseEntity {
 
-    public TrMensal() {
-		super();
-		// TODO Auto-generated constructor stub
+	@PrePersist
+	public void onPrePersist() {
+
 	}
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Calendar data;
-
-    private Double valor;
+    //private Double valor;
 
     @Temporal(TemporalType.TIMESTAMP)
 	private Date ultimaAtualizacao;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Calendar getData() {
-		return data;
-	}
-
-	public void setData(Calendar data) {
-		this.data = data;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-
-	public Date getUltimaAtualizacao() {
-		return ultimaAtualizacao;
-	}
-
-	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
-		this.ultimaAtualizacao = ultimaAtualizacao;
-	}
 }

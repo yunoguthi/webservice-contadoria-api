@@ -1,9 +1,14 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
+import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
+import br.jus.jfsp.nuit.contadoria.models.Trd;
 import br.jus.jfsp.nuit.contadoria.models.Trd;
 import br.jus.jfsp.nuit.contadoria.repository.TrdRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -61,6 +66,7 @@ public class TrdService extends SgsBacenService {
 				tr.setDataFim(ManipulaData.toCalendar(dataFim));
 				tr.setValor(valor);
 				tr.setUltimaAtualizacao(ManipulaData.getHoje());
+				tr.setFonte(Consts.SGS_BACEN);
 				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(tr);
 				}
@@ -70,10 +76,51 @@ public class TrdService extends SgsBacenService {
 		}
 	}
 
-	public List<Trd> findAll() {
+	public Trd create(Trd trd) {
+		return repository.save(trd);
+	}
+
+	public Trd save(Trd trd) {
+		return repository.save(trd);
+	}
+
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+
+	public Trd update(Trd trd) throws RecordNotFoundException {
+		findByIdOrThrowException(trd.getId());
+		return repository.save(trd);
+	}
+
+	public Iterable<Trd> getAll(){
 		return repository.findAll();
 	}
 
+	public Page<Trd> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+
+	public Trd read(Long id) throws RecordNotFoundException {
+		return findByIdOrThrowException(id);
+	}
+
+	public Optional<Trd> findById(Long id) {
+		return repository.findById(id);
+	}
+
+	public Page<Trd> findLike(Pageable pageable, String like) throws RecordNotFoundException {
+		Page<Trd> retorno = repository.findLikePage(pageable, like);
+		if (retorno.getTotalElements()==0) {
+			throw new RecordNotFoundException("Valor não encontado");
+		}
+		return retorno;
+	}
+
+	private Trd findByIdOrThrowException(Long id) throws RecordNotFoundException{
+		return repository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Registro não encontrado com o id " + id));
+	}
 	public Optional<Trd> findByData(Calendar data) {
 		return repository.findByData(data);
 	}

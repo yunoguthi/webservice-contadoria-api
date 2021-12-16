@@ -1,6 +1,7 @@
 package br.jus.jfsp.nuit.contadoria.exception;
 
 import org.hibernate.StaleObjectStateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,17 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                         .status(NOT_FOUND.value())
                         .build(),
                 NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ExceptionResponse> constraintViolation(Exception exception, WebRequest webRequest) {
+        return new ResponseEntity<>(
+                ExceptionResponse.builder()
+                        .date(LocalDateTime.now())
+                        .message("Registro duplicado")
+                        .status(INTERNAL_SERVER_ERROR.value())
+                        .build(),
+                INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(StaleObjectStateException.class)

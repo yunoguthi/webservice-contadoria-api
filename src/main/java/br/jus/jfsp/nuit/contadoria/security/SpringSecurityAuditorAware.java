@@ -12,6 +12,7 @@ import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
 import java.util.Optional;
+import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
@@ -25,7 +26,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<String> {
                 String userName = accessToken.getPreferredUsername();
                 return Optional.ofNullable(userName);
         } catch (Exception e) {}
-        return Optional.ofNullable("teste");
+        return Optional.ofNullable(Consts.SERVICO);
     }
 
 }

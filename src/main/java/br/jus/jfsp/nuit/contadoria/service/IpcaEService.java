@@ -1,9 +1,14 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
+import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
+import br.jus.jfsp.nuit.contadoria.models.IpcaE;
 import br.jus.jfsp.nuit.contadoria.models.IpcaE;
 import br.jus.jfsp.nuit.contadoria.repository.IpcaERepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -54,6 +59,7 @@ public class IpcaEService extends SgsBacenService {
 				IpcaE ipcae = new IpcaE();
 				ipcae.setData(ManipulaData.toCalendar(data));
 				ipcae.setValor(valor);
+				ipcae.setFonte(Consts.SGS_BACEN);
 				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(ipcae);
 				}
@@ -63,10 +69,52 @@ public class IpcaEService extends SgsBacenService {
 		}
 	}
 
-	public List<IpcaE> findAll() {
+	public IpcaE create(IpcaE ipcaE) {
+		return repository.save(ipcaE);
+	}
+
+	public IpcaE save(IpcaE ipcaE) {
+		return repository.save(ipcaE);
+	}
+
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+
+	public IpcaE update(IpcaE ipcaE) throws RecordNotFoundException {
+		findByIdOrThrowException(ipcaE.getId());
+		return repository.save(ipcaE);
+	}
+
+	public Iterable<IpcaE> getAll(){
 		return repository.findAll();
 	}
 
+	public Page<IpcaE> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+
+	public IpcaE read(Long id) throws RecordNotFoundException {
+		return findByIdOrThrowException(id);
+	}
+
+	public Optional<IpcaE> findById(Long id) {
+		return repository.findById(id);
+	}
+
+	public Page<IpcaE> findLike(Pageable pageable, String like) throws RecordNotFoundException {
+		Page<IpcaE> retorno = repository.findLikePage(pageable, like);
+		if (retorno.getTotalElements()==0) {
+			throw new RecordNotFoundException("Valor não encontado");
+		}
+		return retorno;
+	}
+
+	private IpcaE findByIdOrThrowException(Long id) throws RecordNotFoundException{
+		return repository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Registro não encontrado com o id " + id));
+	}
+	
 	public Optional<IpcaE> findByData(Calendar data) {
 		return repository.findByData(data);
 	}

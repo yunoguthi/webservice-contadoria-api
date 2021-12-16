@@ -13,8 +13,10 @@ public class ManipulaData {
 	public static String 
 		ANO_MES_DIA = "yyyy-MM-dd", // 2016-09-27
 		DIA_MES_ANO = "dd/MM/yyyy", // 27/09/2016
-		ANO_MES = "yyyyMM";			// 201609
-	
+		ANO_MES = "yyyyMM",			// 201609
+	 	ANO_MES_DIA_SEM_TRACO = "yyyyMMdd";			// 20160927
+
+
 	public static Calendar toCalendar(Date data) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(data);
@@ -24,7 +26,17 @@ public class ManipulaData {
 	public static Date toDate(Calendar calendar) {
 		return calendar!=null?calendar.getTime():null;
 	}
-	
+
+	public static String calendarToStringAnoMes(Calendar data) {
+		DateFormat dateFormat = new SimpleDateFormat(ANO_MES);
+		String strDate = "";
+		try {
+			strDate = dateFormat.format(toDate(data));
+		} catch (Exception e) {
+		}
+		return strDate;
+	}
+
 	public static String dateToStringAnoMes(Date data) {
 		DateFormat dateFormat = new SimpleDateFormat(ANO_MES);  
 		String strDate = dateFormat.format(data); 	
@@ -43,10 +55,12 @@ public class ManipulaData {
 	}
 	
 	public static Date getData(String dataStr, String formato) {
+		System.out.println("DATA: " + dataStr);
 		Calendar cal = new GregorianCalendar();
 		SimpleDateFormat sdf = new SimpleDateFormat(formato); 
 		try {
 			cal.setTime(sdf.parse(dataStr));
+			System.out.println(cal.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

@@ -1,9 +1,14 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
+import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
+import br.jus.jfsp.nuit.contadoria.models.Urv;
 import br.jus.jfsp.nuit.contadoria.models.Urv;
 import br.jus.jfsp.nuit.contadoria.repository.UrvRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -53,7 +58,7 @@ public void importa() {
 				Urv urv = new Urv();
 				urv.setData(ManipulaData.toCalendar(data));
 				urv.setValor(valor);
-				
+				urv.setFonte(Consts.SGS_BACEN);
 				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(urv);
 				}
@@ -63,10 +68,51 @@ public void importa() {
 		}
 	}
 
-	public List<Urv> findAll() {
+	public Urv create(Urv urv) {
+		return repository.save(urv);
+	}
+
+	public Urv save(Urv urv) {
+		return repository.save(urv);
+	}
+
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+
+	public Urv update(Urv urv) throws RecordNotFoundException {
+		findByIdOrThrowException(urv.getId());
+		return repository.save(urv);
+	}
+
+	public Iterable<Urv> getAll(){
 		return repository.findAll();
 	}
 
+	public Page<Urv> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+
+	public Urv read(Long id) throws RecordNotFoundException {
+		return findByIdOrThrowException(id);
+	}
+
+	public Optional<Urv> findById(Long id) {
+		return repository.findById(id);
+	}
+
+	public Page<Urv> findLike(Pageable pageable, String like) throws RecordNotFoundException {
+		Page<Urv> retorno = repository.findLikePage(pageable, like);
+		if (retorno.getTotalElements()==0) {
+			throw new RecordNotFoundException("Valor não encontado");
+		}
+		return retorno;
+	}
+
+	private Urv findByIdOrThrowException(Long id) throws RecordNotFoundException{
+		return repository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("Registro não encontrado com o id " + id));
+	}
 	public Optional<Urv> findByData(Calendar data) {
 		return repository.findByData(data);
 	}
