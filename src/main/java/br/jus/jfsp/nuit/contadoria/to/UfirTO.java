@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,11 +30,11 @@ public class UfirTO
         extends BaseTO<UfirTO>
         implements ApplyHateoas<UfirTO>, Serializable {
 
-    private Long id;
-    private Double valor;
-    private Calendar data;
-    private Long version;
-    private String createdBy;
+//    private Long id;
+//    private Double valor;
+//    private Calendar data;
+//    private Long version;
+//    private String createdBy;
 
     public UfirTO apply() throws RecordNotFoundException {
         add(linkTo(methodOn(UfirController.class).read(id)).withSelfRel());

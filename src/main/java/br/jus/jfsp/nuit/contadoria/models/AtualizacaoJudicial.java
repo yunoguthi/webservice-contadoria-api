@@ -21,8 +21,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "btn_mensal", indexes = @Index(
-		name="idx_btn_mensal", unique=true, columnList = "data"
+@Table(name = "atualizacao_judicial", indexes = @Index(
+		name="idx_atualizacao_judicial", unique=true, columnList = "data"
 ))
 @Getter
 @Setter
@@ -32,7 +32,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Audited
-@AuditTable(value = "btn_mensal_audit")
+@AuditTable(value = "atualizacao_judicial_audit")
 @EntityListeners(AuditingEntityListener.class)
 public class AtualizacaoJudicial extends BaseEntity {
 

@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,11 +30,11 @@ public class SelicMetaCopomTO
         extends BaseTO<SelicMetaCopomTO>
         implements ApplyHateoas<SelicMetaCopomTO>, Serializable {
 
-    private Long id;
-    private Double valor;
-    private Calendar data;
-    private Long version;
-    private String createdBy;
+//    private Long id;
+//    private Double valor;
+//    private Calendar data;
+//    private Long version;
+//    private String createdBy;
 
     public SelicMetaCopomTO apply() throws RecordNotFoundException {
         add(linkTo(methodOn(SelicMetaCopomController.class).read(id)).withSelfRel());

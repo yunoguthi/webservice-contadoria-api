@@ -19,10 +19,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.util.Calendar;
 
 @Entity
-@Table(name = "atualizacao_salario", indexes = @Index(
-		name="idx_atualizacao_salario", unique=true, columnList = "data"
+@Table(name = "indices_atrasados", indexes = @Index(
+		name="idx_indices_atrasados", unique=true, columnList = "data"
 ))
 @Getter
 @Setter
@@ -32,9 +33,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Audited
-@AuditTable(value = "atualizacao_salario_audit")
+@AuditTable(value = "indices_atrasados_audit")
 @EntityListeners(AuditingEntityListener.class)
-public class AtualizacaoSalario extends BaseEntity {
+public class IndicesAtrasados extends BaseEntity {
 
 	@PrePersist
 	public void onPrePersist() {
@@ -42,13 +43,18 @@ public class AtualizacaoSalario extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_btn_mensal")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_atrasados")
 	private Long id;
 
-	private Double percentual;
-
-	private EMoeda moeda;
+	private Double indice;
 
 	private String descricao;
+
+	public IndicesAtrasados(Double indice, String descricao, Calendar data) {
+		super();
+		this.data = data;
+		this.descricao = descricao;
+		this.indice = indice;
+	}
 
 }

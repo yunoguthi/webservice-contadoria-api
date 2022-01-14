@@ -24,7 +24,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -32,11 +32,11 @@ public class TrMensalTO
         extends BaseTO<TrMensalTO>
         implements ApplyHateoas<TrMensalTO>, Serializable {
 
-    private Long id;
-    private Double valor;
-    private Calendar data;
-    private Long version;
-    private String createdBy;
+//    private Long id;
+//    private Double valor;
+//    private Calendar data;
+//    private Long version;
+//    private String createdBy;
 
     public TrMensalTO apply() throws RecordNotFoundException {
         add(linkTo(methodOn(TrMensalController.class).read(id)).withSelfRel());

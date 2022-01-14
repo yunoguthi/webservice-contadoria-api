@@ -2,11 +2,11 @@ package br.jus.jfsp.nuit.contadoria.controllers;
 
 import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
-import br.jus.jfsp.nuit.contadoria.models.ReajusteBeneficio;
-import br.jus.jfsp.nuit.contadoria.service.ReajusteBeneficioService;
-import br.jus.jfsp.nuit.contadoria.to.ReajusteBeneficioTO;
+import br.jus.jfsp.nuit.contadoria.models.IndicesAtrasados;
+import br.jus.jfsp.nuit.contadoria.service.IndicesAtrasadosService;
+import br.jus.jfsp.nuit.contadoria.to.IndicesAtrasadosTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
-import br.jus.jfsp.nuit.contadoria.util.converter.ReajusteBeneficioConverter;
+import br.jus.jfsp.nuit.contadoria.util.converter.IndicesAtrasadosConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,37 +30,43 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/reajusteBeneficio")
-public class ReajusteBeneficioController {
-	
+@RequestMapping("/api/indicesAtrasados")
+public class IndicesAtrasadosController {
+
 	//private final HttpServletRequest request;
-	private final ReajusteBeneficioService service;
-	private final ReajusteBeneficioConverter reajusteBeneficioConverter;
+	private final IndicesAtrasadosService service;
+	private final IndicesAtrasadosConverter indicesAtrasadosConverter;
 	private final PagedResourcesAssembler assembler;
 
-	public ReajusteBeneficioController(//HttpServletRequest request,
-                                       ReajusteBeneficioService service,
-                                       ReajusteBeneficioConverter reajusteBeneficioConverter,
-                                       PagedResourcesAssembler assembler) {
+	public IndicesAtrasadosController(//HttpServletRequest request,
+                                      IndicesAtrasadosService service,
+                                      IndicesAtrasadosConverter indicesAtrasadosConverter,
+                                      PagedResourcesAssembler assembler) {
 		//this.request = request;
 		this.service = service;
-		this.reajusteBeneficioConverter = reajusteBeneficioConverter;
+		this.indicesAtrasadosConverter = indicesAtrasadosConverter;
 		this.assembler = assembler;
+	}
+
+	@GetMapping("/importa")
+	public ResponseEntity<?> importaIndicesAtrasados() {
+		service.importa();
+		return ResponseEntity.ok("ok");
 	}
 
 	@PostMapping
 	@Hateoas
-	public ResponseEntity<ReajusteBeneficioTO> create(@RequestBody ReajusteBeneficioTO reajusteBeneficioTO) throws RecordNotFoundException {
-		ReajusteBeneficio reajusteBeneficio = service.create(reajusteBeneficioConverter.toEntity(reajusteBeneficioTO));
-		ReajusteBeneficioTO to = reajusteBeneficioConverter.toTransferObject(reajusteBeneficio);
+	public ResponseEntity<IndicesAtrasadosTO> create(@RequestBody IndicesAtrasadosTO indicesAtrasadosTO) throws RecordNotFoundException {
+		IndicesAtrasados indicesAtrasados = service.create(indicesAtrasadosConverter.toEntity(indicesAtrasadosTO));
+		IndicesAtrasadosTO to = indicesAtrasadosConverter.toTransferObject(indicesAtrasados);
 		return RestUtil.createWithLocation(getClass(), to);
 	}
 
 	@PutMapping
 	@Hateoas
-	public ResponseEntity<ReajusteBeneficioTO> update(@RequestBody @Valid ReajusteBeneficioTO reajusteBeneficioTO) throws RecordNotFoundException {
-		ReajusteBeneficio reajusteBeneficio = service.update(reajusteBeneficioConverter.toEntity(reajusteBeneficioTO));
-		return ResponseEntity.ok(reajusteBeneficioConverter.toTransferObject(reajusteBeneficio));
+	public ResponseEntity<IndicesAtrasadosTO> update(@RequestBody @Valid IndicesAtrasadosTO indicesAtrasadosTO) throws RecordNotFoundException {
+		IndicesAtrasados indicesAtrasados = service.update(indicesAtrasadosConverter.toEntity(indicesAtrasadosTO));
+		return ResponseEntity.ok(indicesAtrasadosConverter.toTransferObject(indicesAtrasados));
 	}
 
 	@DeleteMapping("/{id}")
@@ -71,39 +77,39 @@ public class ReajusteBeneficioController {
 
 	@GetMapping("/{id}")
 	@Hateoas
-	public ResponseEntity<ReajusteBeneficioTO> read(@PathVariable("id") Long id) throws RecordNotFoundException {
-		return ResponseEntity.ok(reajusteBeneficioConverter.toTransferObject(service.read(id)));
+	public ResponseEntity<IndicesAtrasadosTO> read(@PathVariable("id") Long id) throws RecordNotFoundException {
+		return ResponseEntity.ok(indicesAtrasadosConverter.toTransferObject(service.read(id)));
 	}
 
 	@GetMapping
 	@Hateoas
-	public ResponseEntity<PagedModel<EntityModel<ReajusteBeneficioTO>>> list(
+	public ResponseEntity<PagedModel<EntityModel<IndicesAtrasadosTO>>> list(
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "5") int size,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction,
 			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
 		Pageable pageable = PageRequest.of(page, size, DirectionConverter.from(direction), sortBy);
-		Page<ReajusteBeneficioTO> pageResult = reajusteBeneficioConverter.toTransferObject(service.findAll(pageable));
-		PagedModel<EntityModel<ReajusteBeneficioTO>> pagedModel = assembler.toModel(pageResult);
+		Page<IndicesAtrasadosTO> pageResult = indicesAtrasadosConverter.toTransferObject(service.findAll(pageable));
+		PagedModel<EntityModel<IndicesAtrasadosTO>> pagedModel = assembler.toModel(pageResult);
 		return ResponseEntity.ok(pagedModel);
 	}
 
 	@GetMapping("/like/{like}")
 	@Hateoas
-	public ResponseEntity<PagedModel<EntityModel<ReajusteBeneficioTO>>> listLike(
+	public ResponseEntity<PagedModel<EntityModel<IndicesAtrasadosTO>>> listLike(
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "5") int size,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction,
 			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy,
 			@PathVariable("like") String like) throws RecordNotFoundException {
 		Pageable pageable = PageRequest.of(page, size, DirectionConverter.from(direction), sortBy);
-		Page<ReajusteBeneficioTO> pageResult = reajusteBeneficioConverter.toTransferObject(service.findLike(pageable, like));
-		PagedModel<EntityModel<ReajusteBeneficioTO>> pagedModel = assembler.toModel(pageResult);
+		Page<IndicesAtrasadosTO> pageResult = indicesAtrasadosConverter.toTransferObject(service.findLike(pageable, like));
+		PagedModel<EntityModel<IndicesAtrasadosTO>> pagedModel = assembler.toModel(pageResult);
 		return ResponseEntity.ok(pagedModel);
 	}
 
 	//	@GetMapping(path = "/{data}")
-//	public @ResponseBody Optional<ReajusteBeneficio> find(@PathVariable("data") String data) throws ParseException {
+//	public @ResponseBody Optional<IndicesAtrasados> find(@PathVariable("data") String data) throws ParseException {
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //		Date date = sdf.parse(data);
 //		Calendar cal = Calendar.getInstance();
@@ -112,7 +118,7 @@ public class ReajusteBeneficioController {
 //	}
 //
 //	@GetMapping(path = "/{data}/{data2}")
-//	public @ResponseBody ResponseEntity<PagedModel<EntityModel<ReajusteBeneficioTO>>> find2(
+//	public @ResponseBody ResponseEntity<PagedModel<EntityModel<IndicesAtrasadosTO>>> find2(
 //			@RequestParam(value = "page", defaultValue = "0") int page,
 //			@RequestParam(value = "size", defaultValue = "5") int size,
 //			@RequestParam(value = "direction", defaultValue = "asc") String direction,
@@ -130,8 +136,8 @@ public class ReajusteBeneficioController {
 //		cal2.setTime(date2);
 //
 //		Pageable pageable = PageRequest.of(page, size, DirectionConverter.from(direction), sortBy);
-//		Page<ReajusteBeneficioTO> pageResult = reajusteBeneficioConverter.toTransferObject(service.findAll(pageable));
-//		PagedModel<EntityModel<ReajusteBeneficioTO>> pagedModel = assembler.toModel(pageResult);
+//		Page<IndicesAtrasadosTO> pageResult = indicesAtrasadosConverter.toTransferObject(service.findAll(pageable));
+//		PagedModel<EntityModel<IndicesAtrasadosTO>> pagedModel = assembler.toModel(pageResult);
 //		return ResponseEntity.ok(pagedModel);
 //
 //		//return service.findByDataBetween(cal, cal2);

@@ -28,45 +28,6 @@ public class ReajusteBeneficioService extends SgsBacenService {
 
 	@Autowired
 	private UrlReaderService urlReader;
-	
-	public void importa() {
-			
-		Calendar dataInicial = repository.findMaxData();
-		
-		String conteudoUrl = "";
-		try {
-			conteudoUrl = urlReader.getConteudo(getUrl(BTN_MENSAL, ManipulaData.toDate(dataInicial)));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		try {
-			Object[] map = jsonReader.getJsonArray(conteudoUrl);
-			for (int i = 0; i < map.length; i++) {
-				LinkedHashMap lMap = (LinkedHashMap) map[i];
-				Date data;
-
-				try {
-					data = ManipulaData.stringToDateDiaMesAno(lMap.get("data")+"");
-				} catch (ParseException e) {
-					e.printStackTrace();
-					continue;
-				}
-				Double valor = new Double(lMap.get("valor")+"");
-				ReajusteBeneficio bm = new ReajusteBeneficio();
-				bm.setData(ManipulaData.toCalendar(data));
-				bm.setValor(valor);
-				bm.setFonte(Consts.SGS_BACEN);
-				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
-					repository.save(bm);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-			
-	}
 
 	public ReajusteBeneficio create(ReajusteBeneficio reajusteBeneficio) {
 		return repository.save(reajusteBeneficio);

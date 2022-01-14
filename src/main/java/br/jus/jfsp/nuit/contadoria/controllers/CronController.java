@@ -1,6 +1,8 @@
 package br.jus.jfsp.nuit.contadoria.controllers;
 
 import br.jus.jfsp.nuit.contadoria.service.BtnMensalService;
+import br.jus.jfsp.nuit.contadoria.service.IndicesAtrasadosService;
+import br.jus.jfsp.nuit.contadoria.service.IndicesRes134Service;
 import br.jus.jfsp.nuit.contadoria.service.InpcService;
 import br.jus.jfsp.nuit.contadoria.service.Ipca15Service;
 import br.jus.jfsp.nuit.contadoria.service.IpcaEService;
@@ -61,7 +63,13 @@ public class CronController {
 	
 	@Autowired
 	private UrvService urvService;
-	
+
+	@Autowired
+	private IndicesAtrasadosService indicesAtrasadosService;
+
+	@Autowired
+	private IndicesRes134Service indicesRes134Service;
+
 	//@Scheduled(cron = "0 0 8 ? * *")
 
 	@Scheduled(cron = "0 0/1 * 1/1 * ?")
@@ -82,9 +90,10 @@ public class CronController {
 		trMensalService.importa();
 		ufirService.importa();
 		urvService.importa();
+		indicesAtrasadosService.importa();
+		indicesRes134Service.importa();
 		System.out.println("Fim " + ManipulaData.getHoje());
 
-		
 	}
 
 }

@@ -53,6 +53,19 @@ public class ManipulaData {
 	    Date date = new SimpleDateFormat(DIA_MES_ANO).parse(dataStr);  
 		return date;
 	}
+
+	public static Calendar getCalendar(String dataStr, String formato) {
+		System.out.println("DATA: " + dataStr);
+		Calendar cal = new GregorianCalendar();
+		SimpleDateFormat sdf = new SimpleDateFormat(formato);
+		try {
+			cal.setTime(sdf.parse(dataStr));
+			System.out.println(cal.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return cal;
+	}
 	
 	public static Date getData(String dataStr, String formato) {
 		System.out.println("DATA: " + dataStr);

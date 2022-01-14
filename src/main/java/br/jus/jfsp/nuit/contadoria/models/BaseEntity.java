@@ -39,13 +39,13 @@ public class BaseEntity implements Serializable {
     protected String modifiedBy;
 
     @Temporal(TemporalType.DATE)
-    private Calendar data;
+    protected Calendar data;
 
-    private Double valor;
+    protected Double valor;
 
-    private String observacao;
+    protected String observacao;
 
-    private String fonte;
+    protected String fonte;
 
 
 }
