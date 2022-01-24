@@ -33,7 +33,20 @@ public class IndicesAtrasadosService {
 
 	@Autowired
 	private AtualizacaoJudicialService atualizacaoJudicialService;
-	
+
+	public void calculaAcumulados() throws RecordNotFoundException {
+		ArrayList<IndicesAtrasados> listIndicesAtrasados = new ArrayList<IndicesAtrasados>();
+		Double acumulado = new Double(1.0);
+		for (int i = listIndicesAtrasados.size()-1; i>=0; i--) {
+			IndicesAtrasados indicesAtrasados = listIndicesAtrasados.get(i);
+			if (!indicesAtrasados.getIndice().equals(new Double(1.0))) {
+				acumulado = acumulado * indicesAtrasados.getIndice();
+			}
+			indicesAtrasados.setIndiceAtrasado(acumulado);
+			update(indicesAtrasados);
+		}
+	}
+
 	public void importa() {
 		ArrayList<IndicesAtrasados> listIndicesAtrasados = new ArrayList<IndicesAtrasados>();
 		Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll();

@@ -22,8 +22,8 @@ import javax.persistence.Table;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "indices_res134", indexes = @Index(
-		name="idx_indices_res134", unique=true, columnList = "data"
+@Table(name = "indices_cond", indexes = @Index(
+		name="idx_indices_cond", unique=true, columnList = "data"
 ))
 @Getter
 @Setter
@@ -33,9 +33,9 @@ import java.util.Calendar;
 @AllArgsConstructor
 @Builder
 @Audited
-@AuditTable(value = "indices_indices_res134_audit")
+@AuditTable(value = "indices_cond_audit")
 @EntityListeners(AuditingEntityListener.class)
-public class IndicesRes134 extends BaseIndice {
+public class IndicesCond extends BaseIndice {
 
 	@PrePersist
 	public void onPrePersist() {
@@ -43,10 +43,10 @@ public class IndicesRes134 extends BaseIndice {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_res134")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_cond")
 	private Long id;
 
-	public IndicesRes134(Double indice, String descricao, Calendar data) {
+	public IndicesCond(Double indice, String descricao, Calendar data) {
 		super();
 		this.data = data;
 		this.descricao = descricao;

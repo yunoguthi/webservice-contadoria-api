@@ -42,7 +42,9 @@ public class IndicesRes134Service {
 			Double indice = indicesAtrasados.getIndice();
 			Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
 			if (indicesAtrasados.getData().compareTo(julho2009) == -1) {
-				repository.save(new IndicesRes134(indice, indicesAtrasados.getDescricao(), indicesAtrasados.getData()));
+				try {
+					repository.save(new IndicesRes134(indice, indicesAtrasados.getDescricao(), indicesAtrasados.getData()));
+				} catch (Exception e) {}
 			}
 		}
 
@@ -53,7 +55,9 @@ public class IndicesRes134Service {
 			Double indice = trMensal.getValor();
 			Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
 			if (trMensal.getData().compareTo(julho2009) != -1) {
-				repository.save(new IndicesRes134(indice, trMensal.getObservacao(), trMensal.getData()));
+				try {
+					repository.save(new IndicesRes134(indice, trMensal.getObservacao(), trMensal.getData()));
+				} catch (Exception e) {}
 			}
 		}
 	}

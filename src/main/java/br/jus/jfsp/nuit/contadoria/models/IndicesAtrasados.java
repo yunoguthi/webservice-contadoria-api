@@ -35,7 +35,7 @@ import java.util.Calendar;
 @Audited
 @AuditTable(value = "indices_atrasados_audit")
 @EntityListeners(AuditingEntityListener.class)
-public class IndicesAtrasados extends BaseEntity {
+public class IndicesAtrasados extends BaseIndice {
 
 	@PrePersist
 	public void onPrePersist() {
@@ -45,10 +45,6 @@ public class IndicesAtrasados extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_atrasados")
 	private Long id;
-
-	private Double indice;
-
-	private String descricao;
 
 	public IndicesAtrasados(Double indice, String descricao, Calendar data) {
 		super();
