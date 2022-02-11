@@ -15,10 +15,13 @@ import java.util.Optional;
 @Repository
 public interface IpcaRepository extends JpaRepository<Ipca, Long> {
 	
-	Optional<Ipca> findByData(String data);
+	Optional<Ipca> findByData(Calendar data);
+	Optional<Ipca> findByDataStr(String dataStr);
+
 	Iterable<Ipca> findAllByDataLessThanEqualAndDataGreaterThanEqual(Calendar data1, Calendar data2);
-	Boolean existsByData(String data);
-		
+	Boolean existsByData(Calendar data);
+	Boolean existsByDataStr(String dataStr);
+
 	@Query("select max(dataStr) from Ipca")
 	String findMaxDataStr();
 

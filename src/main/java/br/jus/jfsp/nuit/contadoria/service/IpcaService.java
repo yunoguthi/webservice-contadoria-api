@@ -72,6 +72,9 @@ public class IpcaService extends SidraIbgeService {
 						ano = data.substring(0, 4);
 						mes = data.substring(4, 6);
 					}
+					if (repository.existsByDataStr(data)) {
+						ipca = repository.findByDataStr(data).get();
+					}
 					if (lMap.get(CODIGO_VARIAVEL).equals(IPCA_NUMERO_INDICE)) {
 						numeroIndice = new Double(lMap.get(VALOR)+"");	
 						ipca.setValor(numeroIndice);
@@ -83,13 +86,20 @@ public class IpcaService extends SidraIbgeService {
 							//System.out.println(lMap.get(VALOR)+"");
 						}
 					}
-					ipca.setDataStr(data);
-					ipca.setData(ManipulaData.toCalendar(ManipulaData.getData(data + "01", ManipulaData.ANO_MES_DIA_SEM_TRACO)));
-					ipca.setAno(ano);
-					ipca.setMes(mes);
-					ipca.setUltimaAtualizacao(ManipulaData.getHoje());
-					ipca.setFonte(Consts.SIDRA_IBGE);
-					save(ipca);
+
+//					if (repository.existsByData(ipca.getData())) {
+					if (ipca!=null && ipca.getData()!=null && repository.findByData(ipca.getData())!=null) {
+					ipca.setId(findByData(ipca.getData()).get().getId());
+						update(ipca);
+					} else {
+						ipca.setData(ManipulaData.toCalendar(ManipulaData.getData(data + "01", ManipulaData.ANO_MES_DIA_SEM_TRACO)));
+						ipca.setDataStr(data);
+						ipca.setAno(ano);
+						ipca.setMes(mes);
+						ipca.setUltimaAtualizacao(ManipulaData.getHoje());
+						ipca.setFonte(Consts.SIDRA_IBGE);
+						save(ipca);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
@@ -147,7 +157,7 @@ public class IpcaService extends SidraIbgeService {
 				.orElseThrow(() -> new RecordNotFoundException("Registro não encontrado com o id " + id));
 	}
 	
-	public Optional<Ipca> findByData(String data) {
+	public Optional<Ipca> findByData(Calendar data) {
 		return repository.findByData(data);
 	}
 

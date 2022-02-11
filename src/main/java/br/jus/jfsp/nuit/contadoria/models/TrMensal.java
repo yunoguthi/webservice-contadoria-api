@@ -16,6 +16,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,10 +25,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Table
-//@Table(name = "btn_mensal", indexes = @Index(
-//		name="idx_ar_condicionado_equipamento", unique=true, columnList = "equipamento_eletrico_id"
-//))
+//@Table
+@Table(name = "tr_mensal", indexes = @Index(
+		name="idx_tr_mensal", unique=true, columnList = "data"
+))
 @Getter
 @Setter
 @ToString

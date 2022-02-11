@@ -93,26 +93,26 @@ public class CronController {
 
 	public void importaTudo() throws Exception {
 		System.out.println("Começo " + ManipulaData.getHoje());
-		btnMensalService.importa();
-		inpcService.importa();
-		ipca15Service.importa();
-		ipcaService.importa();
-		ipcaEService.importa();
-		irsmService.importa();
-		salarioMinimoService.updateMoedas();
-		salarioMinimoService.importa();
-		selicMetaCopomService.importa();
-		selicMensalService.importa();
-		trdService.importa();
-		trMensalService.importa();
-		ufirService.importa();
-		urvService.importa();
-		indicesAtrasadosService.importa();
-		indicesRes134Service.importa();
-		indicesSalariosService.importa();
-		indicesCondService.importa();
-		jurosService.importa();
-		jurosAltService.importa();
+//		btnMensalService.importa();
+//		inpcService.importa();
+//		ipca15Service.importa();
+//		ipcaService.importa();
+//		ipcaEService.importa();
+//		irsmService.importa();
+//		salarioMinimoService.updateMoedas();
+//		salarioMinimoService.importa();
+//		selicMetaCopomService.importa();
+//		selicMensalService.importa();
+//		trdService.importa();
+//		trMensalService.importa();
+//		ufirService.importa();
+//		urvService.importa();
+//		indicesAtrasadosService.importa();
+//		indicesRes134Service.importa();
+//		indicesSalariosService.importa();
+//		indicesCondService.importa();
+//		jurosService.importa();
+//		jurosAltService.importa();
 		indicesAtrasadosService.calculaAcumulados();
 
 		System.out.println("Fim " + ManipulaData.getHoje());

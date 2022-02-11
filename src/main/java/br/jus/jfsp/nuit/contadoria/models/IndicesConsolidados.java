@@ -19,10 +19,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.util.Calendar;
 
 @Entity
-@Table(name = "ufir", indexes = @Index(
-		name="idx_ufir", unique=true, columnList = "data"
+@Table(name = "indices_consolidados", indexes = @Index(
+		name="idx_indices_consolidados", unique=true, columnList = "data"
 ))
 @Getter
 @Setter
@@ -32,9 +33,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Audited
-@AuditTable(value = "ufir_audit")
+@AuditTable(value = "indices_consolidados_audit")
 @EntityListeners(AuditingEntityListener.class)
-public class Ufir extends BaseEntity {
+public class IndicesConsolidados extends BaseEntity {
 
 	@PrePersist
 	public void onPrePersist() {
@@ -44,7 +45,28 @@ public class Ufir extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	//private double valor;
+
+	private Double salarioMinimo;
+	private Double salarioMinimoReferencia;
+	private Double tetoContribuicao;
+	private Double tetoBeneficio;
+	private Calendar dataBase;
+	private Double integral;
+	private Double proporcional;
+	private Double multiplicadorMoeda;
+	private Double ajusteMoeda;
+	private Double indiceAtualizado;
+	private Double indiceAcumulado;
+	private Double indiceRes134;
+	private Double indiceRes134Acumulado;
+	private Double indiceSalarios;
+	private Double indiceSalariosAcumulado;
+	private Double ipca;
+	private Double ipcaE;
+	private Double indiceCondenatorias;
+	private Double indiceCondenatoriasAcumulado;
+	private Double selic;
+	private Double juros;
+	private Double jurosAlt;
 
 }

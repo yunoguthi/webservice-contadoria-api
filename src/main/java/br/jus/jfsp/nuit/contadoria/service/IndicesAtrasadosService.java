@@ -6,15 +6,18 @@ import br.jus.jfsp.nuit.contadoria.models.IndicesAtrasados;
 import br.jus.jfsp.nuit.contadoria.repository.IndicesAtrasadosRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
+import org.modelmapper.internal.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -35,12 +38,13 @@ public class IndicesAtrasadosService {
 	private AtualizacaoJudicialService atualizacaoJudicialService;
 
 	public void calculaAcumulados() throws RecordNotFoundException {
-		ArrayList<IndicesAtrasados> listIndicesAtrasados = new ArrayList<IndicesAtrasados>();
+		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
 		Double acumulado = new Double(1.0);
 		for (int i = listIndicesAtrasados.size()-1; i>=0; i--) {
 			IndicesAtrasados indicesAtrasados = listIndicesAtrasados.get(i);
 			if (!indicesAtrasados.getIndice().equals(new Double(1.0))) {
 				acumulado = acumulado * indicesAtrasados.getIndice();
+				System.out.println(ManipulaData.calendarToStringAnoMes(indicesAtrasados.getData()) + " - " + acumulado);
 			}
 			indicesAtrasados.setIndiceAtrasado(acumulado);
 			update(indicesAtrasados);

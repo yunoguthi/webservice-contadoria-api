@@ -90,6 +90,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>8.4.2</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -98,6 +103,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>8.0.0</version>
+				<configuration>
+					<user>postgres</user>
+					<password>1</password>
+					<schemas>
+						<schema>contadoria</schema>
+					</schemas>
+				</configuration>
 			</plugin>
 			<!--plugin>
 			    <inherited>true</inherited>

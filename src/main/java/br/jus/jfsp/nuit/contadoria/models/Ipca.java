@@ -44,9 +44,9 @@ public class Ipca extends BaseEntity {
 	public void onPrePersist() {
 
 	}
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_ipca")
 	private Long id;
 	
 	private String ano;
