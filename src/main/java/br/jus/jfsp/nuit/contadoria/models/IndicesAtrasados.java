@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 @Entity
@@ -46,7 +47,7 @@ public class IndicesAtrasados extends BaseIndice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_atrasados")
 	private Long id;
 
-	public IndicesAtrasados(Double indice, String descricao, Calendar data) {
+	public IndicesAtrasados(BigDecimal indice, String descricao, Calendar data) {
 		super();
 		this.data = data;
 		this.descricao = descricao;

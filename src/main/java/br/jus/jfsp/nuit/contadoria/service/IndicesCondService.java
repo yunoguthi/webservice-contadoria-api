@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class IndicesCondService {
 
 		Iterable<IpcaE> listIpcaE = ipcaEService.getAll();
 		for (IpcaE ipcaE: listIpcaE) {
-			Double indice = ipcaE.getValor();
+			BigDecimal indice = new BigDecimal(ipcaE.getValor());
 			Calendar dezembro1991 = ManipulaData.getCalendar("1991-12-01", ManipulaData.ANO_MES_DIA);
 			Calendar dezembro2000 = ManipulaData.getCalendar("2000-12-01", ManipulaData.ANO_MES_DIA);
 			Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
@@ -64,7 +65,7 @@ public class IndicesCondService {
 
 		Iterable<Ufir> listUfir = ufirService.getAll();
 		for (Ufir ufir: listUfir) {
-			Double indice = ufir.getValor();
+			BigDecimal indice = new BigDecimal(ufir.getValor());
 			Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
 			Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
 
@@ -79,7 +80,7 @@ public class IndicesCondService {
 
 		Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll();
 		for (AtualizacaoJudicial atualizacaoJudicial: listAtualizacaoJudicial) {
-			Double indice = atualizacaoJudicial.getValor();
+			BigDecimal indice = new BigDecimal(atualizacaoJudicial.getValor());
 			Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
 
 			if (atualizacaoJudicial.getData().compareTo(novembro2000) >= 1) {

@@ -54,8 +54,8 @@ public class IndicesAtrasadosService {
 		BigDecimal acumulado = new BigDecimal(1.0);
 		for (int i = listIndicesAtrasados.size()-1; i>=0; i--) {
 			IndicesAtrasados indicesAtrasados = listIndicesAtrasados.get(i);
-			if (!Double.isInfinite(indicesAtrasados.getIndice()) && !indicesAtrasados.getIndice().equals(new BigDecimal(1.0))) {
-				acumulado = acumulado.multiply(BigDecimal.valueOf(indicesAtrasados.getIndice()));
+			if (!Double.isInfinite(indicesAtrasados.getIndice().doubleValue()) && !indicesAtrasados.getIndice().equals(new BigDecimal(1.0))) {
+				acumulado = acumulado.multiply(indicesAtrasados.getIndice());
 				//System.out.println(ManipulaData.calendarToStringAnoMes(indicesAtrasados.getData()) + " - " + indicesAtrasados.getIndice() + " - " + acumulado);
 
 				//acumulado = ManipulaMath.round(acumulado);
@@ -65,8 +65,8 @@ public class IndicesAtrasadosService {
 //			acumulado = round(acumulado);
 
 //			acumulado =  acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor()));
-
-			indicesAtrasados.setIndiceAtrasado(acumulado.doubleValue() * ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor());
+			acumulado = acumulado.setScale(12, BigDecimal.ROUND_HALF_UP);
+			indicesAtrasados.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor())));
 			update(indicesAtrasados);
 		}
 	}
@@ -85,12 +85,34 @@ public class IndicesAtrasadosService {
 
 	public void testeIndiceAtrasado(String[] coluna) {
 		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
+		BigDecimal erro = new BigDecimal(0.0);
+		BigDecimal maiorErro = new BigDecimal(0.0);
+		Calendar dataMaiorErro = null;
+
 		for(int i=0; i<listIndicesAtrasados.size(); i++) {
 			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(listIndicesAtrasados.get(i).getIndiceAtrasado());
 			boolean igual = valorFormatado.equals(coluna[i]);
 			String resultado = igual ? "OK" : valorFormatado + " - " + coluna[i];
-			System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + resultado);
+			if (!igual) {
+				if (listIndicesAtrasados.get(i).getIndiceAtrasado().compareTo(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", ".")))) > 0) {
+					erro = listIndicesAtrasados.get(i).getIndiceAtrasado().subtract(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))));
+				} else {
+					erro = BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))).subtract(listIndicesAtrasados.get(i).getIndiceAtrasado());
+				}
+				if (erro.compareTo(maiorErro) > 0) {
+					maiorErro = erro;
+					dataMaiorErro = listIndicesAtrasados.get(i).getData();
+					//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
+
+				}
+				//System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " ; " + erro);
+
+//				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + "Erro: " + erro);
+			}
+			//System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + resultado);
 		}
+		//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
+
 	}
 
 	public void testeIndice(String[] coluna) {
@@ -105,13 +127,14 @@ public class IndicesAtrasadosService {
 
 	public void testando() {
 		System.out.println("Início comparação de índices atrasados");
-//		String[] normalizadosIndicesAtrasados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
-//		testeIndiceAtrasado(normalizadosIndicesAtrasados);
-//		System.out.println("Fim comparação de índices atrasados");
-		System.out.println("Início comparação de índices");
-		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(10));
-		testeIndice(normalizadosIndices);
-		System.out.println("Fim comparação de índices");
+		String[] normalizadosIndicesAtrasados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
+		testeIndiceAtrasado(normalizadosIndicesAtrasados);
+		System.out.println("Fim comparação de índices atrasados");
+
+		//		System.out.println("Início comparação de índices");
+//		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(10));
+//		testeIndice(normalizadosIndices);
+//		System.out.println("Fim comparação de índices");
 	}
 
 	public void importa() {
@@ -119,31 +142,36 @@ public class IndicesAtrasadosService {
 		Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll(Sort.by("data").descending());
 //		Iterable<MultiplicadorMoeda> listMultiplicadorMoeda = multiplicadorMoedaService.getAll(Sort.by("data"));
 
-		Double indiceAnterior = new Double(1.0);
+		BigDecimal indiceAnterior = new BigDecimal(1.0);
 		Double valorAnterior = new Double(0.0);
 
 		for (AtualizacaoJudicial atualizacaoJudicial: listAtualizacaoJudicial) {
 			Double percentual = atualizacaoJudicial.getPercentual();
 			Double valor = atualizacaoJudicial.getValor();
-			Double indice = new Double(0.0);
+			BigDecimal indice = new BigDecimal(0.0);
 			if (percentual !=null && !percentual.equals(0.0)) {
-				indice = (percentual / 100) + 1;
+				indice = new BigDecimal((percentual / 100) + 1);
 			} else if (valor !=null && !valor.equals(0.0)) {
 				//TODO verificar essa regra de negócio
 				// indice = (valor + 1) / indiceAnterior;
 				if (valorAnterior.equals(0.0)) {
-					indice = new Double(1.0);
+					indice = new BigDecimal(1.0);
 				} else {
-					indice = valorAnterior / valor;
+					indice = new BigDecimal(valorAnterior / valor);
 				}
 			} else {
-				indice = new Double(1.0);
+				indice = new BigDecimal(1.0);
 			}
 			//indice =  indice * multiplicadorMoedaService.findByData(atualizacaoJudicial.getData()).get().getValor();
 
+//			String valorFormatado = new DecimalFormat("####0.00000000000000").format(indice);
+//			indice = new Double(valorFormatado.replaceAll(",", "."));
+
+			indice = indice.setScale(9, BigDecimal.ROUND_HALF_UP);
+
 			indiceAnterior = indice;
 			valorAnterior = valor;
-			System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + indiceAnterior);
+			//System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + indiceAnterior);
 			try {
 				repository.save(new IndicesAtrasados(indice, atualizacaoJudicial.getDescricao(), atualizacaoJudicial.getData()));
 			} catch (Exception e) {}

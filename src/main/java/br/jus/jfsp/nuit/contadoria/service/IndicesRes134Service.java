@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class IndicesRes134Service {
 		// Importação dos índices anteriores a julho de 2009, vindos da índices atrasados
 		Iterable<IndicesAtrasados> listIndicesAtrasados = indicesAtrasadosService.getAll();
 		for (IndicesAtrasados indicesAtrasados: listIndicesAtrasados) {
-			Double indice = indicesAtrasados.getIndice();
+			BigDecimal indice = indicesAtrasados.getIndice();
 			Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
 			if (indicesAtrasados.getData().compareTo(julho2009) == -1) {
 				try {
@@ -52,7 +53,7 @@ public class IndicesRes134Service {
 
 		Iterable<TrMensal> listTrMensal = trMensalService.getAll();
 		for (TrMensal trMensal: listTrMensal) {
-			Double indice = trMensal.getValor();
+			BigDecimal indice = new BigDecimal(trMensal.getValor());
 			Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
 			if (trMensal.getData().compareTo(julho2009) != -1) {
 				try {

@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 @Entity
@@ -46,7 +47,7 @@ public class JurosAlt extends BaseIndice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_juros_alt")
 	private Long id;
 
-	public JurosAlt(Double indice, Calendar data) {
+	public JurosAlt(BigDecimal indice, Calendar data) {
 		super();
 		this.data = data;
 		this.descricao = "";

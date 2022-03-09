@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,20 +46,20 @@ public class JurosService extends SgsBacenService {
 
 		Iterable<BtnMensal> listBtnMensal = btnMensalService.getAll();
 		for (BtnMensal btnMensal: listBtnMensal) {
-			Double indice = new Double(0.0);
+			BigDecimal indice = new BigDecimal(0.0);
 			Calendar junho2009 = ManipulaData.getCalendar("2009-06-01", ManipulaData.ANO_MES_DIA);
 			Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
 			Calendar maio2012 = ManipulaData.getCalendar("2012-05-01", ManipulaData.ANO_MES_DIA);
 			Calendar junho2012 = ManipulaData.getCalendar("2012-06-01", ManipulaData.ANO_MES_DIA);
 
 			if (btnMensal.getData().compareTo(junho2009) <= 0) {
-				indice = new Double(0.01);
+				indice = new BigDecimal(0.01);
 				try {
 					repository.save(new Juros(indice, btnMensal.getData()));
 				} catch (Exception e) {}
 			}
 			if (btnMensal.getData().compareTo(junho2009) > 0 && btnMensal.getData().compareTo(maio2012) <= 0) {
-				indice = new Double(0.005);
+				indice = new BigDecimal(0.005);
 				try {
 					repository.save(new Juros(indice, btnMensal.getData()));
 				} catch (Exception e) {}
@@ -66,9 +67,9 @@ public class JurosService extends SgsBacenService {
 			if (btnMensal.getData().compareTo(maio2012) > 0) {
 				SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(btnMensal.getData()).get();
 				if (selicMetaCopom.getValor().compareTo(new Double(0.085)) > 0) {
-					indice = new Double(0.005);
+					indice = new BigDecimal(0.005);
 				} else {
-					indice = selicMetaCopom.getValor() * 0.7;
+					indice = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7));
 				}
 				try {
 					repository.save(new Juros(indice, btnMensal.getData()));

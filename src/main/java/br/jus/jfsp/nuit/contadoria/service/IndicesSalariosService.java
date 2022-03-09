@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -34,12 +35,12 @@ public class IndicesSalariosService {
 	public void importa() {
 		Iterable<AtualizacaoSalario> listAtualizacaoSalario = atualizacaoSalarioService.getAll();
 		for (AtualizacaoSalario atualizacaoSalario: listAtualizacaoSalario) {
-			Double indice = atualizacaoSalario.getValor();
+			BigDecimal indice = new BigDecimal(atualizacaoSalario.getValor());
 			if (indice==null || indice.equals(new Double(0.0))) {
-				indice = atualizacaoSalario.getPercentual();
+				indice = new BigDecimal(atualizacaoSalario.getPercentual());
 			}
 			if (indice==null || indice.equals(new Double(0.0))) {
-				indice = new Double(1.0);
+				indice = new BigDecimal(1.0);
 			}
 			try {
 				repository.save(new IndicesSalarios(indice, atualizacaoSalario.getObservacao(), atualizacaoSalario.getData()));

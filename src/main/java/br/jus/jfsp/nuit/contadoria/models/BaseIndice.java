@@ -20,6 +20,7 @@ import javax.persistence.Index;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 @Getter
@@ -28,9 +29,9 @@ import java.util.Calendar;
 @SuppressWarnings("serial")
 public class BaseIndice extends BaseEntity {
 
-	protected Double indice;
+	protected BigDecimal indice;
 
-	protected Double indiceAtrasado;
+	protected BigDecimal indiceAtrasado;
 
 	protected String descricao;
 

@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 @Entity
@@ -46,7 +47,7 @@ public class IndicesCond extends BaseIndice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_cond")
 	private Long id;
 
-	public IndicesCond(Double indice, String descricao, Calendar data) {
+	public IndicesCond(BigDecimal indice, String descricao, Calendar data) {
 		super();
 		this.data = data;
 		this.descricao = descricao;
