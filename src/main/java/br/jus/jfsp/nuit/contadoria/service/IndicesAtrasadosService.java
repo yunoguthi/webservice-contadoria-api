@@ -65,7 +65,7 @@ public class IndicesAtrasadosService {
 //			acumulado = round(acumulado);
 
 //			acumulado =  acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor()));
-			acumulado = acumulado.setScale(12, BigDecimal.ROUND_HALF_UP);
+			//acumulado = acumulado.setScale(12, BigDecimal.ROUND_HALF_UP);
 			indicesAtrasados.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor())));
 			update(indicesAtrasados);
 		}
@@ -137,10 +137,11 @@ public class IndicesAtrasadosService {
 					//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
 
 				}
-				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " ; " + listIndicesAtrasados.get(i).getIndice() + ";" + listIndicesAtrasados.get(i).getIndiceAtrasado() + ";" + erro);
 
 //				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + "Erro: " + erro);
 			}
+			System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " ; " + listIndicesAtrasados.get(i).getIndice() + ";" + listIndicesAtrasados.get(i).getIndiceAtrasado() + ";" + erro);
+
 			//System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + resultado);
 		}
 		//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
@@ -208,7 +209,7 @@ public class IndicesAtrasadosService {
 //			String valorFormatado = new DecimalFormat("####0.00000000000000").format(indice);
 //			indice = new Double(valorFormatado.replaceAll(",", "."));
 
-			indice = indice.setScale(9, BigDecimal.ROUND_HALF_UP);
+			//indice = indice.setScale(9, BigDecimal.ROUND_HALF_UP);
 
 			indiceAnterior = indice;
 			valorAnterior = valor;
