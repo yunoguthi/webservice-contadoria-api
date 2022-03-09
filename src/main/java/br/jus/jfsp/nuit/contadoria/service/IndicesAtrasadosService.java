@@ -115,6 +115,38 @@ public class IndicesAtrasadosService {
 
 	}
 
+	public void mostraCSV(String[] coluna) {
+		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
+		BigDecimal erro = new BigDecimal(0.0);
+		BigDecimal maiorErro = new BigDecimal(0.0);
+		Calendar dataMaiorErro = null;
+
+		for(int i=0; i<listIndicesAtrasados.size(); i++) {
+			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(listIndicesAtrasados.get(i).getIndiceAtrasado());
+			boolean igual = valorFormatado.equals(coluna[i]);
+			String resultado = igual ? "OK" : valorFormatado + " - " + coluna[i];
+			if (!igual) {
+				if (listIndicesAtrasados.get(i).getIndiceAtrasado().compareTo(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", ".")))) > 0) {
+					erro = listIndicesAtrasados.get(i).getIndiceAtrasado().subtract(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))));
+				} else {
+					erro = BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))).subtract(listIndicesAtrasados.get(i).getIndiceAtrasado());
+				}
+				if (erro.compareTo(maiorErro) > 0) {
+					maiorErro = erro;
+					dataMaiorErro = listIndicesAtrasados.get(i).getData();
+					//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
+
+				}
+				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " ; " + listIndicesAtrasados.get(i).getIndice() + ";" + listIndicesAtrasados.get(i).getIndiceAtrasado() + ";" + erro);
+
+//				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + "Erro: " + erro);
+			}
+			//System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + resultado);
+		}
+		//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
+
+	}
+
 	public void testeIndice(String[] coluna) {
 		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
 		for(int i=0; i<listIndicesAtrasados.size(); i++) {
@@ -126,15 +158,24 @@ public class IndicesAtrasadosService {
 	}
 
 	public void testando() {
-		System.out.println("Início comparação de índices atrasados");
-		String[] normalizadosIndicesAtrasados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
-		testeIndiceAtrasado(normalizadosIndicesAtrasados);
-		System.out.println("Fim comparação de índices atrasados");
+
+
+//		System.out.println("Início comparação de índices atrasados");
+//		String[] normalizadosIndicesAtrasados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
+//		testeIndiceAtrasado(normalizadosIndicesAtrasados);
+//		System.out.println("Fim comparação de índices atrasados");
 
 		//		System.out.println("Início comparação de índices");
 //		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(10));
 //		testeIndice(normalizadosIndices);
+
+		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
+
 //		System.out.println("Fim comparação de índices");
+
+		mostraCSV(normalizadosIndices);
+
+
 	}
 
 	public void importa() {
