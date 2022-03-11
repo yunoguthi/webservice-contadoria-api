@@ -65,8 +65,8 @@ public class IndicesAtrasadosService {
 //			acumulado = round(acumulado);
 
 //			acumulado =  acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor()));
-			//acumulado = acumulado.setScale(12, BigDecimal.ROUND_HALF_UP);
-			indicesAtrasados.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor())));
+			acumulado = acumulado.setScale(14, BigDecimal.ROUND_HALF_UP);
+			indicesAtrasados.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor())).setScale(14, BigDecimal.ROUND_HALF_UP));
 			update(indicesAtrasados);
 		}
 	}
@@ -115,34 +115,48 @@ public class IndicesAtrasadosService {
 
 	}
 
-	public void mostraCSV(String[] coluna) {
+	public void mostraCSV(String[] indice, String[] indiceAcumulado) {
 		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
-		BigDecimal erro = new BigDecimal(0.0);
-		BigDecimal maiorErro = new BigDecimal(0.0);
+//		Double erro = new Double(0.0);
+//		Double maiorErro = new Double(0.0);
 		Calendar dataMaiorErro = null;
-
+		String[] csv = new String[indice.length+1];
+		csv[0] = "COMPETENCIA;INDICE_CALCULADO;INDICE_GOOGLE;ACUMULADO_CALCULADO;ACUMULADO_GOOGLE";
 		for(int i=0; i<listIndicesAtrasados.size(); i++) {
 			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(listIndicesAtrasados.get(i).getIndiceAtrasado());
-			boolean igual = valorFormatado.equals(coluna[i]);
-			String resultado = igual ? "OK" : valorFormatado + " - " + coluna[i];
-			if (!igual) {
-				if (listIndicesAtrasados.get(i).getIndiceAtrasado().compareTo(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", ".")))) > 0) {
-					erro = listIndicesAtrasados.get(i).getIndiceAtrasado().subtract(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))));
-				} else {
-					erro = BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))).subtract(listIndicesAtrasados.get(i).getIndiceAtrasado());
-				}
-				if (erro.compareTo(maiorErro) > 0) {
-					maiorErro = erro;
-					dataMaiorErro = listIndicesAtrasados.get(i).getData();
-					//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
-
-				}
-
-//				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + "Erro: " + erro);
-			}
-			System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " ; " + listIndicesAtrasados.get(i).getIndice() + ";" + listIndicesAtrasados.get(i).getIndiceAtrasado() + ";" + erro);
+			boolean igual = valorFormatado.equals(indice[i]);
+			String resultado = igual ? "OK" : valorFormatado + " - " + indice[i];
+//			if (!igual) {
+//				if (listIndicesAtrasados.get(i).getIndiceAtrasado().compareTo(Double.valueOf(indice[i].replaceAll(",", "."))) > 0) {
+//					erro = listIndicesAtrasados.get(i).getIndiceAtrasado() - Double.valueOf(indice[i].replaceAll(",", "."));
+//				} else {
+//					erro = Double.valueOf(indice[i].replaceAll(",", ".")) - listIndicesAtrasados.get(i).getIndiceAtrasado();
+//				}
+//				if (erro.compareTo(maiorErro) > 0) {
+//					maiorErro = erro;
+//					dataMaiorErro = listIndicesAtrasados.get(i).getData();
+//					//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
+//
+//				}
+//
+////				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + "Erro: " + erro);
+//			}
+			csv[i+1] = ManipulaData.dateToStringDiaMesAno(ManipulaData.toDate(listIndicesAtrasados.get(i).getData())) + ";" +
+					listIndicesAtrasados.get(i).getIndice() + ";" +
+					indice[i] + ";" +
+					listIndicesAtrasados.get(i).getIndiceAtrasado() + ";" +
+					indiceAcumulado[i];
+			csv[i+1] = csv[i+1].replaceAll("\\.", ",");
+			System.out.println(csv[i+1]);
 
 			//System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + resultado);
+		}
+//		String[] cabecalho = {"COMPETENCIA","INDICE_CALCULADO", "INDICE_GOOGLE", "ACUMULADO_CALCULADO"};
+
+		try {
+			ManipulaArquivo.geraArquivo("teste_indices.csv", csv);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
 
@@ -170,11 +184,14 @@ public class IndicesAtrasadosService {
 //		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(10));
 //		testeIndice(normalizadosIndices);
 
-		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
+
+		String[] normalizadosIndices = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(10));
+		String[] normalizadosIndicesAcumulados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
 
 //		System.out.println("Fim comparação de índices");
 
-		mostraCSV(normalizadosIndices);
+		mostraCSV(normalizadosIndices, normalizadosIndicesAcumulados);
+
 
 
 	}
@@ -209,7 +226,7 @@ public class IndicesAtrasadosService {
 //			String valorFormatado = new DecimalFormat("####0.00000000000000").format(indice);
 //			indice = new Double(valorFormatado.replaceAll(",", "."));
 
-			//indice = indice.setScale(9, BigDecimal.ROUND_HALF_UP);
+			indice = indice.setScale(10, BigDecimal.ROUND_HALF_UP);
 
 			indiceAnterior = indice;
 			valorAnterior = valor;

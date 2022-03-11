@@ -1,7 +1,13 @@
 package br.jus.jfsp.nuit.contadoria.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.DecimalFormat;
 
 public class ManipulaArquivo {
@@ -30,20 +36,20 @@ public class ManipulaArquivo {
 //        retorno = retorno.replaceAll("\"(\\d+)\\.(\\d+,\\d+)\"", "$1$2");
 //        retorno = retorno.replaceAll("\"(\\d+),(\\d+)\"", "$1.$2");
 //        return retorno.replaceAll("(\\d+),(\\d+)", "$1.$2");
-            return retorno;
+        return retorno;
     }
 
     private static String[] getLinhas() {
         String[] linhas = openFile().split("\\n");
         for (int i = 0; i < linhas.length; i++) {
-           // System.out.println(linhas[i]);
+            // System.out.println(linhas[i]);
         }
         return linhas;
     }
 
     public static String[] getColuna(int nroColuna) {
-       String[] linhas = getLinhas();
-       String[] coluna = new String[linhas.length];
+        String[] linhas = getLinhas();
+        String[] coluna = new String[linhas.length];
         for (int i = 0; i < linhas.length; i++) {
             String[] col = linhas[i].split(";");
             coluna[i] = col[nroColuna].replaceAll("\\.", "").replaceAll(",", ".");
@@ -63,12 +69,23 @@ public class ManipulaArquivo {
         return retorno;
     }
 
+    public static void geraArquivo(String nomeArquivo, String[] conteudo) throws IOException {
+        OutputStream os = new FileOutputStream(nomeArquivo);
+        Writer wr = new OutputStreamWriter(os);
+        BufferedWriter br = new BufferedWriter(wr);
+
+        for (int i=0; i < conteudo.length; i++) {
+            br.write(conteudo[i]);
+            br.newLine();
+        }
+        br.close();
+    }
+
     public static void main(String[] args) {
         //openFile();
         //getLinhas();
         normalizar(getColuna(11));
 //        System.out.println(getColuna(11));
     }
-
 
 }
