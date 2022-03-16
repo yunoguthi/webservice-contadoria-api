@@ -56,32 +56,12 @@ public class IndicesAtrasadosService {
 			IndicesAtrasados indicesAtrasados = listIndicesAtrasados.get(i);
 			if (!Double.isInfinite(indicesAtrasados.getIndice().doubleValue()) && !indicesAtrasados.getIndice().equals(new BigDecimal(1.0))) {
 				acumulado = acumulado.multiply(indicesAtrasados.getIndice());
-				//System.out.println(ManipulaData.calendarToStringAnoMes(indicesAtrasados.getData()) + " - " + indicesAtrasados.getIndice() + " - " + acumulado);
-
-				//acumulado = ManipulaMath.round(acumulado);
-
 			}
-
-//			acumulado = round(acumulado);
-
-//			acumulado =  acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor()));
 			acumulado = acumulado.setScale(14, BigDecimal.ROUND_HALF_UP);
 			indicesAtrasados.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesAtrasados.getData()).get().getValor())).setScale(14, BigDecimal.ROUND_HALF_UP));
 			update(indicesAtrasados);
 		}
 	}
-
-//	public static BigDecimal round(BigDecimal value, int places) {
-//		if (places < 0) throw new IllegalArgumentException();
-//
-//		BigDecimal bd = new BigDecimal(Double.toString(value));
-//		bd = bd.setScale(places, RoundingMode.HALF_UP);
-//		return bd.doubleValue();
-//	}
-
-//	public static double round(double value) {
-//		return value;
-//	}
 
 	public void testeIndiceAtrasado(String[] coluna) {
 		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
@@ -117,8 +97,6 @@ public class IndicesAtrasadosService {
 
 	public void mostraCSV(String[] indice, String[] indiceAcumulado) {
 		ArrayList<IndicesAtrasados> listIndicesAtrasados = (ArrayList<IndicesAtrasados>) repository.findAll(Sort.by("data"));
-//		Double erro = new Double(0.0);
-//		Double maiorErro = new Double(0.0);
 		Calendar dataMaiorErro = null;
 		String[] csv = new String[indice.length+1];
 		csv[0] = "COMPETENCIA;INDICE_CALCULADO;INDICE_GOOGLE;ACUMULADO_CALCULADO;ACUMULADO_GOOGLE";
@@ -126,21 +104,6 @@ public class IndicesAtrasadosService {
 			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(listIndicesAtrasados.get(i).getIndiceAtrasado());
 			boolean igual = valorFormatado.equals(indice[i]);
 			String resultado = igual ? "OK" : valorFormatado + " - " + indice[i];
-//			if (!igual) {
-//				if (listIndicesAtrasados.get(i).getIndiceAtrasado().compareTo(Double.valueOf(indice[i].replaceAll(",", "."))) > 0) {
-//					erro = listIndicesAtrasados.get(i).getIndiceAtrasado() - Double.valueOf(indice[i].replaceAll(",", "."));
-//				} else {
-//					erro = Double.valueOf(indice[i].replaceAll(",", ".")) - listIndicesAtrasados.get(i).getIndiceAtrasado();
-//				}
-//				if (erro.compareTo(maiorErro) > 0) {
-//					maiorErro = erro;
-//					dataMaiorErro = listIndicesAtrasados.get(i).getData();
-//					//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
-//
-//				}
-//
-////				System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + "Erro: " + erro);
-//			}
 			csv[i+1] = ManipulaData.dateToStringDiaMesAno(ManipulaData.toDate(listIndicesAtrasados.get(i).getData())) + ";" +
 					listIndicesAtrasados.get(i).getIndice() + ";" +
 					indice[i] + ";" +
@@ -148,18 +111,12 @@ public class IndicesAtrasadosService {
 					indiceAcumulado[i];
 			csv[i+1] = csv[i+1].replaceAll("\\.", ",");
 			System.out.println(csv[i+1]);
-
-			//System.out.println(ManipulaData.calendarToStringAnoMes(listIndicesAtrasados.get(i).getData()) + " - " + resultado);
 		}
-//		String[] cabecalho = {"COMPETENCIA","INDICE_CALCULADO", "INDICE_GOOGLE", "ACUMULADO_CALCULADO"};
-
 		try {
 			ManipulaArquivo.geraArquivo("teste_indices.csv", csv);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
-
 	}
 
 	public void testeIndice(String[] coluna) {
@@ -211,8 +168,6 @@ public class IndicesAtrasadosService {
 			if (percentual !=null && !percentual.equals(0.0)) {
 				indice = new BigDecimal((percentual / 100) + 1);
 			} else if (valor !=null && !valor.equals(0.0)) {
-				//TODO verificar essa regra de negócio
-				// indice = (valor + 1) / indiceAnterior;
 				if (valorAnterior.equals(0.0)) {
 					indice = new BigDecimal(1.0);
 				} else {

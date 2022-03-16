@@ -93,7 +93,6 @@ public class CronController {
 
 	@Scheduled(cron = "0/10 0/1 * 1/1 * ?")
 
-
 	public void importaTudo() throws Exception {
 		System.out.println("Começo " + ManipulaData.getHoje());
 //		btnMensalService.importa();
@@ -110,16 +109,19 @@ public class CronController {
 //		trMensalService.importa();
 //		ufirService.importa();
 //		urvService.importa();
-		indicesAtrasadosService.importa();
+//		indicesAtrasadosService.importa();
 //		indicesRes134Service.importa();
+//		indicesRes134Service.calculaAcumulados();
+		indicesRes134Service.testando();
 //		indicesSalariosService.importa();
+//		indicesSalariosService.calculaAcumulados();
+//		indicesSalariosService.testando();
 //		indicesCondService.importa();
 //		jurosService.importa();
 //		jurosAltService.importa();
-		indicesAtrasadosService.importa();
-		indicesAtrasadosService.calculaAcumulados();
-		indicesAtrasadosService.testando();
-
+//		indicesAtrasadosService.importa();
+//		indicesAtrasadosService.calculaAcumulados();
+//		indicesAtrasadosService.testando();
 
 		System.out.println("Fim " + ManipulaData.getHoje());
 

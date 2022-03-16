@@ -61,7 +61,10 @@ public class ManipulaArquivo {
     public static String[] normalizar(String[] numeros) {
         String[] retorno = new String[numeros.length];
         for (int i = 0; i<numeros.length; i++) {
-            Double numeroDouble = new Double(numeros[i]);
+            Double numeroDouble = new Double(0.0);
+            try {
+                numeroDouble = new Double(numeros[i]);
+            } catch (Exception e) {}
             String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(numeroDouble);
             retorno[i] = valorFormatado;
             System.out.println( valorFormatado );
