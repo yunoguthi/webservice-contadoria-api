@@ -16,34 +16,21 @@ public class ManipulaArquivo {
 
     private static String openFile() {
         String retorno = "";
-        try
-        {
+        try {
             File file=new File(FILE_NAME);
-            FileInputStream fis=new FileInputStream(file);     //opens a connection to an actual file
-            System.out.println("file content: ");
+            FileInputStream fis=new FileInputStream(file);
             int r=0;
-            while((r=fis.read())!=-1)
-            {
+            while((r=fis.read())!=-1) {
                 retorno += (char)r;
-                //System.out.print((char)r);      //prints the content of the file
             }
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             e.printStackTrace();
         }
-
-//        retorno = retorno.replaceAll("\"(\\d+)\\.(\\d+,\\d+)\"", "$1$2");
-//        retorno = retorno.replaceAll("\"(\\d+),(\\d+)\"", "$1.$2");
-//        return retorno.replaceAll("(\\d+),(\\d+)", "$1.$2");
         return retorno;
     }
 
     private static String[] getLinhas() {
         String[] linhas = openFile().split("\\n");
-        for (int i = 0; i < linhas.length; i++) {
-            // System.out.println(linhas[i]);
-        }
         return linhas;
     }
 
@@ -53,7 +40,6 @@ public class ManipulaArquivo {
         for (int i = 0; i < linhas.length; i++) {
             String[] col = linhas[i].split(";");
             coluna[i] = col[nroColuna].replaceAll("\\.", "").replaceAll(",", ".");
-            System.out.println(coluna[i]);
         }
         return coluna;
     }
@@ -67,7 +53,6 @@ public class ManipulaArquivo {
             } catch (Exception e) {}
             String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(numeroDouble);
             retorno[i] = valorFormatado;
-            System.out.println( valorFormatado );
         }
         return retorno;
     }

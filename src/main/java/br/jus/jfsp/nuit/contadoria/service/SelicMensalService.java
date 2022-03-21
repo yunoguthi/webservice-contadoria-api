@@ -64,7 +64,11 @@ public class SelicMensalService extends SgsBacenService {
 				selicMensal.setValor(valor);
 				selicMensal.setUltimaAtualizacao(ManipulaData.getHoje());
 				selicMensal.setFonte(Consts.SGS_BACEN);
-				if(!repository.existsByData(ManipulaData.toCalendar(data))){
+				int mesAtual = ManipulaData.getMes(ManipulaData.getHoje());
+				int anoAtual = ManipulaData.getAno(ManipulaData.getHoje());
+				if(!repository.existsByData(ManipulaData.toCalendar(data)) &&
+						!(ManipulaData.getMes(data) == ManipulaData.getMes(ManipulaData.getHoje()) &&
+						ManipulaData.getAno(data) == ManipulaData.getAno(ManipulaData.getHoje())) ) {
 					repository.save(selicMensal);
 				}
 			}

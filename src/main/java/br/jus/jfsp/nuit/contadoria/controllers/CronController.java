@@ -112,11 +112,14 @@ public class CronController {
 //		indicesAtrasadosService.importa();
 //		indicesRes134Service.importa();
 //		indicesRes134Service.calculaAcumulados();
-		indicesRes134Service.testando();
+//		indicesRes134Service.testando();
 //		indicesSalariosService.importa();
 //		indicesSalariosService.calculaAcumulados();
 //		indicesSalariosService.testando();
-//		indicesCondService.importa();
+		indicesCondService.importa();
+		indicesCondService.calculaAcumulados();
+		indicesCondService.testando();
+
 //		jurosService.importa();
 //		jurosAltService.importa();
 //		indicesAtrasadosService.importa();

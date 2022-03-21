@@ -193,6 +193,10 @@ public class IndicesSalariosService {
 		return repository.findAll();
 	}
 
+	public Iterable<IndicesSalarios> getAll(Sort sort){
+		return repository.findAll(sort);
+	}
+
 	public Page<IndicesSalarios> findAll(Pageable pageable) {
 		return repository.findAll(pageable);
 	}
