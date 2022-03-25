@@ -36,7 +36,7 @@ import java.util.Calendar;
 @Audited
 @AuditTable(value = "juros_alt_audit")
 @EntityListeners(AuditingEntityListener.class)
-public class JurosAlt extends BaseIndice {
+public class JurosAlt extends BaseEntity {
 
 	@PrePersist
 	public void onPrePersist() {
@@ -47,10 +47,9 @@ public class JurosAlt extends BaseIndice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_juros_alt")
 	private Long id;
 
-	public JurosAlt(BigDecimal indice, Calendar data) {
+	public JurosAlt(Double valor, Calendar data) {
 		super();
 		this.data = data;
-		this.descricao = "";
-		this.indice = indice;
+		this.valor = valor;
 	}
 }

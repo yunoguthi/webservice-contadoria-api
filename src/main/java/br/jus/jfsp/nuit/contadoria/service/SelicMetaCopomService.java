@@ -63,7 +63,7 @@ public class SelicMetaCopomService extends SgsBacenService {
 				selicMetaCopom.setValor(valor);
 				selicMetaCopom.setUltimaAtualizacao(ManipulaData.getHoje());
 				selicMetaCopom.setFonte(Consts.SGS_BACEN);
-				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
+				if (ManipulaData.getDia(data)==1 && !repository.existsByData(ManipulaData.toCalendar(data))) {
 					repository.save(selicMetaCopom);
 				}
 			}

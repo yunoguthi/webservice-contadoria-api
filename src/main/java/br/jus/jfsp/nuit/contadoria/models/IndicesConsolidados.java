@@ -1,5 +1,6 @@
 package br.jus.jfsp.nuit.contadoria.models;
 
+import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 @Entity
@@ -50,23 +52,77 @@ public class IndicesConsolidados extends BaseEntity {
 	private Double salarioMinimoReferencia;
 	private Double tetoContribuicao;
 	private Double tetoBeneficio;
-	private Calendar dataBase;
 	private Double integral;
 	private Double proporcional;
 	private Double multiplicadorMoeda;
 	private Double ajusteMoeda;
-	private Double indiceAtualizado;
-	private Double indiceAcumulado;
-	private Double indiceRes134;
-	private Double indiceRes134Acumulado;
-	private Double indiceSalarios;
-	private Double indiceSalariosAcumulado;
+	private BigDecimal indiceAtualizado;
+	private BigDecimal indiceAcumulado;
+	private BigDecimal indiceRes134;
+	private BigDecimal indiceRes134Acumulado;
+	private BigDecimal indiceSalarios;
+	private BigDecimal indiceSalariosAcumulado;
 	private Double ipca;
 	private Double ipcaE;
-	private Double indiceCondenatorias;
-	private Double indiceCondenatoriasAcumulado;
+	private BigDecimal indiceCondenatorias;
+	private BigDecimal indiceCondenatoriasAcumulado;
 	private Double selic;
 	private Double juros;
 	private Double jurosAlt;
 
+	@Override
+	public String toString() {
+//		return "IndicesConsolidados{" +
+//				"data=" + data +
+//				", salarioMinimo=" + salarioMinimo +
+//				", salarioMinimoReferencia=" + salarioMinimoReferencia +
+//				", tetoContribuicao=" + tetoContribuicao +
+//				", tetoBeneficio=" + tetoBeneficio +
+//				", integral=" + integral +
+//				", proporcional=" + proporcional +
+//				", multiplicadorMoeda=" + multiplicadorMoeda +
+//				", ajusteMoeda=" + ajusteMoeda +
+//				", indiceAtualizado=" + indiceAtualizado +
+//				", indiceAcumulado=" + indiceAcumulado +
+//				", indiceRes134=" + indiceRes134 +
+//				", indiceRes134Acumulado=" + indiceRes134Acumulado +
+//				", indiceSalarios=" + indiceSalarios +
+//				", indiceSalariosAcumulado=" + indiceSalariosAcumulado +
+//				", ipca=" + ipca +
+//				", ipcaE=" + ipcaE +
+//				", indiceCondenatorias=" + indiceCondenatorias +
+//				", indiceCondenatoriasAcumulado=" + indiceCondenatoriasAcumulado +
+//				", selic=" + selic +
+//				", juros=" + juros +
+//				", jurosAlt=" + jurosAlt +
+//				'}';
+
+		int mes = ManipulaData.getMes(ManipulaData.toDate(data)) + 1;
+
+		String mesStr = mes<10 ? "0"+mes : mes+"";
+
+		return
+				("01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
+				salarioMinimo+ ";" +
+				salarioMinimoReferencia + ";" +
+				tetoContribuicao + ";" +
+				tetoBeneficio + ";" +
+				integral + ";" +
+				proporcional + ";" +
+				multiplicadorMoeda + ";" +
+				ajusteMoeda + ";" +
+				indiceAtualizado + ";" +
+				indiceAcumulado + ";" +
+				indiceRes134 + ";" +
+				indiceRes134Acumulado + ";" +
+				indiceSalarios + ";" +
+				indiceSalariosAcumulado + ";" +
+				ipca + ";" +
+				ipcaE + ";" +
+				indiceCondenatorias + ";" +
+				indiceCondenatoriasAcumulado + ";" +
+				selic + ";" +
+				juros + ";" +
+				jurosAlt).replaceAll("null", "-").replace(".", ",");
+	}
 }

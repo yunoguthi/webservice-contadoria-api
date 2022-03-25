@@ -11,6 +11,7 @@ import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -51,6 +52,10 @@ public class TetoContribuicaoService {
 
 	public Iterable<TetoContribuicao> getAll(){
 		return repository.findAll();
+	}
+
+	public Iterable<TetoContribuicao> getAll(Sort sort){
+		return repository.findAll(sort);
 	}
 
 	public Page<TetoContribuicao> findAll(Pageable pageable) {

@@ -55,12 +55,10 @@ public class ManipulaData {
 	}
 
 	public static Calendar getCalendar(String dataStr, String formato) {
-		System.out.println("DATA: " + dataStr);
 		Calendar cal = new GregorianCalendar();
 		SimpleDateFormat sdf = new SimpleDateFormat(formato);
 		try {
 			cal.setTime(sdf.parse(dataStr));
-			System.out.println(cal.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -68,12 +66,10 @@ public class ManipulaData {
 	}
 	
 	public static Date getData(String dataStr, String formato) {
-		System.out.println("DATA: " + dataStr);
 		Calendar cal = new GregorianCalendar();
 		SimpleDateFormat sdf = new SimpleDateFormat(formato); 
 		try {
 			cal.setTime(sdf.parse(dataStr));
-			System.out.println(cal.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

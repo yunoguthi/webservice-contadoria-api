@@ -63,8 +63,10 @@ public class ManipulaArquivo {
         BufferedWriter br = new BufferedWriter(wr);
 
         for (int i=0; i < conteudo.length; i++) {
-            br.write(conteudo[i]);
-            br.newLine();
+           try {
+               br.write(conteudo[i]);
+               br.newLine();
+           } catch (Exception e) {}
         }
         br.close();
     }

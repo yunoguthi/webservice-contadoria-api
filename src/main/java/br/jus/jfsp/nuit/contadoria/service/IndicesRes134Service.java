@@ -80,7 +80,8 @@ public class IndicesRes134Service {
 				acumulado = acumulado.multiply(indicesRes134.getIndice());
 			}
 			acumulado = acumulado.setScale(14, BigDecimal.ROUND_HALF_UP);
-			indicesRes134.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesRes134.getData()).get().getValor())).setScale(14, BigDecimal.ROUND_HALF_UP));
+			Double ajusteMoeda = ajusteMoedaService.findByData(indicesRes134.getData()).isPresent() ? ajusteMoedaService.findByData(indicesRes134.getData()).get().getValor() : 1.0;
+			indicesRes134.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoeda)).setScale(14, BigDecimal.ROUND_HALF_UP));
 			update(indicesRes134);
 		}
 	}
@@ -199,6 +200,10 @@ public class IndicesRes134Service {
 
 	public Iterable<IndicesRes134> getAll(){
 		return repository.findAll();
+	}
+
+	public Iterable<IndicesRes134> getAll(Sort sort){
+		return repository.findAll(sort);
 	}
 
 	public Page<IndicesRes134> findAll(Pageable pageable) {

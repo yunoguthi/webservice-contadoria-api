@@ -57,21 +57,10 @@ public class IndicesCondService {
 
 	public void importa() {
 
-		// Índices Salários (não é IpcaE)
-
 		Calendar dezembro1991 = ManipulaData.getCalendar("1991-12-01", ManipulaData.ANO_MES_DIA);
 		Calendar dezembro2000 = ManipulaData.getCalendar("2000-12-01", ManipulaData.ANO_MES_DIA);
 		Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
 		Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-
-		Iterable<IndicesSalarios> listIndicesSalarios = indicesSalariosService.getAll(Sort.by("data").descending());
-		for (IndicesSalarios indicesSalarios: listIndicesSalarios) {
-			if (indicesSalarios.getData().compareTo(dezembro1991) == 0 || indicesSalarios.getData().compareTo(dezembro2000) > 0) {
-				try {
-					repository.save(new IndicesCond(indicesSalarios.getIndice(), indicesSalarios.getObservacao(), indicesSalarios.getData()));
-				} catch (Exception e) {}
-			}
-		}
 
 		// IPCA_E
 
@@ -80,10 +69,11 @@ public class IndicesCondService {
 		for (IpcaE ipcaE: listIpcaE) {
 			BigDecimal indice = new BigDecimal(ipcaE.getValor()).divide(new BigDecimal(100.0));
 			indice = indice.add(new BigDecimal(1.0));
-			if (ipcaE.getData().compareTo(dezembro2000) == 0) {
+			if (ipcaE.getData().compareTo(dezembro1991) == 0 ||
+					ipcaE.getData().compareTo(dezembro2000) >= 0) {
 				try {
 					if (indiceAnterior != null) {
-						repository.save(new IndicesCond(indiceAnterior, ipcaE.getObservacao(), ipcaE.getData()));
+						repository.save(new IndicesCond(indice, ipcaE.getObservacao(), ipcaE.getData()));
 					}
 				} catch (Exception e) {}
 			}
@@ -267,6 +257,11 @@ public class IndicesCondService {
 	public Iterable<IndicesCond> getAll(){
 		return repository.findAll();
 	}
+
+	public Iterable<IndicesCond> getAll(Sort sort){
+		return repository.findAll(sort);
+	}
+
 
 	public Page<IndicesCond> findAll(Pageable pageable) {
 		return repository.findAll(pageable);

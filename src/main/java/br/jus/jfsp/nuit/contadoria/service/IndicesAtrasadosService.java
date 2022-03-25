@@ -213,6 +213,10 @@ public class IndicesAtrasadosService {
 		return repository.findAll();
 	}
 
+	public Iterable<IndicesAtrasados> getAll(Sort sort){
+		return repository.findAll(sort);
+	}
+
 	public Page<IndicesAtrasados> findAll(Pageable pageable) {
 		return repository.findAll(pageable);
 	}

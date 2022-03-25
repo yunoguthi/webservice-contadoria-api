@@ -8,6 +8,7 @@ import br.jus.jfsp.nuit.contadoria.util.ManipulaMoeda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -44,6 +45,10 @@ public class TetoBeneficioService {
 
 	public Iterable<TetoBeneficio> getAll(){
 		return repository.findAll();
+	}
+
+	public Iterable<TetoBeneficio> getAll(Sort sort){
+		return repository.findAll(sort);
 	}
 
 	public Page<TetoBeneficio> findAll(Pageable pageable) {

@@ -4,6 +4,7 @@ import br.jus.jfsp.nuit.contadoria.models.IndicesCond;
 import br.jus.jfsp.nuit.contadoria.service.BtnMensalService;
 import br.jus.jfsp.nuit.contadoria.service.IndicesAtrasadosService;
 import br.jus.jfsp.nuit.contadoria.service.IndicesCondService;
+import br.jus.jfsp.nuit.contadoria.service.IndicesConsolidadosService;
 import br.jus.jfsp.nuit.contadoria.service.IndicesRes134Service;
 import br.jus.jfsp.nuit.contadoria.service.IndicesSalariosService;
 import br.jus.jfsp.nuit.contadoria.service.InpcService;
@@ -87,6 +88,10 @@ public class CronController {
 	@Autowired
 	private JurosAltService jurosAltService;
 
+	@Autowired
+	private IndicesConsolidadosService indicesConsolidadosService;
+
+
 	//@Scheduled(cron = "0 0 8 ? * *")
 
 //	@Scheduled(cron = "0 0/1 * 1/1 * ?")
@@ -95,36 +100,37 @@ public class CronController {
 
 	public void importaTudo() throws Exception {
 		System.out.println("Começo " + ManipulaData.getHoje());
-//		btnMensalService.importa();
-//		inpcService.importa();
-//		ipca15Service.importa();
-//		ipcaService.importa();
-//		ipcaEService.importa();
-//		irsmService.importa();
-//		salarioMinimoService.updateMoedas();
-//		salarioMinimoService.importa();
-//		selicMetaCopomService.importa();
-//		selicMensalService.importa();
-//		trdService.importa();
-//		trMensalService.importa();
-//		ufirService.importa();
-//		urvService.importa();
-//		indicesAtrasadosService.importa();
-//		indicesRes134Service.importa();
-//		indicesRes134Service.calculaAcumulados();
+		btnMensalService.importa();
+		inpcService.importa();
+		ipca15Service.importa();
+		ipcaService.importa();
+		ipcaEService.importa();
+		irsmService.importa();
+		salarioMinimoService.updateMoedas();
+		salarioMinimoService.importa();
+		selicMetaCopomService.importa();
+		selicMensalService.importa();
+		trdService.importa();
+		trMensalService.importa();
+		ufirService.importa();
+		urvService.importa();
+		indicesAtrasadosService.importa();
+		indicesRes134Service.importa();
+		indicesRes134Service.calculaAcumulados();
 //		indicesRes134Service.testando();
-//		indicesSalariosService.importa();
-//		indicesSalariosService.calculaAcumulados();
+		indicesSalariosService.importa();
+		indicesSalariosService.calculaAcumulados();
 //		indicesSalariosService.testando();
 		indicesCondService.importa();
 		indicesCondService.calculaAcumulados();
-		indicesCondService.testando();
+//		indicesCondService.testando();
 
-//		jurosService.importa();
-//		jurosAltService.importa();
-//		indicesAtrasadosService.importa();
-//		indicesAtrasadosService.calculaAcumulados();
-//		indicesAtrasadosService.testando();
+		jurosService.importa();
+//		jurosService.testando();
+		jurosAltService.importa();
+
+		indicesConsolidadosService.importa();
+		indicesConsolidadosService.mostraCSV();
 
 		System.out.println("Fim " + ManipulaData.getHoje());
 

@@ -17,6 +17,7 @@ public interface IndicesConsolidadosRepository extends PagingAndSortingRepositor
 	
 	Optional<IndicesConsolidados> findByData(Calendar data);
 	Iterable<IndicesConsolidados> findAllByDataLessThanEqualAndDataGreaterThanEqual(Calendar data1, Calendar data2);
+	Boolean existsByData(Calendar data);
 
 	@Query("select max(data) from IndicesConsolidados")
 	Calendar findMaxData();
