@@ -7,6 +7,8 @@ import br.jus.jfsp.nuit.contadoria.models.Inpc;
 import br.jus.jfsp.nuit.contadoria.repository.InpcRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,21 +40,24 @@ public class InpcService extends SidraIbgeService {
 	
 	@Autowired
 	private InpcRepository repository;
-	
-	public void importa() {
-		
-		Calendar dataInicial = repository.findMaxData();
-		
-		String conteudoUrl = "";
-		try {
-			String[] indices = {INPC_NUMERO_INDICE,INPC_PERCENTUAL_MES};
-			String[] precisoes = {PRECISAO_NUMERO_INDICE, PRECISAO_PERCENTUAL_MES};
 
+	Logger logger = LoggerFactory.getLogger(InpcService.class);
+
+	public void importa() {
+
+		logger.info("Iniciando importação INPC");
+
+		Calendar dataInicial = repository.findMaxData();
+		String[] indices = {INPC_NUMERO_INDICE,INPC_PERCENTUAL_MES};
+		String[] precisoes = {PRECISAO_NUMERO_INDICE, PRECISAO_PERCENTUAL_MES};
+
+		String conteudoUrl = null;
+		try {
 			conteudoUrl = urlReaderService.getConteudo(getUrl(INPC, ManipulaData.calendarToStringAnoMes(dataInicial), ManipulaData.dateToStringAnoMes(ManipulaData.getHoje()), indices, precisoes));
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
 		}
+
 		try {
 			Object[] map = jsonReader.getJsonArray(conteudoUrl);
 			for (int i = 0; i < map.length; i++) {
@@ -82,7 +87,7 @@ public class InpcService extends SidraIbgeService {
 							variacaoMensal = new Float(lMap.get(VALOR)+"");	
 							inpc.setVariacaoMensal(variacaoMensal);
 						} catch (Exception e) {
-							System.out.println(lMap.get(VALOR)+"");
+							logger.error("Erro na importação do INPC :" + e.getMessage());
 						}
 					}
 					if (findByDataStr(dataStr).isPresent()) {
@@ -110,14 +115,16 @@ public class InpcService extends SidraIbgeService {
 					inpc.setUltimaAtualizacao(ManipulaData.getHoje());
 					save(inpc);
 				} catch (Exception e) {
-					//e.printStackTrace();
+					logger.error("Erro na importação do INPC :" + e.getMessage());
 					continue;
 				}
-
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Erro na importação do INPC :" + e.getMessage());
 		}
+
+		logger.info("Encerrando importação BTN Mensal");
+
 	}
 
 	public Inpc create(Inpc inpc) {
@@ -125,7 +132,6 @@ public class InpcService extends SidraIbgeService {
 	}
 
 	public Inpc save(Inpc inpc) {
-		System.out.println(inpc.toString());
 		return repository.save(inpc);
 	}
 
@@ -135,7 +141,6 @@ public class InpcService extends SidraIbgeService {
 
 	public Inpc update(Inpc inpc) throws RecordNotFoundException {
 		findByIdOrThrowException(inpc.getId());
-		System.out.println(inpc.getId());
 		return repository.save(inpc);
 	}
 

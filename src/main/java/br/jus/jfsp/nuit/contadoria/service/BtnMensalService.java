@@ -1,10 +1,13 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
+import br.jus.jfsp.nuit.contadoria.controllers.BtnMensalController;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.BtnMensal;
 import br.jus.jfsp.nuit.contadoria.repository.BtnMensalRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,44 +31,46 @@ public class BtnMensalService extends SgsBacenService {
 
 	@Autowired
 	private UrlReaderService urlReader;
-	
+
+	Logger logger = LoggerFactory.getLogger(BtnMensalService.class);
+
 	public void importa() {
-			
+
+		logger.info("Iniciando importação BTN Mensal");
+
 		Calendar dataInicial = repository.findMaxData();
-		
-		String conteudoUrl = "";
+		String conteudoUrl = null;
+		Object[] map = new Object[0];
+
 		try {
 			conteudoUrl = urlReader.getConteudo(getUrl(BTN_MENSAL, ManipulaData.toDate(dataInicial)));
-			
+			map = jsonReader.getJsonArray(conteudoUrl);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Erro na importação do BTN Mensal :" + e.getMessage());
 			return;
 		}
-		try {
-			Object[] map = jsonReader.getJsonArray(conteudoUrl);
-			for (int i = 0; i < map.length; i++) {
-				LinkedHashMap lMap = (LinkedHashMap) map[i];
-				Date data;
-
-				try {
-					data = ManipulaData.stringToDateDiaMesAno(lMap.get("data")+"");
-				} catch (ParseException e) {
-					e.printStackTrace();
-					continue;
-				}
-				Double valor = new Double(lMap.get("valor")+"");
-				BtnMensal bm = new BtnMensal();
-				bm.setData(ManipulaData.toCalendar(data));
-				bm.setValor(valor);
-				bm.setFonte(Consts.SGS_BACEN);
-				if (!repository.existsByData(ManipulaData.toCalendar(data))) {
-					repository.save(bm);
-				}
+		for (int i = 0; i < map.length; i++) {
+			LinkedHashMap lMap = (LinkedHashMap) map[i];
+			Date data;
+			try {
+				data = ManipulaData.stringToDateDiaMesAno(lMap.get("data")+"");
+			} catch (ParseException e) {
+				logger.error("Erro na importação do BTN Mensal linha " + i + ":" + e.getMessage());
+				continue;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			Double valor = new Double(lMap.get("valor")+"");
+			BtnMensal bm = new BtnMensal();
+			bm.setData(ManipulaData.toCalendar(data));
+			bm.setValor(valor);
+			bm.setFonte(Consts.SGS_BACEN);
+			if (!repository.existsByData(ManipulaData.toCalendar(data))) {
+				repository.save(bm);
+			}
 		}
-			
+
+		logger.info("Encerrando importação BTN Mensal");
+
+
 	}
 
 	public BtnMensal create(BtnMensal btnMensal) {

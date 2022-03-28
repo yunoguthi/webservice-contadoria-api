@@ -102,35 +102,35 @@ public class CronController {
 		System.out.println("Começo " + ManipulaData.getHoje());
 		btnMensalService.importa();
 		inpcService.importa();
-		ipca15Service.importa();
-		ipcaService.importa();
-		ipcaEService.importa();
-		irsmService.importa();
-		salarioMinimoService.updateMoedas();
-		salarioMinimoService.importa();
-		selicMetaCopomService.importa();
-		selicMensalService.importa();
-		trdService.importa();
-		trMensalService.importa();
-		ufirService.importa();
-		urvService.importa();
-		indicesAtrasadosService.importa();
-		indicesRes134Service.importa();
-		indicesRes134Service.calculaAcumulados();
-//		indicesRes134Service.testando();
-		indicesSalariosService.importa();
-		indicesSalariosService.calculaAcumulados();
-//		indicesSalariosService.testando();
-		indicesCondService.importa();
-		indicesCondService.calculaAcumulados();
-//		indicesCondService.testando();
-
-		jurosService.importa();
-//		jurosService.testando();
-		jurosAltService.importa();
-
-		indicesConsolidadosService.importa();
-		indicesConsolidadosService.mostraCSV();
+//		ipca15Service.importa();
+//		ipcaService.importa();
+//		ipcaEService.importa();
+//		irsmService.importa();
+//		salarioMinimoService.updateMoedas();
+//		salarioMinimoService.importa();
+//		selicMetaCopomService.importa();
+//		selicMensalService.importa();
+//		trdService.importa();
+//		trMensalService.importa();
+//		ufirService.importa();
+//		urvService.importa();
+//		indicesAtrasadosService.importa();
+//		indicesRes134Service.importa();
+//		indicesRes134Service.calculaAcumulados();
+////		indicesRes134Service.testando();
+//		indicesSalariosService.importa();
+//		indicesSalariosService.calculaAcumulados();
+////		indicesSalariosService.testando();
+//		indicesCondService.importa();
+//		indicesCondService.calculaAcumulados();
+////		indicesCondService.testando();
+//
+//		jurosService.importa();
+////		jurosService.testando();
+//		jurosAltService.importa();
+//
+//		indicesConsolidadosService.importa();
+//		indicesConsolidadosService.mostraCSV();
 
 		System.out.println("Fim " + ManipulaData.getHoje());
 

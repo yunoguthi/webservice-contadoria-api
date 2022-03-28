@@ -48,9 +48,6 @@ public class SidraIbgeService {
 	}
 	
 	protected String getUrl(String codigo, String dataInicial, String dataFinal, String[] variaveis, String[] precisoes) {
-		System.out.println(urlInicio + codigo + url2 
-				+ montaVariavel(variaveis) + url3 + adicionaComplementos(dataInicial, dataFinal) +
-				montaPrecisao(variaveis, precisoes) + url6);
 		return urlInicio + codigo + url2 
 				+ montaVariavel(variaveis) + url3 + adicionaComplementos(dataInicial, dataFinal) +
 				montaPrecisao(variaveis, precisoes) + url6;
