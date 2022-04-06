@@ -98,6 +98,10 @@ public class BtnMensalService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<BtnMensal> findAll() {
+		return repository.findAll();
+	}
+
 	public BtnMensal read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

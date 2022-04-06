@@ -45,3 +45,34 @@
 2022-03-28 13:50:39,539 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [SpringContextShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
 2022-03-28 13:50:39,541 INFO com.zaxxer.hikari.HikariDataSource [SpringContextShutdownHook] HikariPool-1 - Shutdown initiated...
 2022-03-28 13:50:39,544 INFO com.zaxxer.hikari.HikariDataSource [SpringContextShutdownHook] HikariPool-1 - Shutdown completed.
+2022-03-28 18:38:03,547 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.0.13.Final
+2022-03-28 18:38:03,552 INFO br.jus.jfsp.nuit.contadoria.Application [main] Starting Application using Java 11.0.11 on worker01 with PID 161767 (/home/rodrigo/dsv/workspace/webservice-contadoria-api/target/classes started by rodrigo in /home/rodrigo/dsv/workspace/webservice-contadoria-api)
+2022-03-28 18:38:03,553 INFO br.jus.jfsp.nuit.contadoria.Application [main] No active profile set, falling back to default profiles: default
+2022-03-28 18:38:04,011 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-03-28 18:38:04,076 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 61 ms. Found 28 JPA repository interfaces.
+2022-03-28 18:38:04,441 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8081 (http)
+2022-03-28 18:38:04,446 INFO org.apache.coyote.http11.Http11NioProtocol [main] Initializing ProtocolHandler ["http-nio-8081"]
+2022-03-28 18:38:04,447 INFO org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
+2022-03-28 18:38:04,447 INFO org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-03-28 18:38:04,507 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
+2022-03-28 18:38:04,507 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 920 ms
+2022-03-28 18:38:04,598 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-03-28 18:38:04,618 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.4.30.Final
+2022-03-28 18:38:04,661 INFO org.hibernate.annotations.common.Version [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-03-28 18:38:04,723 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2022-03-28 18:38:04,797 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2022-03-28 18:38:04,805 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-03-28 18:38:04,847 INFO org.hibernate.envers.boot.internal.EnversServiceImpl [main] Envers integration enabled? : true
+2022-03-28 18:38:06,016 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-03-28 18:38:06,020 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-03-28 18:38:07,181 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-03-28 18:38:07,277 INFO org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [main] Initializing ExecutorService 'applicationTaskExecutor'
+2022-03-28 18:38:07,432 INFO org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler [main] Initializing ExecutorService 'taskScheduler'
+2022-03-28 18:38:07,447 INFO org.apache.coyote.http11.Http11NioProtocol [main] Starting ProtocolHandler ["http-nio-8081"]
+2022-03-28 18:38:07,472 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8081 (http) with context path ''
+2022-03-28 18:38:07,488 INFO br.jus.jfsp.nuit.contadoria.Application [main] Started Application in 4.132 seconds (JVM running for 4.402)
+2022-03-28 18:38:07,959 INFO org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler [SpringContextShutdownHook] Shutting down ExecutorService 'taskScheduler'
+2022-03-28 18:38:07,960 INFO org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2022-03-28 18:38:07,967 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [SpringContextShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-03-28 18:38:07,968 INFO com.zaxxer.hikari.HikariDataSource [SpringContextShutdownHook] HikariPool-1 - Shutdown initiated...
+2022-03-28 18:38:07,972 INFO com.zaxxer.hikari.HikariDataSource [SpringContextShutdownHook] HikariPool-1 - Shutdown completed.

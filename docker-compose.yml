@@ -1,28 +1,48 @@
-version: '3.1'
+version: '3.7'
 services:
-  API:
-    image: 'contadoria-0.0.1-SNAPSHOT.jar'
+  api:
+    container_name: webservice-contadoria-api
+    image: 'contadoria-api'
     ports:
       - "8081:8081"
-    depends_on:
-      PostgreSQL:
-        condition: service_healthy
+    networks:
+      - contadoria
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/contadoria
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/contadoria
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=1
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
-  PostgreSQL:
+    links:
+      - keycloak
+    depends_on:
+      - postgresql
+      - keycloak
+  keycloak:
+    image: rgyunogu/nuit:keycloak
+    ports:
+      - "8080:8080"
+  postgresql:
     image: postgres
     ports:
       - "5432:5432"
+    networks:
+      - contadoria
     environment:
-      - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - POSTGRES_PASSWORD=1
+      - POSTGRES_DB=contadoria
+  web:
+    image: contadoria-web
+    ports:
+      - "4200:4200"
+    networks:
+      - contadoria
+    links:
+      - api
+    depends_on:
+      - api
+      - keycloak
+
+networks:
+  contadoria:
+    driver: bridge

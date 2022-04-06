@@ -99,6 +99,15 @@ public class BtnMensalController {
 		return ResponseEntity.ok(pagedModel);
 	}
 
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<BtnMensalTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<BtnMensalTO> retorno = btnMensalConverter.toTransferObject(service.findAll());
+		return retorno;
+	}
+
 	@GetMapping("/like/{like}")
 	@Hateoas
 	public ResponseEntity<PagedModel<EntityModel<BtnMensalTO>>> listLike(
