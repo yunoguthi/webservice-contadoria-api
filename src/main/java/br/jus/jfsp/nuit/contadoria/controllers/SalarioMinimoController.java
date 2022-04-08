@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
 import br.jus.jfsp.nuit.contadoria.service.SalarioMinimoService;
 import br.jus.jfsp.nuit.contadoria.service.SalarioMinimoService;
 import br.jus.jfsp.nuit.contadoria.to.SalarioMinimoTO;
+import br.jus.jfsp.nuit.contadoria.to.SalarioMinimoTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.SalarioMinimoConverter;
@@ -59,6 +60,15 @@ public class SalarioMinimoController {
 	public ResponseEntity<?> importaSM(){
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<SalarioMinimoTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<SalarioMinimoTO> retorno = salarioMinimoConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

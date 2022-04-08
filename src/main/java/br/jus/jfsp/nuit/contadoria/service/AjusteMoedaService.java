@@ -98,6 +98,10 @@ public class AjusteMoedaService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<AjusteMoeda> findAll() {
+		return repository.findAll();
+	}
+
 	public AjusteMoeda read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

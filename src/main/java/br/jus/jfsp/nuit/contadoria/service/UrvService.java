@@ -93,6 +93,10 @@ public void importa() {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<Urv> findAll() {
+		return repository.findAll();
+	}
+
 	public Urv read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

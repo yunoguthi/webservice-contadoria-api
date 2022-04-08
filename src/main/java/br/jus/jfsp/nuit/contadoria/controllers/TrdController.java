@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.Trd;
 import br.jus.jfsp.nuit.contadoria.service.TrdService;
 import br.jus.jfsp.nuit.contadoria.service.TrdService;
 import br.jus.jfsp.nuit.contadoria.to.TrdTO;
+import br.jus.jfsp.nuit.contadoria.to.TrdTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.TrdConverter;
@@ -59,6 +60,15 @@ public class TrdController {
 	public ResponseEntity<?> importaTR() {
 		service.importa();		
 		return ResponseEntity.ok("OK");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<TrdTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<TrdTO> retorno = trdConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

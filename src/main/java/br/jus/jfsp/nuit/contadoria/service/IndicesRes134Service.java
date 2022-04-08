@@ -210,6 +210,10 @@ public class IndicesRes134Service {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<IndicesRes134> findAll() {
+		return repository.findAll();
+	}
+
 	public IndicesRes134 read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

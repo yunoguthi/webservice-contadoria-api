@@ -425,6 +425,10 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<IndicesConsolidados> findAll() {
+		return repository.findAll();
+	}
+
 	public IndicesConsolidados read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

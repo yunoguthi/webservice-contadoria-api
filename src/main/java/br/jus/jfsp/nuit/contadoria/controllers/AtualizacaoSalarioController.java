@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.AtualizacaoSalario;
 import br.jus.jfsp.nuit.contadoria.service.AtualizacaoSalarioService;
 import br.jus.jfsp.nuit.contadoria.to.AtualizacaoSalarioTO;
+import br.jus.jfsp.nuit.contadoria.to.AtualizacaoSalarioTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.AtualizacaoSalarioConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -52,6 +53,15 @@ public class AtualizacaoSalarioController {
 	public ResponseEntity<?> importaAtualizacaoSalario() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<AtualizacaoSalarioTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<AtualizacaoSalarioTO> retorno = atualizacaoSalarioConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

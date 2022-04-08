@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.ReajusteBeneficio;
 import br.jus.jfsp.nuit.contadoria.service.ReajusteBeneficioService;
 import br.jus.jfsp.nuit.contadoria.to.ReajusteBeneficioTO;
+import br.jus.jfsp.nuit.contadoria.to.ReajusteBeneficioTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.ReajusteBeneficioConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -46,6 +47,15 @@ public class ReajusteBeneficioController {
 		this.service = service;
 		this.reajusteBeneficioConverter = reajusteBeneficioConverter;
 		this.assembler = assembler;
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<ReajusteBeneficioTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<ReajusteBeneficioTO> retorno = reajusteBeneficioConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

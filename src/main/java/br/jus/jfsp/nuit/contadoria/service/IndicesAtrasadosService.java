@@ -221,6 +221,10 @@ public class IndicesAtrasadosService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<IndicesAtrasados> findAll() {
+		return repository.findAll();
+	}
+
 	public IndicesAtrasados read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

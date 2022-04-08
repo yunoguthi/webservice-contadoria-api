@@ -152,6 +152,10 @@ public class InpcService extends SidraIbgeService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<Inpc> findAll() {
+		return repository.findAll();
+	}
+
 	public Inpc read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

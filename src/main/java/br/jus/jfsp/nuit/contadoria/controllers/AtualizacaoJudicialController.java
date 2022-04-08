@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.AtualizacaoJudicial;
 import br.jus.jfsp.nuit.contadoria.service.AtualizacaoJudicialService;
 import br.jus.jfsp.nuit.contadoria.to.AtualizacaoJudicialTO;
+import br.jus.jfsp.nuit.contadoria.to.AtualizacaoJudicialTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.AtualizacaoJudicialConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -52,6 +53,15 @@ public class AtualizacaoJudicialController {
 	public ResponseEntity<?> importaAtualizacaoJudicial() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<AtualizacaoJudicialTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<AtualizacaoJudicialTO> retorno = atualizacaoJudicialConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

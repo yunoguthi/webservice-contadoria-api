@@ -145,6 +145,10 @@ public class JurosAltService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<JurosAlt> findAll() {
+		return repository.findAll();
+	}
+
 	public JurosAlt read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

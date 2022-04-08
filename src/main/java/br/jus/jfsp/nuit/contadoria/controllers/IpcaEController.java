@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.IpcaE;
 import br.jus.jfsp.nuit.contadoria.service.IpcaEService;
 import br.jus.jfsp.nuit.contadoria.service.IpcaEService;
 import br.jus.jfsp.nuit.contadoria.to.IpcaETO;
+import br.jus.jfsp.nuit.contadoria.to.IpcaETO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IpcaEConverter;
@@ -59,6 +60,15 @@ public class IpcaEController {
 	public ResponseEntity<?> importaIpcaEE() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IpcaETO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IpcaETO> retorno = ipcaEConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

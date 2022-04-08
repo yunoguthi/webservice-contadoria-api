@@ -6,6 +6,7 @@ import br.jus.jfsp.nuit.contadoria.models.SelicMetaCopom;
 import br.jus.jfsp.nuit.contadoria.models.SelicMetaCopom;
 import br.jus.jfsp.nuit.contadoria.service.SelicMetaCopomService;
 import br.jus.jfsp.nuit.contadoria.service.SelicMetaCopomService;
+import br.jus.jfsp.nuit.contadoria.to.JurosAltTO;
 import br.jus.jfsp.nuit.contadoria.to.SelicMetaCopomTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -59,6 +60,15 @@ public class SelicMetaCopomController {
 	public ResponseEntity<?> importaSelicMetaCopom(){
 		service.importa();
 		return ResponseEntity.ok("OK");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<SelicMetaCopomTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<SelicMetaCopomTO> retorno = selicMetaCopomConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

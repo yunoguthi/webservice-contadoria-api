@@ -267,6 +267,10 @@ public class IndicesCondService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<IndicesCond> findAll() {
+		return repository.findAll();
+	}
+
 	public IndicesCond read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

@@ -110,6 +110,10 @@ public class SalarioMinimoService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<SalarioMinimo> findAll() {
+		return repository.findAll();
+	}
+
 	public SalarioMinimo read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

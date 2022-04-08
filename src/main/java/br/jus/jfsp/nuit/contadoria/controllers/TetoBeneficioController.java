@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.TetoBeneficio;
 import br.jus.jfsp.nuit.contadoria.service.TetoBeneficioService;
 import br.jus.jfsp.nuit.contadoria.to.TetoBeneficioTO;
+import br.jus.jfsp.nuit.contadoria.to.TetoBeneficioTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.TetoBeneficioConverter;
@@ -45,6 +46,15 @@ public class TetoBeneficioController {
 		this.service = service;
 		this.tetoBeneficioConverter = tetoBeneficioConverter;
 		this.assembler = assembler;
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<TetoBeneficioTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<TetoBeneficioTO> retorno = tetoBeneficioConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

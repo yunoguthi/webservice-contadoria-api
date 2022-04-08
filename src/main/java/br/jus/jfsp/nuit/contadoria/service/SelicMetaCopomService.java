@@ -100,6 +100,10 @@ public class SelicMetaCopomService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<SelicMetaCopom> findAll() {
+		return repository.findAll();
+	}
+
 	public SelicMetaCopom read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

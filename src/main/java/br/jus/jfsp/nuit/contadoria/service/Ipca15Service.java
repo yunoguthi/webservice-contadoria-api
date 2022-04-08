@@ -128,6 +128,10 @@ public class Ipca15Service extends SidraIbgeService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<Ipca15> findAll() {
+		return repository.findAll();
+	}
+
 	public Ipca15 read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.Ufir;
 import br.jus.jfsp.nuit.contadoria.service.UfirService;
 import br.jus.jfsp.nuit.contadoria.service.UfirService;
 import br.jus.jfsp.nuit.contadoria.to.UfirTO;
+import br.jus.jfsp.nuit.contadoria.to.UfirTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.UfirConverter;
@@ -44,14 +45,14 @@ public class UfirController {
 
 	@Autowired
 	private UfirService service;
-	private final UfirConverter UfirConverter;
+	private final UfirConverter ufirConverter;
 	private final PagedResourcesAssembler assembler;
 
 	public UfirController(UfirService service,
-						  UfirConverter UfirConverter,
+						  UfirConverter ufirConverter,
 						  PagedResourcesAssembler assembler) {
 		this.service = service;
-		this.UfirConverter = UfirConverter;
+		this.ufirConverter = ufirConverter;
 		this.assembler = assembler;
 	}
 	
@@ -61,19 +62,28 @@ public class UfirController {
 		return ResponseEntity.ok("ok");
 	}
 
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<UfirTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<UfirTO> retorno = ufirConverter.toTransferObject(service.findAll());
+		return retorno;
+	}
+	
 	@PostMapping
 	@Hateoas
 	public ResponseEntity<UfirTO> create(@RequestBody UfirTO UfirTO) throws RecordNotFoundException {
-		Ufir Ufir = service.create(UfirConverter.toEntity(UfirTO));
-		UfirTO to = UfirConverter.toTransferObject(Ufir);
+		Ufir Ufir = service.create(ufirConverter.toEntity(UfirTO));
+		UfirTO to = ufirConverter.toTransferObject(Ufir);
 		return RestUtil.createWithLocation(getClass(), to);
 	}
 
 	@PutMapping
 	@Hateoas
 	public ResponseEntity<UfirTO> update(@RequestBody @Valid UfirTO UfirTO) throws RecordNotFoundException {
-		Ufir Ufir = service.update(UfirConverter.toEntity(UfirTO));
-		return ResponseEntity.ok(UfirConverter.toTransferObject(Ufir));
+		Ufir Ufir = service.update(ufirConverter.toEntity(UfirTO));
+		return ResponseEntity.ok(ufirConverter.toTransferObject(Ufir));
 	}
 
 	@DeleteMapping("/{id}")
@@ -85,7 +95,7 @@ public class UfirController {
 	@GetMapping("/{id}")
 	@Hateoas
 	public ResponseEntity<UfirTO> read(@PathVariable("id") Long id) throws RecordNotFoundException {
-		return ResponseEntity.ok(UfirConverter.toTransferObject(service.read(id)));
+		return ResponseEntity.ok(ufirConverter.toTransferObject(service.read(id)));
 	}
 
 	@GetMapping
@@ -96,7 +106,7 @@ public class UfirController {
 			@RequestParam(value = "direction", defaultValue = "asc") String direction,
 			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
 		Pageable pageable = PageRequest.of(page, size, DirectionConverter.from(direction), sortBy);
-		Page<UfirTO> pageResult = UfirConverter.toTransferObject(service.findAll(pageable));
+		Page<UfirTO> pageResult = ufirConverter.toTransferObject(service.findAll(pageable));
 		PagedModel<EntityModel<UfirTO>> pagedModel = assembler.toModel(pageResult);
 		return ResponseEntity.ok(pagedModel);
 	}
@@ -110,7 +120,7 @@ public class UfirController {
 			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy,
 			@PathVariable("like") String like) throws RecordNotFoundException {
 		Pageable pageable = PageRequest.of(page, size, DirectionConverter.from(direction), sortBy);
-		Page<UfirTO> pageResult = UfirConverter.toTransferObject(service.findLike(pageable, like));
+		Page<UfirTO> pageResult = ufirConverter.toTransferObject(service.findLike(pageable, like));
 		PagedModel<EntityModel<UfirTO>> pagedModel = assembler.toModel(pageResult);
 		return ResponseEntity.ok(pagedModel);
 	}

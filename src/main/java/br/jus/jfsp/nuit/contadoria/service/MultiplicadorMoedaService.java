@@ -98,6 +98,10 @@ public class MultiplicadorMoedaService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<MultiplicadorMoeda> findAll() {
+		return repository.findAll();
+	}
+
 	public MultiplicadorMoeda read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

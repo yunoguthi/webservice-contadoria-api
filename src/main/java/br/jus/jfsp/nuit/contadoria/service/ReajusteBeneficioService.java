@@ -59,6 +59,10 @@ public class ReajusteBeneficioService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<ReajusteBeneficio> findAll() {
+		return repository.findAll();
+	}
+
 	public ReajusteBeneficio read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

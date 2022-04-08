@@ -107,6 +107,10 @@ public class SelicMensalService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<SelicMensal> findAll() {
+		return repository.findAll();
+	}
+
 	public SelicMensal read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

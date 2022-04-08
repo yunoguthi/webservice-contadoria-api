@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.AjusteMoeda;
 import br.jus.jfsp.nuit.contadoria.service.AjusteMoedaService;
 import br.jus.jfsp.nuit.contadoria.to.AjusteMoedaTO;
+import br.jus.jfsp.nuit.contadoria.to.InpcTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.AjusteMoedaConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -52,6 +53,15 @@ public class AjusteMoedaController {
 	public ResponseEntity<?> importaAjusteMoeda() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<AjusteMoedaTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<AjusteMoedaTO> retorno = ajusteMoedaConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

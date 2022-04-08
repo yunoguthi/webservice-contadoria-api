@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesSalarios;
 import br.jus.jfsp.nuit.contadoria.service.IndicesSalariosService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesSalariosTO;
+import br.jus.jfsp.nuit.contadoria.to.IndicesSalariosTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesSalariosConverter;
@@ -52,6 +53,15 @@ public class IndicesSalariosController {
 	public ResponseEntity<?> importaIndicesSalarios() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IndicesSalariosTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IndicesSalariosTO> retorno = indicesSalariosConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

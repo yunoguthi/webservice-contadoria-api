@@ -108,6 +108,10 @@ public class TrMensalService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<TrMensal> findAll() {
+		return repository.findAll();
+	}
+
 	public TrMensal read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}
@@ -135,5 +139,6 @@ public class TrMensalService extends SgsBacenService {
 	public Iterable<TrMensal> findByDataBetween(Calendar data1, Calendar data2) {
 		return repository.findAllByDataLessThanEqualAndDataGreaterThanEqual(data2, data1);
 	}
+
 
 }

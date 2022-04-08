@@ -101,6 +101,10 @@ public class TrdService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<Trd> findAll() {
+		return repository.findAll();
+	}
+
 	public Trd read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

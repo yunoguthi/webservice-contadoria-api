@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.SelicMensal;
 import br.jus.jfsp.nuit.contadoria.service.SelicMensalService;
 import br.jus.jfsp.nuit.contadoria.service.SelicMensalService;
 import br.jus.jfsp.nuit.contadoria.to.SelicMensalTO;
+import br.jus.jfsp.nuit.contadoria.to.SelicMensalTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.SelicMensalConverter;
@@ -59,6 +60,15 @@ public class SelicMensalController {
     public ResponseEntity<?> importaSelicMensal(){
         service.importa();
         return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/export")
+    @Hateoas
+    public Iterable<SelicMensalTO> listAll(
+            @RequestParam(value = "direction", defaultValue = "asc") String direction,
+            @RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+        Iterable<SelicMensalTO> retorno = selicMensalConverter.toTransferObject(service.findAll());
+        return retorno;
     }
 
     @PostMapping

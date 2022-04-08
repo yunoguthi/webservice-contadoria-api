@@ -132,6 +132,10 @@ public class IrsmService extends SidraIbgeService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<Irsm> findAll() {
+		return repository.findAll();
+	}
+
 	public Irsm read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

@@ -99,6 +99,10 @@ public class IpcaEService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<IpcaE> findAll() {
+		return repository.findAll();
+	}
+
 	public IpcaE read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

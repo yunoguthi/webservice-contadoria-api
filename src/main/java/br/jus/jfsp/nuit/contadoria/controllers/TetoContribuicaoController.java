@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.TetoContribuicao;
 import br.jus.jfsp.nuit.contadoria.service.TetoContribuicaoService;
 import br.jus.jfsp.nuit.contadoria.to.TetoContribuicaoTO;
+import br.jus.jfsp.nuit.contadoria.to.TetoContribuicaoTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.TetoContribuicaoConverter;
@@ -47,6 +48,15 @@ public class TetoContribuicaoController {
 		this.assembler = assembler;
 	}
 
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<TetoContribuicaoTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<TetoContribuicaoTO> retorno = tetoContribuicaoConverter.toTransferObject(service.findAll());
+		return retorno;
+	}
+	
 	@PostMapping
 	@Hateoas
 	public ResponseEntity<TetoContribuicaoTO> create(@RequestBody TetoContribuicaoTO tetoContribuicaoTO) throws RecordNotFoundException {

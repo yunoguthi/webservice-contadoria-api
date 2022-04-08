@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.Urv;
 import br.jus.jfsp.nuit.contadoria.service.UrvService;
 import br.jus.jfsp.nuit.contadoria.service.UrvService;
 import br.jus.jfsp.nuit.contadoria.to.UrvTO;
+import br.jus.jfsp.nuit.contadoria.to.UrvTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.UrvConverter;
@@ -61,6 +62,15 @@ public class UrvController {
 		return ResponseEntity.ok("ok");
 	}
 
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<UrvTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<UrvTO> retorno = urvConverter.toTransferObject(service.findAll());
+		return retorno;
+	}
+	
 	@PostMapping
 	@Hateoas
 	public ResponseEntity<UrvTO> create(@RequestBody UrvTO urvTO) throws RecordNotFoundException {

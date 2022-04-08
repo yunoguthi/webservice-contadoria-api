@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesConsolidados;
 import br.jus.jfsp.nuit.contadoria.service.IndicesConsolidadosService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesConsolidadosTO;
+import br.jus.jfsp.nuit.contadoria.to.IndicesConsolidadosTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesConsolidadosConverter;
@@ -52,6 +53,15 @@ public class IndicesConsolidadosController {
 	public ResponseEntity<?> importaIndicesConsolidados() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IndicesConsolidadosTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IndicesConsolidadosTO> retorno = indicesConsolidadosConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

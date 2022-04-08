@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.TrMensal;
 import br.jus.jfsp.nuit.contadoria.service.TrMensalService;
 import br.jus.jfsp.nuit.contadoria.service.TrMensalService;
 import br.jus.jfsp.nuit.contadoria.to.TrMensalTO;
+import br.jus.jfsp.nuit.contadoria.to.TrMensalTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.TrMensalConverter;
@@ -61,6 +62,15 @@ public class TrMensalController {
         return ResponseEntity.ok("OK");
     }
 
+    @GetMapping("/export")
+    @Hateoas
+    public Iterable<TrMensalTO> listAll(
+            @RequestParam(value = "direction", defaultValue = "asc") String direction,
+            @RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+        Iterable<TrMensalTO> retorno = trMensalConverter.toTransferObject(service.findAll());
+        return retorno;
+    }
+    
     @PostMapping
     @Hateoas
     public ResponseEntity<TrMensalTO> create(@RequestBody TrMensalTO trMensalTO) throws RecordNotFoundException {

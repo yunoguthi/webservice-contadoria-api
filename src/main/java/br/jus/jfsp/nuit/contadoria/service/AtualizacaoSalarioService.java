@@ -98,6 +98,10 @@ public class AtualizacaoSalarioService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<AtualizacaoSalario> findAll() {
+		return repository.findAll();
+	}
+
 	public AtualizacaoSalario read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

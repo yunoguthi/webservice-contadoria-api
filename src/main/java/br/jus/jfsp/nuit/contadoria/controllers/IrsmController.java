@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.Irsm;
 import br.jus.jfsp.nuit.contadoria.service.IrsmService;
 import br.jus.jfsp.nuit.contadoria.service.IrsmService;
 import br.jus.jfsp.nuit.contadoria.to.IrsmTO;
+import br.jus.jfsp.nuit.contadoria.to.IrsmTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IrsmConverter;
@@ -56,6 +57,15 @@ public class IrsmController {
 		return ResponseEntity.ok("OK");
 	}
 
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IrsmTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IrsmTO> retorno = irsmConverter.toTransferObject(service.findAll());
+		return retorno;
+	}
+	
 	@PostMapping
 	@Hateoas
 	public ResponseEntity<IrsmTO> create(@RequestBody IrsmTO irsmTO) throws RecordNotFoundException {

@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesAtrasados;
 import br.jus.jfsp.nuit.contadoria.service.IndicesAtrasadosService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesAtrasadosTO;
+import br.jus.jfsp.nuit.contadoria.to.IndicesAtrasadosTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesAtrasadosConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -52,6 +53,15 @@ public class IndicesAtrasadosController {
 	public ResponseEntity<?> importaIndicesAtrasados() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IndicesAtrasadosTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IndicesAtrasadosTO> retorno = indicesAtrasadosConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

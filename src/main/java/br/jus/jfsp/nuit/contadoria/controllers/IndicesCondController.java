@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesCond;
 import br.jus.jfsp.nuit.contadoria.service.IndicesCondService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesCondTO;
+import br.jus.jfsp.nuit.contadoria.to.IndicesCondTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesCondConverter;
@@ -52,6 +53,15 @@ public class IndicesCondController {
 	public ResponseEntity<?> importaIndicesCond() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IndicesCondTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IndicesCondTO> retorno = indicesCondConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

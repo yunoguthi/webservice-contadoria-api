@@ -64,6 +64,10 @@ public class SalarioMinimoReferenciaService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<SalarioMinimoReferencia> findAll() {
+		return repository.findAll();
+	}
+
 	public SalarioMinimoReferencia read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

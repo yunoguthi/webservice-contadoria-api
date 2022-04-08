@@ -98,6 +98,10 @@ public class AtualizacaoJudicialService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<AtualizacaoJudicial> findAll() {
+		return repository.findAll();
+	}
+
 	public AtualizacaoJudicial read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

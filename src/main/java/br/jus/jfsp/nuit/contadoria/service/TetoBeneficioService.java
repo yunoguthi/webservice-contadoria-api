@@ -55,6 +55,10 @@ public class TetoBeneficioService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<TetoBeneficio> findAll() {
+		return repository.findAll();
+	}
+
 	public TetoBeneficio read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

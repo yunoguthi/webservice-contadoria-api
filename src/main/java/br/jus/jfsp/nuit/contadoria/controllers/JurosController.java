@@ -6,8 +6,8 @@ import br.jus.jfsp.nuit.contadoria.models.Juros;
 import br.jus.jfsp.nuit.contadoria.service.JurosService;
 import br.jus.jfsp.nuit.contadoria.to.JurosTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
-import br.jus.jfsp.nuit.contadoria.util.converter.JurosConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
+import br.jus.jfsp.nuit.contadoria.util.converter.JurosConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +52,15 @@ public class JurosController {
 	public ResponseEntity<?> importaJuros() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<JurosTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<JurosTO> retorno = jurosConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

@@ -6,6 +6,7 @@ import br.jus.jfsp.nuit.contadoria.models.Inpc;
 import br.jus.jfsp.nuit.contadoria.models.Inpc;
 import br.jus.jfsp.nuit.contadoria.service.InpcService;
 import br.jus.jfsp.nuit.contadoria.service.InpcService;
+import br.jus.jfsp.nuit.contadoria.to.BtnMensalTO;
 import br.jus.jfsp.nuit.contadoria.to.InpcTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.InpcConverter;
@@ -56,6 +57,15 @@ public class InpcController {
 	public ResponseEntity<?> importa() {
 		service.importa();		
 		return ResponseEntity.ok("OK");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<InpcTO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<InpcTO> retorno = inpcConverter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 //	@GetMapping(path = "/{data}")

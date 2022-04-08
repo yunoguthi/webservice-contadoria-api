@@ -99,6 +99,10 @@ public class UfirService extends SgsBacenService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<Ufir> findAll() {
+		return repository.findAll();
+	}
+
 	public Ufir read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

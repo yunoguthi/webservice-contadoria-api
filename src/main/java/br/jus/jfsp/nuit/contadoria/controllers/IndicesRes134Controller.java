@@ -5,6 +5,7 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesRes134;
 import br.jus.jfsp.nuit.contadoria.service.IndicesRes134Service;
 import br.jus.jfsp.nuit.contadoria.to.IndicesRes134TO;
+import br.jus.jfsp.nuit.contadoria.to.IndicesRes134TO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesRes134Converter;
@@ -52,6 +53,15 @@ public class IndicesRes134Controller {
 	public ResponseEntity<?> importaIndicesRes134() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<IndicesRes134TO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<IndicesRes134TO> retorno = indicesRes134Converter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping

@@ -62,6 +62,10 @@ public class TetoContribuicaoService {
 		return repository.findAll(pageable);
 	}
 
+	public Iterable<TetoContribuicao> findAll() {
+		return repository.findAll();
+	}
+
 	public TetoContribuicao read(Long id) throws RecordNotFoundException {
 		return findByIdOrThrowException(id);
 	}

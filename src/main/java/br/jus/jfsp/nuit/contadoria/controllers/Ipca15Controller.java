@@ -4,12 +4,13 @@ import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.Ipca15;
 import br.jus.jfsp.nuit.contadoria.models.Ipca15;
-import br.jus.jfsp.nuit.contadoria.service.InpcService;
 import br.jus.jfsp.nuit.contadoria.service.Ipca15Service;
+import br.jus.jfsp.nuit.contadoria.service.Ipca15Service;
+import br.jus.jfsp.nuit.contadoria.to.Ipca15TO;
 import br.jus.jfsp.nuit.contadoria.to.Ipca15TO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
-import br.jus.jfsp.nuit.contadoria.util.converter.InpcConverter;
+import br.jus.jfsp.nuit.contadoria.util.converter.Ipca15Converter;
 import br.jus.jfsp.nuit.contadoria.util.converter.Ipca15Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,6 +56,15 @@ public class Ipca15Controller {
 	public ResponseEntity<?> importaIpca15() {
 		service.importa();
 		return ResponseEntity.ok("ok");
+	}
+
+	@GetMapping("/export")
+	@Hateoas
+	public Iterable<Ipca15TO> listAll(
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			@RequestParam(value = "sort", defaultValue = "data") String[] sortBy) throws RecordNotFoundException {
+		Iterable<Ipca15TO> retorno = ipca15Converter.toTransferObject(service.findAll());
+		return retorno;
 	}
 
 	@PostMapping
