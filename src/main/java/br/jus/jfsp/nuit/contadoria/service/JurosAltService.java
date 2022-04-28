@@ -7,6 +7,7 @@ import br.jus.jfsp.nuit.contadoria.models.JurosAlt;
 import br.jus.jfsp.nuit.contadoria.models.SelicMetaCopom;
 import br.jus.jfsp.nuit.contadoria.repository.JurosAltRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -101,6 +102,12 @@ public class JurosAltService extends SgsBacenService {
 				SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
 				if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
 					valor = new Double(0.005);
+					System.out.println("SELIC " + ManipulaData.calendarToStringAnoMes(selicMetaCopom.getData()) + " - " + selicMetaCopom.getValor());
+
+					JurosAlt jurosAlt = new JurosAlt();
+					jurosAlt.setData(atualizacaoJudicial.getData());
+					jurosAlt.setValor(valor);
+					repository.save(jurosAlt);
 				} else {
 					BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
 					val = val.plus();
@@ -110,14 +117,16 @@ public class JurosAltService extends SgsBacenService {
 					//valor = valor + 1;
 					//valor = Math.pow(valor.doubleValue(), raiz);
 					//valor = valor -1;
+					try {
+						System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + val.doubleValue());
+						JurosAlt jurosAlt = new JurosAlt();
+						jurosAlt.setData(atualizacaoJudicial.getData());
+						jurosAlt.setValor(selicMetaCopom.getValor()*0.7);
+						repository.save(jurosAlt);
+					} catch (Exception e) {
+					}
 				}
-				try {
-					JurosAlt jurosAlt = new JurosAlt();
-					jurosAlt.setData(atualizacaoJudicial.getData());
-					jurosAlt.setValor(valor);
-					repository.save(jurosAlt);
-				} catch (Exception e) {
-				}
+
 			}
 		}
 	}
