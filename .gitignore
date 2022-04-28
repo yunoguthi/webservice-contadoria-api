@@ -2,7 +2,7 @@ pom.xml
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
-/src/main/resources
+#/src/main/resources
 !**/src/test/**
 
 ### STS ###

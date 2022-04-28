@@ -1,0 +1,56 @@
+server:
+  port: 8081
+  contextPath: /api
+spring:
+  liquibase:
+    change-log: classpath:db/changelog.yaml
+  datasource:
+    url: jdbc:postgresql://localhost:5432/contadoria
+    username: postgres
+    password: 1
+    initialization-mode: always
+    continue-on-error: true
+  jpa:
+    properties:
+      org:
+        hibernate:
+          envers:
+            store_data_at_delete: true
+    hibernate:
+      jdbc:
+        lob:
+          non_contextual_creation: true
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+
+#keycloak:
+#  auth-server-url: http://localhost:8080/auth
+#  realm: predial
+#  resource: predial
+#  public-client: true
+#  bearer-only: true
+#  cors: true
+#  security-constraints[0]:
+#    authRoles[0]: user
+#    authRoles[1]: admin
+#    securityCollections[0]:
+#      methods[0]: GET
+#      patterns[0]: /api/*
+#      patterns[1]: /api/*
+#    securityCollections[1]:
+#      methods[0]: GET
+#      methods[1]: POST
+#      methods[2]: PUT
+#      methods[3]: DELETE
+#      patterns[0]: /api/*
+#  security-constraints[1]:
+#    authRoles[0]: admin
+#    securityCollections[0]:
+#      patterns[0]: /api/*
+#    securityCollections[1]:
+#      methods[0]: POST
+#      methods[1]: PUT
+#      methods[2]: DELETE
+#      patterns[0]: /api/*
+#      patterns[1]: /api/*
+

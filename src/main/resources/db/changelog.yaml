@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0001
+      author: test
+      dbms: postgres
+      runAlways: true
+      changes:
+        - sqlFile:
+            - relativeToChangelogFile: true
+            - path: data.sql
