@@ -3,15 +3,11 @@ package br.jus.jfsp.nuit.contadoria.controllers;
 import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.Inpc;
-import br.jus.jfsp.nuit.contadoria.models.Inpc;
 import br.jus.jfsp.nuit.contadoria.service.InpcService;
-import br.jus.jfsp.nuit.contadoria.service.InpcService;
-import br.jus.jfsp.nuit.contadoria.to.BtnMensalTO;
 import br.jus.jfsp.nuit.contadoria.to.InpcTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.InpcConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
-import br.jus.jfsp.nuit.contadoria.util.converter.InpcConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,10 +25,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -54,9 +48,9 @@ public class InpcController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importa() {
-		service.importa();		
-		return ResponseEntity.ok("OK");
+	public ResponseEntity.BodyBuilder importa() {
+		service.importa();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

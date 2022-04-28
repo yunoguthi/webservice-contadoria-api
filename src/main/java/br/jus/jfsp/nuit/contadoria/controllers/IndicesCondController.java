@@ -5,7 +5,6 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesCond;
 import br.jus.jfsp.nuit.contadoria.service.IndicesCondService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesCondTO;
-import br.jus.jfsp.nuit.contadoria.to.IndicesCondTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesCondConverter;
@@ -50,9 +49,10 @@ public class IndicesCondController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaIndicesCond() {
+	public ResponseEntity.BodyBuilder importaIndicesCond() throws RecordNotFoundException {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		service.calculaAcumulados();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

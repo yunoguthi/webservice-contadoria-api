@@ -5,7 +5,6 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.AtualizacaoSalario;
 import br.jus.jfsp.nuit.contadoria.service.AtualizacaoSalarioService;
 import br.jus.jfsp.nuit.contadoria.to.AtualizacaoSalarioTO;
-import br.jus.jfsp.nuit.contadoria.to.AtualizacaoSalarioTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.AtualizacaoSalarioConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -50,9 +49,9 @@ public class AtualizacaoSalarioController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaAtualizacaoSalario() {
+	public ResponseEntity.BodyBuilder importaAtualizacaoSalario() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

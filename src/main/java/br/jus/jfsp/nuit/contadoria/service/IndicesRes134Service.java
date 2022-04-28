@@ -211,7 +211,7 @@ public class IndicesRes134Service {
 	}
 
 	public Iterable<IndicesRes134> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public IndicesRes134 read(Long id) throws RecordNotFoundException {

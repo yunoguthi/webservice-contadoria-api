@@ -48,6 +48,12 @@ public class TetoContribuicaoController {
 		this.assembler = assembler;
 	}
 
+	@GetMapping("/importa")
+	public ResponseEntity.BodyBuilder importa(){
+		service.updateMoeda();
+		return ResponseEntity.status(200);
+	}
+
 	@GetMapping("/export")
 	@Hateoas
 	public Iterable<TetoContribuicaoTO> listAll(

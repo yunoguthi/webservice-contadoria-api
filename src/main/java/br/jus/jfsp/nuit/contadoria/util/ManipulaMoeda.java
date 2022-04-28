@@ -68,7 +68,7 @@ public class ManipulaMoeda {
 
     public static EMoeda getMoedaCorrente(Calendar calendar) throws DataInvalidaException {
         iniciaMoedas();
-        if ((calendar.after(cruzeiro) && calendar.before(cruzeiroCorteCentavos))) {
+        if (calendar.before(cruzeiroCorteCentavos)) {
             return EMoeda.CRUZEIRO;
         } else if ((calendar.after(cruzeiroCorteCentavos) && calendar.before(cruzeiroNovo))) {
             return EMoeda.CRUZEIRO_CORTE_CENTAVOS;

@@ -3,10 +3,7 @@ package br.jus.jfsp.nuit.contadoria.controllers;
 import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
-import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
 import br.jus.jfsp.nuit.contadoria.service.SalarioMinimoService;
-import br.jus.jfsp.nuit.contadoria.service.SalarioMinimoService;
-import br.jus.jfsp.nuit.contadoria.to.SalarioMinimoTO;
 import br.jus.jfsp.nuit.contadoria.to.SalarioMinimoTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -28,15 +25,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -57,9 +48,10 @@ public class SalarioMinimoController {
 	}
 	
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaSM(){
+	public ResponseEntity.BodyBuilder importaSM(){
 		service.importa();
-		return ResponseEntity.ok("ok");
+		service.updateMoeda();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

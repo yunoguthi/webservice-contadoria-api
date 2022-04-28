@@ -3,10 +3,7 @@ package br.jus.jfsp.nuit.contadoria.controllers;
 import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.Irsm;
-import br.jus.jfsp.nuit.contadoria.models.Irsm;
 import br.jus.jfsp.nuit.contadoria.service.IrsmService;
-import br.jus.jfsp.nuit.contadoria.service.IrsmService;
-import br.jus.jfsp.nuit.contadoria.to.IrsmTO;
 import br.jus.jfsp.nuit.contadoria.to.IrsmTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -52,9 +48,9 @@ public class IrsmController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importa() {
-		service.importa();		
-		return ResponseEntity.ok("OK");
+	public ResponseEntity.BodyBuilder importa() {
+		service.importa();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

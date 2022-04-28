@@ -5,16 +5,18 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesConsolidados;
 import br.jus.jfsp.nuit.contadoria.service.IndicesConsolidadosService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesConsolidadosTO;
-import br.jus.jfsp.nuit.contadoria.to.IndicesConsolidadosTO;
+import br.jus.jfsp.nuit.contadoria.util.ManipulaArquivo;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesConsolidadosConverter;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,9 +27,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -50,9 +56,10 @@ public class IndicesConsolidadosController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaIndicesConsolidados() {
+	public ResponseEntity.BodyBuilder importaIndicesConsolidados() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		service.mostraCSV();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")
@@ -116,6 +123,19 @@ public class IndicesConsolidadosController {
 		Page<IndicesConsolidadosTO> pageResult = indicesConsolidadosConverter.toTransferObject(service.findLike(pageable, like));
 		PagedModel<EntityModel<IndicesConsolidadosTO>> pagedModel = assembler.toModel(pageResult);
 		return ResponseEntity.ok(pagedModel);
+	}
+
+	@GetMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@PathVariable String filename) throws IOException {
+		Resource file = ManipulaArquivo.download("", "consolidados.csv");
+		Path path = file.getFile()
+				.toPath();
+
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
 	}
 
 	//	@GetMapping(path = "/{data}")

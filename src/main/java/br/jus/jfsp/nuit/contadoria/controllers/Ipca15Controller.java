@@ -3,14 +3,10 @@ package br.jus.jfsp.nuit.contadoria.controllers;
 import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.Ipca15;
-import br.jus.jfsp.nuit.contadoria.models.Ipca15;
 import br.jus.jfsp.nuit.contadoria.service.Ipca15Service;
-import br.jus.jfsp.nuit.contadoria.service.Ipca15Service;
-import br.jus.jfsp.nuit.contadoria.to.Ipca15TO;
 import br.jus.jfsp.nuit.contadoria.to.Ipca15TO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
-import br.jus.jfsp.nuit.contadoria.util.converter.Ipca15Converter;
 import br.jus.jfsp.nuit.contadoria.util.converter.Ipca15Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +25,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -53,9 +48,9 @@ public class Ipca15Controller {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaIpca15() {
+	public ResponseEntity.BodyBuilder importaIpca15() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

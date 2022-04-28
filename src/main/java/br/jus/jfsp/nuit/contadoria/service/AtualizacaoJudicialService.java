@@ -99,7 +99,7 @@ public class AtualizacaoJudicialService extends SgsBacenService {
 	}
 
 	public Iterable<AtualizacaoJudicial> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public AtualizacaoJudicial read(Long id) throws RecordNotFoundException {

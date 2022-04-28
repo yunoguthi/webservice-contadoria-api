@@ -5,7 +5,6 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesSalarios;
 import br.jus.jfsp.nuit.contadoria.service.IndicesSalariosService;
 import br.jus.jfsp.nuit.contadoria.to.IndicesSalariosTO;
-import br.jus.jfsp.nuit.contadoria.to.IndicesSalariosTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesSalariosConverter;
@@ -50,9 +49,10 @@ public class IndicesSalariosController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaIndicesSalarios() {
+	public ResponseEntity.BodyBuilder importaIndicesSalarios() throws RecordNotFoundException {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		service.calculaAcumulados();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

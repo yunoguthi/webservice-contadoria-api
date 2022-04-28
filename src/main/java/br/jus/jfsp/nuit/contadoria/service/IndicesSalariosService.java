@@ -202,7 +202,7 @@ public class IndicesSalariosService {
 	}
 
 	public Iterable<IndicesSalarios> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public IndicesSalarios read(Long id) throws RecordNotFoundException {

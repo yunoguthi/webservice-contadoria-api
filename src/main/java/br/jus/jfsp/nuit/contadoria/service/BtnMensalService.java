@@ -1,6 +1,5 @@
 package br.jus.jfsp.nuit.contadoria.service;
 
-import br.jus.jfsp.nuit.contadoria.controllers.BtnMensalController;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.BtnMensal;
 import br.jus.jfsp.nuit.contadoria.repository.BtnMensalRepository;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -99,7 +99,7 @@ public class BtnMensalService extends SgsBacenService {
 	}
 
 	public Iterable<BtnMensal> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public BtnMensal read(Long id) throws RecordNotFoundException {

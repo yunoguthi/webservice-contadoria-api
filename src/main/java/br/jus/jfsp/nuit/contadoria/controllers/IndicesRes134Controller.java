@@ -5,7 +5,6 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.IndicesRes134;
 import br.jus.jfsp.nuit.contadoria.service.IndicesRes134Service;
 import br.jus.jfsp.nuit.contadoria.to.IndicesRes134TO;
-import br.jus.jfsp.nuit.contadoria.to.IndicesRes134TO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.IndicesRes134Converter;
@@ -50,9 +49,10 @@ public class IndicesRes134Controller {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaIndicesRes134() {
+	public ResponseEntity.BodyBuilder importaIndicesRes134() throws RecordNotFoundException {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		service.calculaAcumulados();
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

@@ -268,7 +268,7 @@ public class IndicesCondService {
 	}
 
 	public Iterable<IndicesCond> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public IndicesCond read(Long id) throws RecordNotFoundException {

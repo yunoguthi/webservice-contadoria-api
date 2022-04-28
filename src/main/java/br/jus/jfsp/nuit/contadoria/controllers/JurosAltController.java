@@ -4,7 +4,6 @@ import br.jus.jfsp.nuit.contadoria.aspect.Hateoas;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.JurosAlt;
 import br.jus.jfsp.nuit.contadoria.service.JurosAltService;
-import br.jus.jfsp.nuit.contadoria.to.JurosTO;
 import br.jus.jfsp.nuit.contadoria.to.JurosAltTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -50,9 +49,9 @@ public class JurosAltController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaJurosAlt() {
+	public ResponseEntity.BodyBuilder importaJurosAlt() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

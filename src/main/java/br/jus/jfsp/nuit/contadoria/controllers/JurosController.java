@@ -49,9 +49,9 @@ public class JurosController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaJuros() {
+	public ResponseEntity.BodyBuilder importaJuros() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

@@ -3,22 +3,15 @@ package br.jus.jfsp.nuit.contadoria.service;
 import br.jus.jfsp.nuit.contadoria.exception.DataInvalidaException;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.TetoContribuicao;
-import br.jus.jfsp.nuit.contadoria.models.TetoContribuicao;
 import br.jus.jfsp.nuit.contadoria.repository.TetoContribuicaoRepository;
-import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaMoeda;
-import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Optional;
 
 @Service
@@ -33,6 +26,18 @@ public class TetoContribuicaoService {
 	@Autowired
 	private UrlReaderService urlReader;
 
+	public void updateMoeda() {
+		Iterable<TetoContribuicao> listTetoContribuicao = findAll();
+		for (TetoContribuicao teto : listTetoContribuicao) {
+			try {
+				teto.setMoeda(ManipulaMoeda.getMoedaCorrente(teto.getData()));
+			} catch (DataInvalidaException e1) {
+				e1.printStackTrace();
+			}
+			repository.save(teto);
+		}
+	}
+	
 	public TetoContribuicao create(TetoContribuicao tetoContribuicao) {
 		return repository.save(tetoContribuicao);
 	}

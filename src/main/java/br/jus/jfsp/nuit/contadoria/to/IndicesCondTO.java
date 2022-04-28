@@ -30,6 +30,8 @@ public class IndicesCondTO
         implements ApplyHateoas<IndicesCondTO>, Serializable {
 
     private Double indice;
+    private Double indiceAtrasado;
+
     private String descricao;
 
     public IndicesCondTO apply() throws RecordNotFoundException {

@@ -222,7 +222,7 @@ public class IndicesAtrasadosService {
 	}
 
 	public Iterable<IndicesAtrasados> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public IndicesAtrasados read(Long id) throws RecordNotFoundException {

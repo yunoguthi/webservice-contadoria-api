@@ -5,7 +5,6 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.AtualizacaoJudicial;
 import br.jus.jfsp.nuit.contadoria.service.AtualizacaoJudicialService;
 import br.jus.jfsp.nuit.contadoria.to.AtualizacaoJudicialTO;
-import br.jus.jfsp.nuit.contadoria.to.AtualizacaoJudicialTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.AtualizacaoJudicialConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -50,9 +49,9 @@ public class AtualizacaoJudicialController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaAtualizacaoJudicial() {
+	public ResponseEntity.BodyBuilder importaAtualizacaoJudicial() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

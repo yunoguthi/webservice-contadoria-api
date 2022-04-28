@@ -36,9 +36,21 @@ public class SalarioMinimoService extends SgsBacenService {
 
 	@Autowired
 	private UrlReaderService urlReader;
+
+	public void updateMoeda() {
+		Iterable<SalarioMinimo> listSalarioMinimo = findAll();
+		for (SalarioMinimo sm : listSalarioMinimo) {
+			try {
+				sm.setMoeda(ManipulaMoeda.getMoedaCorrente(sm.getData()));
+			} catch (DataInvalidaException e1) {
+				e1.printStackTrace();
+			}
+			repository.save(sm);
+		}
+	}
 	
 	public void importa() {
-			
+
 		Calendar dataInicial = repository.findMaxData();
 		
 		String conteudoUrl = "";

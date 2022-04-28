@@ -54,9 +54,9 @@ public class BtnMensalController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaBtnMensal() {
+	public ResponseEntity.BodyBuilder importaBtnMensal() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@PostMapping

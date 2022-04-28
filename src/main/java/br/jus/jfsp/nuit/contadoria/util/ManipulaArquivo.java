@@ -1,5 +1,8 @@
 package br.jus.jfsp.nuit.contadoria.util;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +11,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 
 public class ManipulaArquivo {
@@ -69,6 +75,20 @@ public class ManipulaArquivo {
            } catch (Exception e) {}
         }
         br.close();
+    }
+
+    public static Resource download(String filePath, String filename) {
+        try {
+            Path file = Paths.get(filePath).resolve(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

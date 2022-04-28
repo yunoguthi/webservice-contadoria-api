@@ -288,7 +288,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 			} else {
 				indicesConsolidados.setData(ipcaE.getData());
 			}
-			indicesConsolidados.setIpca(ipcaE.getValor());
+			indicesConsolidados.setIpcaE(ipcaE.getValor());
 			try {
 				repository.save(indicesConsolidados);
 			} catch (Exception e) {}
@@ -426,7 +426,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 	}
 
 	public Iterable<IndicesConsolidados> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by("data"));
 	}
 
 	public IndicesConsolidados read(Long id) throws RecordNotFoundException {

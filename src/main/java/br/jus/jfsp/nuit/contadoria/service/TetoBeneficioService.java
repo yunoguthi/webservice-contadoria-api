@@ -2,6 +2,7 @@ package br.jus.jfsp.nuit.contadoria.service;
 
 import br.jus.jfsp.nuit.contadoria.exception.DataInvalidaException;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
+import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
 import br.jus.jfsp.nuit.contadoria.models.TetoBeneficio;
 import br.jus.jfsp.nuit.contadoria.repository.TetoBeneficioRepository;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaMoeda;
@@ -25,6 +26,18 @@ public class TetoBeneficioService {
 
 	@Autowired
 	private UrlReaderService urlReader;
+
+	public void updateMoeda() {
+		Iterable<TetoBeneficio> listTetoBeneficio = findAll();
+		for (TetoBeneficio teto : listTetoBeneficio) {
+			try {
+				teto.setMoeda(ManipulaMoeda.getMoedaCorrente(teto.getData()));
+			} catch (DataInvalidaException e1) {
+				e1.printStackTrace();
+			}
+			repository.save(teto);
+		}
+	}
 
 	public TetoBeneficio create(TetoBeneficio tetoBeneficio) {
 		return repository.save(tetoBeneficio);

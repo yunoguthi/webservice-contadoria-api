@@ -5,7 +5,6 @@ import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.MultiplicadorMoeda;
 import br.jus.jfsp.nuit.contadoria.service.MultiplicadorMoedaService;
 import br.jus.jfsp.nuit.contadoria.to.MultiplicadorMoedaTO;
-import br.jus.jfsp.nuit.contadoria.to.MultiplicadorMoedaTO;
 import br.jus.jfsp.nuit.contadoria.util.controller.RestUtil;
 import br.jus.jfsp.nuit.contadoria.util.converter.MultiplicadorMoedaConverter;
 import br.jus.jfsp.nuit.contadoria.util.converter.DirectionConverter;
@@ -50,9 +49,9 @@ public class MultiplicadorMoedaController {
 	}
 
 	@GetMapping("/importa")
-	public ResponseEntity<?> importaMultiplicadorMoeda() {
+	public ResponseEntity.BodyBuilder importaMultiplicadorMoeda() {
 		service.importa();
-		return ResponseEntity.ok("ok");
+		return ResponseEntity.status(200);
 	}
 
 	@GetMapping("/export")

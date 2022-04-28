@@ -30,6 +30,8 @@ public class IndicesSalariosTO
         implements ApplyHateoas<IndicesSalariosTO>, Serializable {
 
     private Double indice;
+    private Double indiceAtrasado;
+
     private String descricao;
 
     public IndicesSalariosTO apply() throws RecordNotFoundException {
