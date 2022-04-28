@@ -91,7 +91,10 @@ public class JurosAltService extends SgsBacenService {
 			if (atualizacaoJudicial.getData().compareTo(janeiro2002) <= 0) {
 				valor = new Double(0.005);
 				try {
-					repository.save(new JurosAlt(valor, atualizacaoJudicial.getData()));
+					JurosAlt jurosAlt = new JurosAlt();
+					jurosAlt.setData(atualizacaoJudicial.getData());
+					jurosAlt.setValor(valor);
+					repository.save(jurosAlt);
 				} catch (Exception e) {
 				}
 			} else {
@@ -109,7 +112,10 @@ public class JurosAltService extends SgsBacenService {
 					//valor = valor -1;
 				}
 				try {
-					repository.save(new JurosAlt(valor.doubleValue(), atualizacaoJudicial.getData()));
+					JurosAlt jurosAlt = new JurosAlt();
+					jurosAlt.setData(atualizacaoJudicial.getData());
+					jurosAlt.setValor(valor);
+					repository.save(jurosAlt);
 				} catch (Exception e) {
 				}
 			}
