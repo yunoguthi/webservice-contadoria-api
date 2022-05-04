@@ -62,6 +62,18 @@ public class IndicesCondService {
 		Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
 		Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
 
+		Calendar janeiro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar fevereiro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar marco2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar abril2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar maio2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar junho2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar julho2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar agosto2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar setembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+		Calendar outubro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+
+
 		// IPCA_E
 
 		BigDecimal indiceAnterior = null;
@@ -70,12 +82,16 @@ public class IndicesCondService {
 			BigDecimal indice = new BigDecimal(ipcaE.getValor()).divide(new BigDecimal(100.0));
 			indice = indice.add(new BigDecimal(1.0));
 			if (ipcaE.getData().compareTo(dezembro1991) == 0 ||
-					ipcaE.getData().compareTo(dezembro2000) >= 0) {
+					ipcaE.getData().compareTo(dezembro2000) > 0) {
 				try {
 					if (indiceAnterior != null) {
 						repository.save(new IndicesCond(indice, ipcaE.getObservacao(), ipcaE.getData()));
 					}
 				} catch (Exception e) {}
+			}
+			if (ipcaE.getData().compareTo(dezembro2000) == 0) {
+				BigDecimal dezembro = new BigDecimal(1.06035557011);
+				repository.save(new IndicesCond(dezembro, "", ipcaE.getData()));
 			}
 			indiceAnterior = indice;
 		}
