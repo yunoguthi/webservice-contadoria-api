@@ -97,268 +97,268 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 	private IndicesConsolidadosRepository repository;
 
 	public void importa() {
+		try {
+			// SALÁRIO MÍNIMO
 
-		// SALÁRIO MÍNIMO
-
-		Iterable<SalarioMinimo> listSalarioMinimo = salarioMinimoService.getAll(Sort.by("data").descending());
-		for (SalarioMinimo salarioMinimo: listSalarioMinimo) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(salarioMinimo.getData())) {
-				indicesConsolidados = findByData(salarioMinimo.getData()).get();
-			} else {
-				indicesConsolidados.setData(salarioMinimo.getData());
+			Iterable<SalarioMinimo> listSalarioMinimo = salarioMinimoService.getAll(Sort.by("data").descending());
+			for (SalarioMinimo salarioMinimo: listSalarioMinimo) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(salarioMinimo.getData())) {
+					indicesConsolidados = findByData(salarioMinimo.getData()).get();
+				} else {
+					indicesConsolidados.setData(salarioMinimo.getData());
+				}
+				indicesConsolidados.setSalarioMinimo(salarioMinimo.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setSalarioMinimo(salarioMinimo.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// SALÁRIO MÍNIMO REF
+			// SALÁRIO MÍNIMO REF
 
-		Iterable<SalarioMinimoReferencia> listSalarioMinimoReferencia = salarioMinimoReferenciaService.getAll(Sort.by("data").descending());
-		for (SalarioMinimoReferencia salarioMinimoReferencia: listSalarioMinimoReferencia) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(salarioMinimoReferencia.getData())) {
-				indicesConsolidados = findByData(salarioMinimoReferencia.getData()).get();
-			} else {
-				indicesConsolidados.setData(salarioMinimoReferencia.getData());
+			Iterable<SalarioMinimoReferencia> listSalarioMinimoReferencia = salarioMinimoReferenciaService.getAll(Sort.by("data").descending());
+			for (SalarioMinimoReferencia salarioMinimoReferencia: listSalarioMinimoReferencia) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(salarioMinimoReferencia.getData())) {
+					indicesConsolidados = findByData(salarioMinimoReferencia.getData()).get();
+				} else {
+					indicesConsolidados.setData(salarioMinimoReferencia.getData());
+				}
+				indicesConsolidados.setSalarioMinimoReferencia(salarioMinimoReferencia.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setSalarioMinimoReferencia(salarioMinimoReferencia.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// TETO CONTRIBUIÇÃO
+			// TETO CONTRIBUIÇÃO
 
-		Iterable<TetoContribuicao> listTetoContribuicao = tetoContribuicaoService.getAll(Sort.by("data").descending());
-		for (TetoContribuicao tetoContribuicao: listTetoContribuicao) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(tetoContribuicao.getData())) {
-				indicesConsolidados = findByData(tetoContribuicao.getData()).get();
-			} else {
-				indicesConsolidados.setData(tetoContribuicao.getData());
+			Iterable<TetoContribuicao> listTetoContribuicao = tetoContribuicaoService.getAll(Sort.by("data").descending());
+			for (TetoContribuicao tetoContribuicao: listTetoContribuicao) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(tetoContribuicao.getData())) {
+					indicesConsolidados = findByData(tetoContribuicao.getData()).get();
+				} else {
+					indicesConsolidados.setData(tetoContribuicao.getData());
+				}
+				indicesConsolidados.setTetoContribuicao(tetoContribuicao.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setTetoContribuicao(tetoContribuicao.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// TETO BENEFÍCIO
+			// TETO BENEFÍCIO
 
-		Iterable<TetoBeneficio> listTetoBeneficio = tetoBeneficioService.getAll(Sort.by("data").descending());
-		for (TetoBeneficio tetoBeneficio: listTetoBeneficio) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(tetoBeneficio.getData())) {
-				indicesConsolidados = findByData(tetoBeneficio.getData()).get();
-			} else {
-				indicesConsolidados.setData(tetoBeneficio.getData());
+			Iterable<TetoBeneficio> listTetoBeneficio = tetoBeneficioService.getAll(Sort.by("data").descending());
+			for (TetoBeneficio tetoBeneficio: listTetoBeneficio) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(tetoBeneficio.getData())) {
+					indicesConsolidados = findByData(tetoBeneficio.getData()).get();
+				} else {
+					indicesConsolidados.setData(tetoBeneficio.getData());
+				}
+				indicesConsolidados.setTetoBeneficio(tetoBeneficio.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setTetoBeneficio(tetoBeneficio.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// REAJUSTE BENEFÍCIOS
+			// REAJUSTE BENEFÍCIOS
 
-		Iterable<ReajusteBeneficio> listReajusteBeneficio = reajusteBeneficioService.getAll(Sort.by("data").descending());
-		for (ReajusteBeneficio reajusteBeneficio: listReajusteBeneficio) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(reajusteBeneficio.getData())) {
-				indicesConsolidados = findByData(reajusteBeneficio.getData()).get();
-			} else {
-				indicesConsolidados.setData(reajusteBeneficio.getData());
+			Iterable<ReajusteBeneficio> listReajusteBeneficio = reajusteBeneficioService.getAll(Sort.by("data").descending());
+			for (ReajusteBeneficio reajusteBeneficio: listReajusteBeneficio) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(reajusteBeneficio.getData())) {
+					indicesConsolidados = findByData(reajusteBeneficio.getData()).get();
+				} else {
+					indicesConsolidados.setData(reajusteBeneficio.getData());
+				}
+				indicesConsolidados.setIntegral(reajusteBeneficio.getIntegral());
+				indicesConsolidados.setProporcional(reajusteBeneficio.getProporcional());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIntegral(reajusteBeneficio.getIntegral());
-			indicesConsolidados.setProporcional(reajusteBeneficio.getProporcional());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// MULTIPLICADOR MOEDA
+			// MULTIPLICADOR MOEDA
 
-		Iterable<MultiplicadorMoeda> listMultiplicadorMoeda = multiplicadorMoedaService.getAll(Sort.by("data").descending());
-		for (MultiplicadorMoeda multiplicadorMoeda: listMultiplicadorMoeda) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(multiplicadorMoeda.getData())) {
-				indicesConsolidados = findByData(multiplicadorMoeda.getData()).get();
-			} else {
-				indicesConsolidados.setData(multiplicadorMoeda.getData());
+			Iterable<MultiplicadorMoeda> listMultiplicadorMoeda = multiplicadorMoedaService.getAll(Sort.by("data").descending());
+			for (MultiplicadorMoeda multiplicadorMoeda: listMultiplicadorMoeda) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(multiplicadorMoeda.getData())) {
+					indicesConsolidados = findByData(multiplicadorMoeda.getData()).get();
+				} else {
+					indicesConsolidados.setData(multiplicadorMoeda.getData());
+				}
+				indicesConsolidados.setMultiplicadorMoeda(multiplicadorMoeda.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setMultiplicadorMoeda(multiplicadorMoeda.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// AJUSTE MOEDA
+			// AJUSTE MOEDA
 
-		Iterable<AjusteMoeda> listAjusteMoeda = ajusteMoedaService.getAll(Sort.by("data").descending());
-		for (AjusteMoeda ajusteMoeda: listAjusteMoeda) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(ajusteMoeda.getData())) {
-				indicesConsolidados = findByData(ajusteMoeda.getData()).get();
-			} else {
-				indicesConsolidados.setData(ajusteMoeda.getData());
+			Iterable<AjusteMoeda> listAjusteMoeda = ajusteMoedaService.getAll(Sort.by("data").descending());
+			for (AjusteMoeda ajusteMoeda: listAjusteMoeda) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(ajusteMoeda.getData())) {
+					indicesConsolidados = findByData(ajusteMoeda.getData()).get();
+				} else {
+					indicesConsolidados.setData(ajusteMoeda.getData());
+				}
+				indicesConsolidados.setAjusteMoeda(ajusteMoeda.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setAjusteMoeda(ajusteMoeda.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// ÍNDICES ATRASADOS
+			// ÍNDICES ATRASADOS
 
-		Iterable<IndicesAtrasados> listIndicesAtrasados = indicesAtrasadosService.getAll(Sort.by("data").descending());
-		for (IndicesAtrasados indicesAtrasados: listIndicesAtrasados) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(indicesAtrasados.getData())) {
-				indicesConsolidados = findByData(indicesAtrasados.getData()).get();
-			} else {
-				indicesConsolidados.setData(indicesAtrasados.getData());
+			Iterable<IndicesAtrasados> listIndicesAtrasados = indicesAtrasadosService.getAll(Sort.by("data").descending());
+			for (IndicesAtrasados indicesAtrasados: listIndicesAtrasados) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(indicesAtrasados.getData())) {
+					indicesConsolidados = findByData(indicesAtrasados.getData()).get();
+				} else {
+					indicesConsolidados.setData(indicesAtrasados.getData());
+				}
+				indicesConsolidados.setIndiceAcumulado(indicesAtrasados.getIndiceAtrasado());
+				indicesConsolidados.setIndiceAtualizado(indicesAtrasados.getIndice());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIndiceAcumulado(indicesAtrasados.getIndiceAtrasado());
-			indicesConsolidados.setIndiceAtualizado(indicesAtrasados.getIndice());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// ÍNDICES RES 134
+			// ÍNDICES RES 134
 
-		Iterable<IndicesRes134> listIndicesRes134 = indicesRes134Service.getAll(Sort.by("data").descending());
-		for (IndicesRes134 indicesRes134: listIndicesRes134) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(indicesRes134.getData())) {
-				indicesConsolidados = findByData(indicesRes134.getData()).get();
-			} else {
-				indicesConsolidados.setData(indicesRes134.getData());
+			Iterable<IndicesRes134> listIndicesRes134 = indicesRes134Service.getAll(Sort.by("data").descending());
+			for (IndicesRes134 indicesRes134: listIndicesRes134) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(indicesRes134.getData())) {
+					indicesConsolidados = findByData(indicesRes134.getData()).get();
+				} else {
+					indicesConsolidados.setData(indicesRes134.getData());
+				}
+				indicesConsolidados.setIndiceRes134(indicesRes134.getIndice());
+				indicesConsolidados.setIndiceRes134Acumulado(indicesRes134.getIndiceAtrasado());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIndiceRes134(indicesRes134.getIndice());
-			indicesConsolidados.setIndiceRes134Acumulado(indicesRes134.getIndiceAtrasado());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// ÍNDICES SALÁRIOS
+			// ÍNDICES SALÁRIOS
 
-		Iterable<IndicesSalarios> listIndicesSalarios = indicesSalariosService.getAll(Sort.by("data").descending());
-		for (IndicesSalarios indicesSalarios: listIndicesSalarios) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(indicesSalarios.getData())) {
-				indicesConsolidados = findByData(indicesSalarios.getData()).get();
-			} else {
-				indicesConsolidados.setData(indicesSalarios.getData());
+			Iterable<IndicesSalarios> listIndicesSalarios = indicesSalariosService.getAll(Sort.by("data").descending());
+			for (IndicesSalarios indicesSalarios: listIndicesSalarios) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(indicesSalarios.getData())) {
+					indicesConsolidados = findByData(indicesSalarios.getData()).get();
+				} else {
+					indicesConsolidados.setData(indicesSalarios.getData());
+				}
+				indicesConsolidados.setIndiceSalarios(indicesSalarios.getIndice());
+				indicesConsolidados.setIndiceSalariosAcumulado(indicesSalarios.getIndiceAtrasado());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIndiceSalarios(indicesSalarios.getIndice());
-			indicesConsolidados.setIndiceSalariosAcumulado(indicesSalarios.getIndiceAtrasado());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// IPCA
+			// IPCA
 
-		Iterable<Ipca> listIpca = ipcaService.getAll(Sort.by("data").descending());
-		for (Ipca ipca: listIpca) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(ipca.getData())) {
-				indicesConsolidados = findByData(ipca.getData()).get();
-			} else {
-				indicesConsolidados.setData(ipca.getData());
+			Iterable<Ipca> listIpca = ipcaService.getAll(Sort.by("data").descending());
+			for (Ipca ipca: listIpca) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(ipca.getData())) {
+					indicesConsolidados = findByData(ipca.getData()).get();
+				} else {
+					indicesConsolidados.setData(ipca.getData());
+				}
+				indicesConsolidados.setIpca(ipca.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIpca(ipca.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// IPCA E
+			// IPCA E
 
-		Iterable<IpcaE> listIpcaE = ipcaEService.getAll(Sort.by("data").descending());
-		for (IpcaE ipcaE: listIpcaE) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(ipcaE.getData())) {
-				indicesConsolidados = findByData(ipcaE.getData()).get();
-			} else {
-				indicesConsolidados.setData(ipcaE.getData());
+			Iterable<IpcaE> listIpcaE = ipcaEService.getAll(Sort.by("data").descending());
+			for (IpcaE ipcaE: listIpcaE) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(ipcaE.getData())) {
+					indicesConsolidados = findByData(ipcaE.getData()).get();
+				} else {
+					indicesConsolidados.setData(ipcaE.getData());
+				}
+				indicesConsolidados.setIpcaE(ipcaE.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIpcaE(ipcaE.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// ÍNDICES COND
+			// ÍNDICES COND
 
-		Iterable<IndicesCond> listIndicesCond = indicesCondService.getAll(Sort.by("data").descending());
-		for (IndicesCond indicesCond: listIndicesCond) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(indicesCond.getData())) {
-				indicesConsolidados = findByData(indicesCond.getData()).get();
-			} else {
-				indicesConsolidados.setData(indicesCond.getData());
+			Iterable<IndicesCond> listIndicesCond = indicesCondService.getAll(Sort.by("data").descending());
+			for (IndicesCond indicesCond: listIndicesCond) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(indicesCond.getData())) {
+					indicesConsolidados = findByData(indicesCond.getData()).get();
+				} else {
+					indicesConsolidados.setData(indicesCond.getData());
+				}
+				indicesConsolidados.setIndiceCondenatorias(indicesCond.getIndice());
+				indicesConsolidados.setIndiceCondenatoriasAcumulado(indicesCond.getIndiceAtrasado());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setIndiceCondenatorias(indicesCond.getIndice());
-			indicesConsolidados.setIndiceCondenatoriasAcumulado(indicesCond.getIndiceAtrasado());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// SELIC
+			// SELIC
 
-		Iterable<SelicMensal> listSelicMensal = selicMensalService.getAll(Sort.by("data").descending());
-		for (SelicMensal selicMensal: listSelicMensal) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(selicMensal.getData())) {
-				indicesConsolidados = findByData(selicMensal.getData()).get();
-			} else {
-				indicesConsolidados.setData(selicMensal.getData());
+			Iterable<SelicMensal> listSelicMensal = selicMensalService.getAll(Sort.by("data").descending());
+			for (SelicMensal selicMensal: listSelicMensal) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(selicMensal.getData())) {
+					indicesConsolidados = findByData(selicMensal.getData()).get();
+				} else {
+					indicesConsolidados.setData(selicMensal.getData());
+				}
+				indicesConsolidados.setSelic(selicMensal.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setSelic(selicMensal.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// JUROS
+			// JUROS
 
-		Iterable<Juros> listJuros = jurosService.getAll(Sort.by("data").descending());
-		for (Juros juros: listJuros) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(juros.getData())) {
-				indicesConsolidados = findByData(juros.getData()).get();
-			} else {
-				indicesConsolidados.setData(juros.getData());
+			Iterable<Juros> listJuros = jurosService.getAll(Sort.by("data").descending());
+			for (Juros juros: listJuros) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(juros.getData())) {
+					indicesConsolidados = findByData(juros.getData()).get();
+				} else {
+					indicesConsolidados.setData(juros.getData());
+				}
+				indicesConsolidados.setJuros(juros.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setJuros(juros.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
 
-		// JUROS ALT
+			// JUROS ALT
 
-		Iterable<JurosAlt> listJurosAlt = jurosAltService.getAll(Sort.by("data").descending());
-		for (JurosAlt jurosAlt: listJurosAlt) {
-			IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-			if (repository.existsByData(jurosAlt.getData())) {
-				indicesConsolidados = findByData(jurosAlt.getData()).get();
-			} else {
-				indicesConsolidados.setData(jurosAlt.getData());
+			Iterable<JurosAlt> listJurosAlt = jurosAltService.getAll(Sort.by("data").descending());
+			for (JurosAlt jurosAlt: listJurosAlt) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				if (repository.existsByData(jurosAlt.getData())) {
+					indicesConsolidados = findByData(jurosAlt.getData()).get();
+				} else {
+					indicesConsolidados.setData(jurosAlt.getData());
+				}
+				indicesConsolidados.setJurosAlt(jurosAlt.getValor());
+				try {
+					repository.save(indicesConsolidados);
+				} catch (Exception e) {}
 			}
-			indicesConsolidados.setJurosAlt(jurosAlt.getValor());
-			try {
-				repository.save(indicesConsolidados);
-			} catch (Exception e) {}
-		}
-
+		} catch (Exception e) {}
 	}
 
 	public void mostraCSV() {

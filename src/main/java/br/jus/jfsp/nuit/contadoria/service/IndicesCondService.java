@@ -56,111 +56,119 @@ public class IndicesCondService {
 	private IndicesSalariosService indicesSalariosService;
 
 	public void importa() {
+		try {
+			Calendar dezembro1991 = ManipulaData.getCalendar("1991-12-01", ManipulaData.ANO_MES_DIA);
+			Calendar dezembro2000 = ManipulaData.getCalendar("2000-12-01", ManipulaData.ANO_MES_DIA);
+			Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
+			Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
 
-		Calendar dezembro1991 = ManipulaData.getCalendar("1991-12-01", ManipulaData.ANO_MES_DIA);
-		Calendar dezembro2000 = ManipulaData.getCalendar("2000-12-01", ManipulaData.ANO_MES_DIA);
-		Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
-		Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-
-		Calendar janeiro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar fevereiro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar marco2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar abril2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar maio2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar junho2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar julho2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar agosto2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar setembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
-		Calendar outubro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar janeiro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar fevereiro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar marco2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar abril2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar maio2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar junho2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar julho2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar agosto2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar setembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
+			Calendar outubro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
 
 
-		// IPCA_E
+			// IPCA_E
 
-		BigDecimal indiceAnterior = null;
-		Iterable<IpcaE> listIpcaE = ipcaEService.getAll(Sort.by("data").descending());
-		for (IpcaE ipcaE: listIpcaE) {
-			BigDecimal indice = new BigDecimal(ipcaE.getValor()).divide(new BigDecimal(100.0));
-			indice = indice.add(new BigDecimal(1.0));
-			if (ipcaE.getData().compareTo(dezembro1991) == 0 ||
-					ipcaE.getData().compareTo(dezembro2000) > 0) {
-				try {
-					if (indiceAnterior != null) {
-						repository.save(new IndicesCond(indice, ipcaE.getObservacao(), ipcaE.getData()));
+			BigDecimal indiceAnterior = null;
+			Iterable<IpcaE> listIpcaE = ipcaEService.getAll(Sort.by("data").descending());
+			for (IpcaE ipcaE: listIpcaE) {
+				BigDecimal indice = new BigDecimal(ipcaE.getValor()).divide(new BigDecimal(100.0));
+				indice = indice.add(new BigDecimal(1.0));
+				if (ipcaE.getData().compareTo(dezembro1991) == 0 ||
+						ipcaE.getData().compareTo(dezembro2000) > 0) {
+					try {
+						if (!repository.existsByData(ipcaE.getData()) && indiceAnterior != null) {
+							repository.save(new IndicesCond(indice, ipcaE.getObservacao(), ipcaE.getData()));
+						}
+					} catch (Exception e) {}
+				}
+				if (ipcaE.getData().compareTo(dezembro2000) == 0) {
+					BigDecimal dezembro = new BigDecimal(1.06035557011);
+					if (!repository.existsByData(ipcaE.getData())) {
+						repository.save(new IndicesCond(dezembro, "", ipcaE.getData()));
+
 					}
-				} catch (Exception e) {}
+				}
+				indiceAnterior = indice;
 			}
-			if (ipcaE.getData().compareTo(dezembro2000) == 0) {
-				BigDecimal dezembro = new BigDecimal(1.06035557011);
-				repository.save(new IndicesCond(dezembro, "", ipcaE.getData()));
-			}
-			indiceAnterior = indice;
-		}
 
-		// UFIR
+			// UFIR
 
 //		Calendar janeiro1992 = ManipulaData.getCalendar("1992-01-01", ManipulaData.ANO_MES_DIA);
 //		Calendar novembro2000 = ManipulaData.getCalendar("2000-11-01", ManipulaData.ANO_MES_DIA);
 
-		Iterable<Ufir> listUfir = ufirService.getAll(Sort.by("data").descending());
-		indiceAnterior = null;
-		for (Ufir ufir: listUfir) {
-			BigDecimal indice = indiceAnterior!=null ? indiceAnterior.divide(new BigDecimal(ufir.getValor()), 14, RoundingMode.HALF_UP) : new BigDecimal(1.0);
-			System.out.println("JANEIRO/1992 " + ManipulaData.calendarToStringAnoMes(janeiro1992));
-			System.out.println("NOVEMBRO/2000 " + ManipulaData.calendarToStringAnoMes(novembro2000));
-			if (ufir.getData().compareTo(janeiro1992) >= 0 && ufir.getData().compareTo(novembro2000) <= 0) {
-				System.out.println(ManipulaData.calendarToStringAnoMes(ufir.getData()));
-				try {
-					repository.save(new IndicesCond(indice, ufir.getObservacao(), ufir.getData()));
-				} catch (Exception e) {}
-			}
-			indiceAnterior = new BigDecimal(ufir.getValor());
-		}
-
-		// Atualizacao Judicial
-
-		Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll(Sort.by("data").descending());
-		indiceAnterior = new BigDecimal(1.0);
-		Double valorAnterior = new Double(0.0);
-
-		for (AtualizacaoJudicial atualizacaoJudicial: listAtualizacaoJudicial) {
-			Double percentual = atualizacaoJudicial.getPercentual();
-			Double valor = atualizacaoJudicial.getValor();
-			BigDecimal indice = new BigDecimal(atualizacaoJudicial.getValor());
-			if (percentual !=null && !percentual.equals(0.0)) {
-				indice = new BigDecimal((percentual / 100) + 1);
-			} else if (valor !=null && !valor.equals(0.0)) {
-				if (valorAnterior.equals(0.0)) {
-					indice = new BigDecimal(1.0);
-				} else {
-					indice = new BigDecimal(valorAnterior / valor);
+			Iterable<Ufir> listUfir = ufirService.getAll(Sort.by("data").descending());
+			indiceAnterior = null;
+			for (Ufir ufir: listUfir) {
+				BigDecimal indice = indiceAnterior!=null ? indiceAnterior.divide(new BigDecimal(ufir.getValor()), 14, RoundingMode.HALF_UP) : new BigDecimal(1.0);
+				if (ufir.getData().compareTo(janeiro1992) >= 0 && ufir.getData().compareTo(novembro2000) <= 0) {
+					try {
+						if (!repository.existsByData(ufir.getData())) {
+							repository.save(new IndicesCond(indice, ufir.getObservacao(), ufir.getData()));
+						}
+					} catch (Exception e) {}
 				}
-			} else {
-				indice = new BigDecimal(1.0);
+				indiceAnterior = new BigDecimal(ufir.getValor());
 			}
-			indice = indice.setScale(10, BigDecimal.ROUND_HALF_UP);
-			indiceAnterior = indice;
-			valorAnterior = valor;
-			if (atualizacaoJudicial.getData().compareTo(dezembro1991) < 0) {
-				try {
-					repository.save(new IndicesCond(indice, atualizacaoJudicial.getObservacao(), atualizacaoJudicial.getData()));
-				} catch (Exception e) {}
+
+			// Atualizacao Judicial
+
+			Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll(Sort.by("data").descending());
+			indiceAnterior = new BigDecimal(1.0);
+			Double valorAnterior = new Double(0.0);
+
+			for (AtualizacaoJudicial atualizacaoJudicial: listAtualizacaoJudicial) {
+				Double percentual = atualizacaoJudicial.getPercentual();
+				Double valor = atualizacaoJudicial.getValor();
+				BigDecimal indice = new BigDecimal(atualizacaoJudicial.getValor());
+				if (percentual !=null && !percentual.equals(0.0)) {
+					indice = new BigDecimal((percentual / 100) + 1);
+				} else if (valor !=null && !valor.equals(0.0)) {
+					if (valorAnterior.equals(0.0)) {
+						indice = new BigDecimal(1.0);
+					} else {
+						indice = new BigDecimal(valorAnterior / valor);
+					}
+				} else {
+					indice = new BigDecimal(1.0);
+				}
+				indice = indice.setScale(10, BigDecimal.ROUND_HALF_UP);
+				indiceAnterior = indice;
+				valorAnterior = valor;
+				if (atualizacaoJudicial.getData().compareTo(dezembro1991) < 0) {
+					try {
+						if (!repository.existsByData(atualizacaoJudicial.getData())) {
+							repository.save(new IndicesCond(indice, atualizacaoJudicial.getObservacao(), atualizacaoJudicial.getData()));
+						}
+					} catch (Exception e) {}
+				}
 			}
-		}
+		} catch (Exception e) {}
+
 
 	}
 
 	public void calculaAcumulados() throws RecordNotFoundException {
-		ArrayList<IndicesCond> listIndicesCond = (ArrayList<IndicesCond>) repository.findAll(Sort.by("data"));
-		BigDecimal acumulado = new BigDecimal(1.0);
-		for (int i = listIndicesCond.size()-1; i>=0; i--) {
-			IndicesCond indicesCond = listIndicesCond.get(i);
-			if (!Double.isInfinite(indicesCond.getIndice().doubleValue()) && !indicesCond.getIndice().equals(new BigDecimal(1.0))) {
-				acumulado = acumulado.multiply(indicesCond.getIndice());
+		try {
+			ArrayList<IndicesCond> listIndicesCond = (ArrayList<IndicesCond>) repository.findAll(Sort.by("data"));
+			BigDecimal acumulado = new BigDecimal(1.0);
+			for (int i = listIndicesCond.size()-1; i>=0; i--) {
+				IndicesCond indicesCond = listIndicesCond.get(i);
+				if (!Double.isInfinite(indicesCond.getIndice().doubleValue()) && !indicesCond.getIndice().equals(new BigDecimal(1.0))) {
+					acumulado = acumulado.multiply(indicesCond.getIndice());
+				}
+				acumulado = acumulado.setScale(14, BigDecimal.ROUND_HALF_UP);
+				indicesCond.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesCond.getData()).get().getValor())).setScale(14, BigDecimal.ROUND_HALF_UP));
+				update(indicesCond);
 			}
-			acumulado = acumulado.setScale(14, BigDecimal.ROUND_HALF_UP);
-			indicesCond.setIndiceAtrasado(acumulado.multiply(new BigDecimal(ajusteMoedaService.findByData(indicesCond.getData()).get().getValor())).setScale(14, BigDecimal.ROUND_HALF_UP));
-			update(indicesCond);
-		}
+		} catch (Exception e) {}
 	}
 
 	public void testeIndiceAtrasado(String[] coluna) {

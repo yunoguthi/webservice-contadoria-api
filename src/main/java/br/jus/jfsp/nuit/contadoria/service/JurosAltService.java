@@ -76,59 +76,65 @@ public class JurosAltService extends SgsBacenService {
 //				} catch (Exception e) {}
 //			}
 //		}
+		try {
+			Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll(Sort.by("data").descending());
+			Double anterior = 0.0;
+			for (AtualizacaoJudicial atualizacaoJudicial: listAtualizacaoJudicial) {
+				Double valor = new Double(0.0);
+				//Calendar junho2009 = ManipulaData.getCalendar("2009-06-01", ManipulaData.ANO_MES_DIA);
+				//Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
+				//Calendar maio2012 = ManipulaData.getCalendar("2012-05-01", ManipulaData.ANO_MES_DIA);
+				//Calendar junho2012 = ManipulaData.getCalendar("2012-06-01", ManipulaData.ANO_MES_DIA);
+				Calendar janeiro2002 = ManipulaData.getCalendar("2002-01-01", ManipulaData.ANO_MES_DIA);
 
-		Iterable<AtualizacaoJudicial> listAtualizacaoJudicial = atualizacaoJudicialService.getAll(Sort.by("data").descending());
-		Double anterior = 0.0;
-		for (AtualizacaoJudicial atualizacaoJudicial: listAtualizacaoJudicial) {
-			Double valor = new Double(0.0);
-			//Calendar junho2009 = ManipulaData.getCalendar("2009-06-01", ManipulaData.ANO_MES_DIA);
-			//Calendar julho2009 = ManipulaData.getCalendar("2009-07-01", ManipulaData.ANO_MES_DIA);
-			//Calendar maio2012 = ManipulaData.getCalendar("2012-05-01", ManipulaData.ANO_MES_DIA);
-			//Calendar junho2012 = ManipulaData.getCalendar("2012-06-01", ManipulaData.ANO_MES_DIA);
-			Calendar janeiro2002 = ManipulaData.getCalendar("2002-01-01", ManipulaData.ANO_MES_DIA);
+				Double raiz = 1.0 / 12.0;
 
-			Double raiz = 1.0 / 12.0;
-
-			if (atualizacaoJudicial.getData().compareTo(janeiro2002) <= 0) {
-				valor = new Double(0.005);
-				try {
-					JurosAlt jurosAlt = new JurosAlt();
-					jurosAlt.setData(atualizacaoJudicial.getData());
-					jurosAlt.setValor(valor);
-					repository.save(jurosAlt);
-				} catch (Exception e) {
-				}
-			} else {
-				SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
-				if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
+				if (atualizacaoJudicial.getData().compareTo(janeiro2002) <= 0) {
 					valor = new Double(0.005);
-					System.out.println("SELIC " + ManipulaData.calendarToStringAnoMes(selicMetaCopom.getData()) + " - " + selicMetaCopom.getValor());
-
-					JurosAlt jurosAlt = new JurosAlt();
-					jurosAlt.setData(atualizacaoJudicial.getData());
-					jurosAlt.setValor(valor);
-					repository.save(jurosAlt);
-				} else {
-					BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
-					val = val.plus();
-					val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
-					val.add(new BigDecimal(-1.0));
-					//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
-					//valor = valor + 1;
-					//valor = Math.pow(valor.doubleValue(), raiz);
-					//valor = valor -1;
 					try {
-						System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + val.doubleValue());
 						JurosAlt jurosAlt = new JurosAlt();
 						jurosAlt.setData(atualizacaoJudicial.getData());
-						jurosAlt.setValor(selicMetaCopom.getValor()*0.7);
-						repository.save(jurosAlt);
+						jurosAlt.setValor(valor);
+						if (!repository.existsByData(atualizacaoJudicial.getData())) {
+							repository.save(jurosAlt);
+						}
 					} catch (Exception e) {
 					}
-				}
+				} else {
+					SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
+					if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
+						valor = new Double(0.005);
 
+						JurosAlt jurosAlt = new JurosAlt();
+						jurosAlt.setData(atualizacaoJudicial.getData());
+						jurosAlt.setValor(valor);
+						if (!repository.existsByData(atualizacaoJudicial.getData())) {
+							repository.save(jurosAlt);
+						}
+					} else {
+						BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
+						val = val.plus();
+						val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
+						val.add(new BigDecimal(-1.0));
+						//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
+						//valor = valor + 1;
+						//valor = Math.pow(valor.doubleValue(), raiz);
+						//valor = valor -1;
+						try {
+							JurosAlt jurosAlt = new JurosAlt();
+							jurosAlt.setData(atualizacaoJudicial.getData());
+							jurosAlt.setValor(selicMetaCopom.getValor()*0.7);
+							if (!repository.existsByData(atualizacaoJudicial.getData())) {
+								repository.save(jurosAlt);
+							}
+						} catch (Exception e) {
+						}
+					}
+
+				}
 			}
-		}
+		} catch (Exception e) {}
+
 	}
 
 	public JurosAlt create(JurosAlt jurosAlt) {

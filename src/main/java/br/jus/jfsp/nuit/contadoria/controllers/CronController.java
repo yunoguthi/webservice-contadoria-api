@@ -26,8 +26,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Component
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/importa")
 @EnableScheduling
 public class CronController {
 
@@ -98,41 +105,47 @@ public class CronController {
 
 	//@Scheduled(cron = "0/10 0/1 * 1/1 * ?")
 
-	public void importaTudo() throws Exception {
-		System.out.println("Começo " + ManipulaData.getHoje());
-		btnMensalService.importa();
-		inpcService.importa();
-		ipca15Service.importa();
-		ipcaService.importa();
-		ipcaEService.importa();
-		irsmService.importa();
-		salarioMinimoService.updateMoedas();
-		salarioMinimoService.importa();
-		selicMetaCopomService.importa();
-		selicMensalService.importa();
-		trdService.importa();
-		trMensalService.importa();
-		ufirService.importa();
-		urvService.importa();
-		indicesAtrasadosService.importa();
-		indicesRes134Service.importa();
-		indicesRes134Service.calculaAcumulados();
+	@GetMapping("/tudo")
+	public void importaTudo() {
+		try {
+			System.out.println("Começo " + ManipulaData.getHoje());
+			btnMensalService.importa();
+			inpcService.importa();
+			ipca15Service.importa();
+			ipcaService.importa();
+			ipcaEService.importa();
+			irsmService.importa();
+			salarioMinimoService.updateMoedas();
+			salarioMinimoService.importa();
+			selicMetaCopomService.importa();
+			selicMensalService.importa();
+			trdService.importa();
+			trMensalService.importa();
+			ufirService.importa();
+			urvService.importa();
+			indicesAtrasadosService.importa();
+			indicesRes134Service.importa();
+			indicesRes134Service.calculaAcumulados();
 //		indicesRes134Service.testando();
-		indicesSalariosService.importa();
-		indicesSalariosService.calculaAcumulados();
+			indicesSalariosService.importa();
+			indicesSalariosService.calculaAcumulados();
 //		indicesSalariosService.testando();
-		indicesCondService.importa();
-		indicesCondService.calculaAcumulados();
+			indicesCondService.importa();
+			indicesCondService.calculaAcumulados();
 //		indicesCondService.testando();
 
-		jurosService.importa();
+			jurosService.importa();
 //		jurosService.testando();
-		jurosAltService.importa();
+			jurosAltService.importa();
 
-		indicesConsolidadosService.importa();
-		indicesConsolidadosService.mostraCSV();
+			indicesConsolidadosService.importa();
+			//indicesConsolidadosService.mostraCSV();
 
-		System.out.println("Fim " + ManipulaData.getHoje());
+			System.out.println("Fim " + ManipulaData.getHoje());
+		} catch (Exception e) {
+
+		}
+
 
 	}
 
