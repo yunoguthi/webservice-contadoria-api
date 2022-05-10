@@ -1,11 +1,11 @@
 server:
-  ssl:
-    key-store: classpath:contadoria.p12
-    key-store-password: 123456abcD
-    key-store-type: pkcs12
-    key-alias: contadoria
-    key-password: 123456abcD
-    enabled: true
+ # ssl:
+ #   key-store: classpath:contadoria.p12
+ #   key-store-password: 123456abcD
+ #   key-store-type: pkcs12
+ #   key-alias: contadoria
+ #   key-password: 123456abcD
+ #   enabled: true
   port: 8081
   contextPath: /api
 spring:
