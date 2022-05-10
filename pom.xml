@@ -79,6 +79,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-envers</artifactId>
 		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
