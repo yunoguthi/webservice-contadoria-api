@@ -21,6 +21,7 @@ import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 @Entity
@@ -101,28 +102,56 @@ public class IndicesConsolidados extends BaseEntity {
 
 		String mesStr = mes<10 ? "0"+mes : mes+"";
 
+		String salarioMinimoReferenciaStr = salarioMinimoReferencia!=null?salarioMinimoReferencia.doubleValue() + "":"-";
+		String tetoContribuicaoStr = tetoContribuicao!=null?tetoContribuicao.doubleValue() + "":"-";
+		String tetoBeneficioStr = tetoBeneficio!=null?tetoBeneficio.doubleValue() + "":"-";
+		String integralStr = 	integral!=null?integral.doubleValue() + "":"-";
+		String proporcionalStr = 		proporcional!=null?proporcional.doubleValue() + "":"-";
+		String multiplicadorMoedaStr = 		multiplicadorMoeda!=null?multiplicadorMoeda.doubleValue() + "":"-";
+		String ajusteMoedaStr = 	ajusteMoeda!=null?ajusteMoeda.doubleValue() + "":"-";
+		String indiceAtualizadoStr = 		indiceAtualizado!=null?indiceAtualizado.doubleValue() + "":"-";
+
+		DecimalFormat df = new DecimalFormat("#.00000000000");
+
+
+		String indiceAcumuladoStr = indiceAcumulado!=null?new DecimalFormat("#,##0.00000000000").format(indiceAcumulado) + "":"-";
+		String indiceRes134Str = indiceRes134!=null?indiceRes134.doubleValue() + "":"-";
+		String indiceRes134AcumuladoStr = 		indiceRes134Acumulado!=null?indiceRes134Acumulado.doubleValue() + "":"-";
+		String indiceSalariosStr = 		indiceSalarios!=null?indiceSalarios.doubleValue() + "":"-";
+		String indiceSalariosAcumuladoStr = 		indiceSalariosAcumulado!=null?indiceSalariosAcumulado.doubleValue() + "":"-";
+		String ipcaStr = 		ipca!=null?ipca.doubleValue() + "":"-";
+		String ipcaEStr = 		ipcaE!=null?ipcaE.doubleValue() + "":"-";
+		String indiceCondenatoriasStr = 	indiceCondenatorias!=null?indiceCondenatorias.doubleValue() + "":"-";
+		String indiceCondenatoriasAcumuladoStr = 		indiceCondenatoriasAcumulado!=null?indiceCondenatoriasAcumulado.doubleValue() + "":"-";
+		String selicStr = 		selic!=null?selic.doubleValue() + "":"-";
+		String jurosStr = 		juros!=null?juros.doubleValue() + "":"-";
+		String jurosAltStr = jurosAlt!=null?jurosAlt.doubleValue() + "":"-";
+
+		String retorno =
+				"01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
+						salarioMinimoReferenciaStr + ";" +
+						tetoContribuicaoStr + ";" +
+						tetoBeneficioStr+ ";" +
+						integralStr+ ";" +
+						proporcionalStr+ ";" +
+						multiplicadorMoedaStr+ ";" +
+						ajusteMoedaStr+ ";" +
+						indiceAtualizadoStr+ ";" +
+						indiceAcumuladoStr+ ";" +
+						indiceRes134Str+ ";" +
+						indiceRes134AcumuladoStr+ ";" +
+						indiceSalariosStr+ ";" +
+						indiceSalariosAcumuladoStr+ ";" +
+						ipcaStr+ ";" +
+						ipcaEStr+ ";" +
+						indiceCondenatoriasStr+ ";" +
+						indiceCondenatoriasAcumuladoStr+ ";" +
+						selicStr+ ";" +
+						jurosStr+ ";" +
+						jurosAltStr
+				;
+
 		return
-				("01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
-				salarioMinimo+ ";" +
-				salarioMinimoReferencia + ";" +
-				tetoContribuicao + ";" +
-				tetoBeneficio + ";" +
-				integral + ";" +
-				proporcional + ";" +
-				multiplicadorMoeda + ";" +
-				ajusteMoeda + ";" +
-				indiceAtualizado + ";" +
-				indiceAcumulado + ";" +
-				indiceRes134 + ";" +
-				indiceRes134Acumulado + ";" +
-				indiceSalarios + ";" +
-				indiceSalariosAcumulado + ";" +
-				ipca + ";" +
-				ipcaE + ";" +
-				indiceCondenatorias + ";" +
-				indiceCondenatoriasAcumulado + ";" +
-				selic + ";" +
-				juros + ";" +
-				jurosAlt).replaceAll("null", "-").replace(".", ",");
+				retorno.replaceAll("null", "-").replace(".", ",");
 	}
 }
