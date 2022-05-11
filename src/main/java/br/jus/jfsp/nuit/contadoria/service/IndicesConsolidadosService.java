@@ -99,7 +99,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 	public void importa() {
 		try {
 			// SALÁRIO MÍNIMO
-			/*System.out.println("importa consolidado");
+			System.out.println("importa consolidado");
 			Iterable<SalarioMinimo> listSalarioMinimo = salarioMinimoService.getAll(Sort.by("data").descending());
 			for (SalarioMinimo salarioMinimo: listSalarioMinimo) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
@@ -390,7 +390,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 					}
 				} catch (Exception e) {}
 			}
-			System.out.println("mostraCSV");*/
+			System.out.println("mostraCSV");
 			mostraCSV();
 			System.out.println("fim");
 
