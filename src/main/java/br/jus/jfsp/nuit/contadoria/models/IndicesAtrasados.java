@@ -47,11 +47,11 @@ public class IndicesAtrasados extends BaseIndice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "gen_indices_atrasados")
 	private Long id;
 
-	public IndicesAtrasados(BigDecimal indice, String descricao, Calendar data) {
-		super();
-		this.data = data;
-		this.descricao = descricao;
-		this.indice = indice;
-	}
+//	public IndicesAtrasados(BigDecimal indice, String descricao, Calendar data) {
+//		super();
+//		this.data = data;
+//		this.descricao = descricao;
+//		this.indice = indice;
+//	}
 
 }

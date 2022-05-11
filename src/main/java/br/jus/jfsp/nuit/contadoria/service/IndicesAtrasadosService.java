@@ -187,7 +187,12 @@ public class IndicesAtrasadosService {
 			valorAnterior = valor;
 			//System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + indiceAnterior);
 			try {
-				repository.save(new IndicesAtrasados(indice, atualizacaoJudicial.getDescricao(), atualizacaoJudicial.getData()));
+				System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + indice);
+				IndicesAtrasados indicesAtrasados = new IndicesAtrasados();
+				indicesAtrasados.setData(atualizacaoJudicial.getData());
+				indicesAtrasados.setIndice(indice);
+				indicesAtrasados.setDescricao(atualizacaoJudicial.getDescricao());
+				repository.save(indicesAtrasados);
 			} catch (Exception e) {}
 		}
 	}

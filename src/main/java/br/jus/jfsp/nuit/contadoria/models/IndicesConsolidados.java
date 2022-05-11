@@ -102,27 +102,25 @@ public class IndicesConsolidados extends BaseEntity {
 
 		String mesStr = mes<10 ? "0"+mes : mes+"";
 
+		DecimalFormat df = new DecimalFormat("#.0000000000000000000");
+
 		String salarioMinimoReferenciaStr = salarioMinimoReferencia!=null?salarioMinimoReferencia.doubleValue() + "":"-";
 		String tetoContribuicaoStr = tetoContribuicao!=null?tetoContribuicao.doubleValue() + "":"-";
 		String tetoBeneficioStr = tetoBeneficio!=null?tetoBeneficio.doubleValue() + "":"-";
 		String integralStr = 	integral!=null?integral.doubleValue() + "":"-";
 		String proporcionalStr = 		proporcional!=null?proporcional.doubleValue() + "":"-";
-		String multiplicadorMoedaStr = 		multiplicadorMoeda!=null?multiplicadorMoeda.doubleValue() + "":"-";
-		String ajusteMoedaStr = 	ajusteMoeda!=null?ajusteMoeda.doubleValue() + "":"-";
+		String multiplicadorMoedaStr = 		multiplicadorMoeda!=null?df.format(multiplicadorMoeda) + "":"-";
+		String ajusteMoedaStr = 	ajusteMoeda!=null?df.format(ajusteMoeda) + "":"-";
 		String indiceAtualizadoStr = 		indiceAtualizado!=null?indiceAtualizado.doubleValue() + "":"-";
-
-		DecimalFormat df = new DecimalFormat("#.00000000000");
-
-
-		String indiceAcumuladoStr = indiceAcumulado!=null?new DecimalFormat("#,##0.00000000000").format(indiceAcumulado) + "":"-";
-		String indiceRes134Str = indiceRes134!=null?indiceRes134.doubleValue() + "":"-";
-		String indiceRes134AcumuladoStr = 		indiceRes134Acumulado!=null?indiceRes134Acumulado.doubleValue() + "":"-";
-		String indiceSalariosStr = 		indiceSalarios!=null?indiceSalarios.doubleValue() + "":"-";
-		String indiceSalariosAcumuladoStr = 		indiceSalariosAcumulado!=null?indiceSalariosAcumulado.doubleValue() + "":"-";
-		String ipcaStr = 		ipca!=null?ipca.doubleValue() + "":"-";
-		String ipcaEStr = 		ipcaE!=null?ipcaE.doubleValue() + "":"-";
-		String indiceCondenatoriasStr = 	indiceCondenatorias!=null?indiceCondenatorias.doubleValue() + "":"-";
-		String indiceCondenatoriasAcumuladoStr = 		indiceCondenatoriasAcumulado!=null?indiceCondenatoriasAcumulado.doubleValue() + "":"-";
+		String indiceAcumuladoStr = indiceAcumulado!=null?df.format(indiceAcumulado) + "":"-";
+		String indiceRes134Str = indiceRes134!=null?df.format(indiceRes134) + "":"-";
+		String indiceRes134AcumuladoStr = 		indiceRes134Acumulado!=null?df.format(indiceRes134Acumulado) + "":"-";
+		String indiceSalariosStr = 	indiceSalarios!=null?df.format(indiceSalarios) + "":"-";
+		String indiceSalariosAcumuladoStr = indiceSalariosAcumulado!=null?df.format(indiceSalariosAcumulado) + "":"-";
+		String ipcaStr = ipca!=null?ipca.doubleValue() + "":"-";
+		String ipcaEStr = ipcaE!=null?ipcaE.doubleValue() + "":"-";
+		String indiceCondenatoriasStr = 	indiceCondenatorias!=null?df.format(indiceCondenatorias) + "":"-";
+		String indiceCondenatoriasAcumuladoStr = 		indiceCondenatoriasAcumulado!=null?df.format(indiceCondenatoriasAcumulado) + "":"-";
 		String selicStr = 		selic!=null?selic.doubleValue() + "":"-";
 		String jurosStr = 		juros!=null?juros.doubleValue() + "":"-";
 		String jurosAltStr = jurosAlt!=null?jurosAlt.doubleValue() + "":"-";

@@ -11,6 +11,7 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -28,9 +29,9 @@ import java.util.Calendar;
 @MappedSuperclass
 @SuppressWarnings("serial")
 public class BaseIndice extends BaseEntity {
-
+	@Column(precision = 40, scale = 20)
 	protected BigDecimal indice;
-
+	@Column(precision = 40, scale = 20)
 	protected BigDecimal indiceAtrasado;
 
 	protected String descricao;
