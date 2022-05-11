@@ -102,31 +102,33 @@ public class IndicesConsolidados extends BaseEntity {
 
 		String mesStr = mes<10 ? "0"+mes : mes+"";
 
-		DecimalFormat df = new DecimalFormat("#.0000000000000000000");
+		DecimalFormat df = new DecimalFormat("#.###################");
+		String salarioMinimoStr = salarioMinimo!=null?salarioMinimo.doubleValue() + "":"0";
 
-		String salarioMinimoReferenciaStr = salarioMinimoReferencia!=null?salarioMinimoReferencia.doubleValue() + "":"-";
-		String tetoContribuicaoStr = tetoContribuicao!=null?tetoContribuicao.doubleValue() + "":"-";
-		String tetoBeneficioStr = tetoBeneficio!=null?tetoBeneficio.doubleValue() + "":"-";
-		String integralStr = 	integral!=null?integral.doubleValue() + "":"-";
-		String proporcionalStr = 		proporcional!=null?proporcional.doubleValue() + "":"-";
-		String multiplicadorMoedaStr = 		multiplicadorMoeda!=null?df.format(multiplicadorMoeda) + "":"-";
-		String ajusteMoedaStr = 	ajusteMoeda!=null?df.format(ajusteMoeda) + "":"-";
-		String indiceAtualizadoStr = 		indiceAtualizado!=null?indiceAtualizado.doubleValue() + "":"-";
-		String indiceAcumuladoStr = indiceAcumulado!=null?df.format(indiceAcumulado) + "":"-";
-		String indiceRes134Str = indiceRes134!=null?df.format(indiceRes134) + "":"-";
-		String indiceRes134AcumuladoStr = 		indiceRes134Acumulado!=null?df.format(indiceRes134Acumulado) + "":"-";
-		String indiceSalariosStr = 	indiceSalarios!=null?df.format(indiceSalarios) + "":"-";
-		String indiceSalariosAcumuladoStr = indiceSalariosAcumulado!=null?df.format(indiceSalariosAcumulado) + "":"-";
-		String ipcaStr = ipca!=null?ipca.doubleValue() + "":"-";
-		String ipcaEStr = ipcaE!=null?ipcaE.doubleValue() + "":"-";
-		String indiceCondenatoriasStr = 	indiceCondenatorias!=null?df.format(indiceCondenatorias) + "":"-";
-		String indiceCondenatoriasAcumuladoStr = 		indiceCondenatoriasAcumulado!=null?df.format(indiceCondenatoriasAcumulado) + "":"-";
-		String selicStr = 		selic!=null?selic.doubleValue() + "":"-";
-		String jurosStr = 		juros!=null?juros.doubleValue() + "":"-";
-		String jurosAltStr = jurosAlt!=null?jurosAlt.doubleValue() + "":"-";
+		String salarioMinimoReferenciaStr = salarioMinimoReferencia!=null?salarioMinimoReferencia.doubleValue() + "":"0";
+		String tetoContribuicaoStr = tetoContribuicao!=null?tetoContribuicao.doubleValue() + "":"0";
+		String tetoBeneficioStr = tetoBeneficio!=null?tetoBeneficio.doubleValue() + "":"0";
+		String integralStr = 	integral!=null?integral.doubleValue() + "":"0";
+		String proporcionalStr = 		proporcional!=null?proporcional.doubleValue() + "":"0";
+		String multiplicadorMoedaStr = 		multiplicadorMoeda!=null?df.format(multiplicadorMoeda) + "":"0";
+		String ajusteMoedaStr = 	ajusteMoeda!=null?df.format(ajusteMoeda) + "":"0";
+		String indiceAtualizadoStr = 		indiceAtualizado!=null?indiceAtualizado.doubleValue() + "":"0";
+		String indiceAcumuladoStr = indiceAcumulado!=null?df.format(indiceAcumulado) + "":"0";
+		String indiceRes134Str = indiceRes134!=null?df.format(indiceRes134) + "":"0";
+		String indiceRes134AcumuladoStr = 		indiceRes134Acumulado!=null?df.format(indiceRes134Acumulado) + "":"0";
+		String indiceSalariosStr = 	indiceSalarios!=null?df.format(indiceSalarios) + "":"0";
+		String indiceSalariosAcumuladoStr = indiceSalariosAcumulado!=null?df.format(indiceSalariosAcumulado) + "":"0";
+		String ipcaStr = ipca!=null?ipca.doubleValue() + "":"0";
+		String ipcaEStr = ipcaE!=null?ipcaE.doubleValue() + "":"0";
+		String indiceCondenatoriasStr = 	indiceCondenatorias!=null?df.format(indiceCondenatorias) + "":"0";
+		String indiceCondenatoriasAcumuladoStr = 		indiceCondenatoriasAcumulado!=null?df.format(indiceCondenatoriasAcumulado) + "":"0";
+		String selicStr = 		selic!=null?selic.doubleValue() + "":"0";
+		String jurosStr = 		juros!=null?juros.doubleValue() + "":"0";
+		String jurosAltStr = jurosAlt!=null?df.format(jurosAlt) + "":"0";
 
 		String retorno =
 				"01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
+						salarioMinimoStr + ";" +
 						salarioMinimoReferenciaStr + ";" +
 						tetoContribuicaoStr + ";" +
 						tetoBeneficioStr+ ";" +
@@ -150,6 +152,6 @@ public class IndicesConsolidados extends BaseEntity {
 				;
 
 		return
-				retorno.replaceAll("null", "-").replace(".", ",");
+				retorno.replaceAll("null", "0").replace(",", ".").trim();
 	}
 }
