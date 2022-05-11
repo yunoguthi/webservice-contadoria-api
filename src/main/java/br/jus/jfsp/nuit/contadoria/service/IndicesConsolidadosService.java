@@ -99,7 +99,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 	public void importa() {
 		try {
 			// SALÁRIO MÍNIMO
-			System.out.println("importa consolidado novo");
+			System.out.println("importa consolidado");
 			Iterable<SalarioMinimo> listSalarioMinimo = salarioMinimoService.getAll(Sort.by("data").descending());
 			for (SalarioMinimo salarioMinimo: listSalarioMinimo) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
@@ -110,7 +110,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setSalarioMinimo(salarioMinimo.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -128,7 +128,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setSalarioMinimoReferencia(salarioMinimoReferencia.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -146,7 +146,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setTetoContribuicao(tetoContribuicao.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -164,7 +164,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setTetoBeneficio(tetoBeneficio.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -183,7 +183,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setIntegral(reajusteBeneficio.getIntegral());
 				indicesConsolidados.setProporcional(reajusteBeneficio.getProporcional());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -201,7 +201,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setMultiplicadorMoeda(multiplicadorMoeda.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -219,7 +219,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setAjusteMoeda(ajusteMoeda.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -238,7 +238,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setIndiceAcumulado(indicesAtrasados.getIndiceAtrasado());
 				indicesConsolidados.setIndiceAtualizado(indicesAtrasados.getIndice());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -257,7 +257,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setIndiceRes134(indicesRes134.getIndice());
 				indicesConsolidados.setIndiceRes134Acumulado(indicesRes134.getIndiceAtrasado());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -276,7 +276,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setIndiceSalarios(indicesSalarios.getIndice());
 				indicesConsolidados.setIndiceSalariosAcumulado(indicesSalarios.getIndiceAtrasado());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -294,7 +294,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setIpca(ipca.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -312,7 +312,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setIpcaE(ipcaE.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -331,7 +331,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setIndiceCondenatorias(indicesCond.getIndice());
 				indicesConsolidados.setIndiceCondenatoriasAcumulado(indicesCond.getIndiceAtrasado());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -349,7 +349,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setSelic(selicMensal.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -367,7 +367,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setJuros(juros.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
@@ -385,7 +385,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 				indicesConsolidados.setJurosAlt(jurosAlt.getValor());
 				try {
-					if (repository.existsByData(indicesConsolidados.getData())) {
+					if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
 					}
 				} catch (Exception e) {}
