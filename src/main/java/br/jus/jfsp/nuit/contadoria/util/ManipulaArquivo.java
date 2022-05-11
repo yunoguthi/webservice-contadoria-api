@@ -71,7 +71,9 @@ public class ManipulaArquivo {
         for (int i=0; i < conteudo.length; i++) {
            try {
                br.write(conteudo[i]);
-               br.newLine();
+               if (i != conteudo.length-1) {
+                   br.newLine();
+               }
            } catch (Exception e) {}
         }
         br.close();
