@@ -101,36 +101,37 @@ public class JurosAltService extends SgsBacenService {
 					} catch (Exception e) {
 					}
 				} else {
-					SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
-					if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
-						valor = new Double(0.005);
+					try {
+						SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
+						if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
+							valor = new Double(0.005);
 
-						JurosAlt jurosAlt = new JurosAlt();
-						jurosAlt.setData(atualizacaoJudicial.getData());
-						jurosAlt.setValor(valor);
-						if (!repository.existsByData(atualizacaoJudicial.getData())) {
-							repository.save(jurosAlt);
-						}
-					} else {
-						BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
-						val = val.plus();
-						val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
-						val.add(new BigDecimal(-1.0));
-						//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
-						//valor = valor + 1;
-						//valor = Math.pow(valor.doubleValue(), raiz);
-						//valor = valor -1;
-						try {
 							JurosAlt jurosAlt = new JurosAlt();
 							jurosAlt.setData(atualizacaoJudicial.getData());
-							jurosAlt.setValor(selicMetaCopom.getValor()*0.7);
+							jurosAlt.setValor(valor);
 							if (!repository.existsByData(atualizacaoJudicial.getData())) {
 								repository.save(jurosAlt);
 							}
-						} catch (Exception e) {
+						} else {
+							BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
+							val = val.plus();
+							val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
+							val.add(new BigDecimal(-1.0));
+							//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
+							//valor = valor + 1;
+							//valor = Math.pow(valor.doubleValue(), raiz);
+							//valor = valor -1;
+							try {
+								JurosAlt jurosAlt = new JurosAlt();
+								jurosAlt.setData(atualizacaoJudicial.getData());
+								jurosAlt.setValor(selicMetaCopom.getValor()*0.7);
+								if (!repository.existsByData(atualizacaoJudicial.getData())) {
+									repository.save(jurosAlt);
+								}
+							} catch (Exception e) {
+							}
 						}
-					}
-
+					} catch (Exception e) {}
 				}
 			}
 		} catch (Exception e) {}
