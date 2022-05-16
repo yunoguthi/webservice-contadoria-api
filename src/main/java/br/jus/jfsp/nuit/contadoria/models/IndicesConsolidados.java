@@ -49,6 +49,7 @@ public class IndicesConsolidados extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	private Boolean dataBase;
 	private Double salarioMinimo;
 	private Double salarioMinimoReferencia;
 	private Double tetoContribuicao;
@@ -128,6 +129,7 @@ public class IndicesConsolidados extends BaseEntity {
 
 		String retorno =
 				"01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
+						dataBase + ";" +
 						salarioMinimoStr + ";" +
 						salarioMinimoReferenciaStr + ";" +
 						tetoContribuicaoStr + ";" +

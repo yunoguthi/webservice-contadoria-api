@@ -401,6 +401,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 		ArrayList<IndicesConsolidados> listIndicesConsolidados = (ArrayList<IndicesConsolidados>) repository.findAll(Sort.by("data"));
 		String[] csv = new String[listIndicesConsolidados.size()+1];
 		csv[0] = "competencia;" +
+				"dataBase;" +
 				"salarioMinimo;" +
 				"salarioMinimoReferencia;" +
 				"tetoContribuicao;" +
