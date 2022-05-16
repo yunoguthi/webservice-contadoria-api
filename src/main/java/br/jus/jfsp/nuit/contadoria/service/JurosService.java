@@ -76,30 +76,34 @@ public class JurosService extends SgsBacenService {
 				} catch (Exception e) {}
 			}
 			if (atualizacaoJudicial.getData().compareTo(maio2012) > 0) {
-				SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
-				if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
-					valor = new Double(0.005);
-					Juros juros = new Juros();
-					juros.setData(selicMetaCopom.getData());
-					juros.setValor(valor);
-					if (!repository.existsByData(selicMetaCopom.getData())) {
-						repository.save(juros);
+				try {
+					SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
+					if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
+						valor = new Double(0.005);
+						Juros juros = new Juros();
+						juros.setData(selicMetaCopom.getData());
+						juros.setValor(valor);
+						if (!repository.existsByData(selicMetaCopom.getData())) {
+							repository.save(juros);
+						}
+					} else {
+						BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
+						val = val.plus();
+						val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
+						val.add(new BigDecimal(-1.0));
+						//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
+						//valor = valor + 1;
+						//valor = Math.pow(valor.doubleValue(), raiz);
+						//valor = valor -1;
+						Juros juros = new Juros();
+						juros.setData(selicMetaCopom.getData());
+						juros.setValor(selicMetaCopom.getValor() * 0.7);
+						if (!repository.existsByData(selicMetaCopom.getData())) {
+							repository.save(juros);
+						}
 					}
-				} else {
-					BigDecimal val = new BigDecimal(selicMetaCopom.getValor()).multiply(new BigDecimal(0.7)).divide(new BigDecimal(100.0));
-					val = val.plus();
-					val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
-					val.add(new BigDecimal(-1.0));
-					//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
-					//valor = valor + 1;
-					//valor = Math.pow(valor.doubleValue(), raiz);
-					//valor = valor -1;
-					Juros juros = new Juros();
-					juros.setData(selicMetaCopom.getData());
-					juros.setValor(selicMetaCopom.getValor()*0.7);
-					if (!repository.existsByData(selicMetaCopom.getData())) {
-						repository.save(juros);
-					}				}
+				} catch (Exception e) {
+				}
 			}
 		}
 	}
