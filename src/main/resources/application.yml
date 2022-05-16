@@ -28,7 +28,7 @@ spring:
         lob:
           non_contextual_creation: true
       dialect: org.hibernate.dialect.PostgreSQLDialect
-      ddl-auto: create-drop
+      ddl-auto: update
 #trust:
 #  store: classpath:contadoria.p12
 #  password: 123456abcD
