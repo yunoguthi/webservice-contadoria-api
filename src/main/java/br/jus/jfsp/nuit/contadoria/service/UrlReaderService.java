@@ -13,6 +13,7 @@ public class UrlReaderService {
 	
 	public String getConteudo(String urlStr) throws IOException {
 		String retorno = "";
+        System.out.println("******** " + urlStr);
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
          conn.setRequestMethod("GET");

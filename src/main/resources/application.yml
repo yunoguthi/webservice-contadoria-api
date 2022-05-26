@@ -1,11 +1,10 @@
 server:
- # ssl:
- #   key-store: classpath:contadoria.p12
- #   key-store-password: 123456abcD
- #   key-store-type: pkcs12
- #   key-alias: contadoria
- #   key-password: 123456abcD
- #   enabled: true
+  ssl:
+    key-store: classpath:contadoria.jks
+    key-store-password: 123456
+    key-alias: contadoria
+    key-password: 123456
+    enabled: false
   port: 8081
   contextPath: /api
 spring:
@@ -28,10 +27,10 @@ spring:
         lob:
           non_contextual_creation: true
       dialect: org.hibernate.dialect.PostgreSQLDialect
-      ddl-auto: update
+      ddl-auto: create-drop
 #trust:
-#  store: classpath:contadoria.p12
-#  password: 123456abcD
+ # store: classpath:contadoria.jks
+#  password: 123456
 
 #keycloak:
 #  auth-server-url: http://localhost:8080/auth
