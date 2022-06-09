@@ -3,9 +3,11 @@ package br.jus.jfsp.nuit.contadoria.service;
 import br.jus.jfsp.nuit.contadoria.exception.DataInvalidaException;
 import br.jus.jfsp.nuit.contadoria.exception.RecordNotFoundException;
 import br.jus.jfsp.nuit.contadoria.models.EMoeda;
+import br.jus.jfsp.nuit.contadoria.models.IndicesAtrasados;
 import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
 import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
 import br.jus.jfsp.nuit.contadoria.repository.SalarioMinimoRepository;
+import br.jus.jfsp.nuit.contadoria.util.ManipulaArquivo;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaMoeda;
 import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
@@ -16,6 +18,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +40,87 @@ public class SalarioMinimoService extends SgsBacenService {
 
 	@Autowired
 	private UrlReaderService urlReader;
+
+	public void teste(String[] coluna) {
+		ArrayList<SalarioMinimo> list = (ArrayList<SalarioMinimo>) repository.findAll(Sort.by("data"));
+		BigDecimal erro = new BigDecimal(0.0);
+		BigDecimal maiorErro = new BigDecimal(0.0);
+		Calendar dataMaiorErro = null;
+
+		for(int i=0; i<list.size(); i++) {
+			//System.out.println("GOOGLE: " + coluna[i] + " CALCULADO: " + list.get(i).getValor());
+
+			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(list.get(i).getValor());
+
+			boolean igual = valorFormatado.equals(coluna[i]);
+			String resultado = igual ? "OK" : valorFormatado + " - " + coluna[i];
+			coluna[i] = coluna[i].replaceAll(".", "");
+			if (!igual) {
+				if (list.get(i).getValor().compareTo(BigDecimal.valueOf(Double.valueOf(coluna[i].replaceAll(",", "."))).doubleValue()) > 0) {
+					erro = new BigDecimal(list.get(i).getValor() - Double.valueOf(coluna[i].replaceAll(",", ".")));
+				} else {
+					erro = new BigDecimal(Double.valueOf(coluna[i].replaceAll(",", ".")) - list.get(i).getValor());
+				}
+				if (erro.compareTo(maiorErro) > 0) {
+					maiorErro = erro;
+					dataMaiorErro = list.get(i).getData();
+				}
+				//System.out.println(ManipulaData.calendarToStringAnoMes(list.get(i).getData()) + " ; " + erro);
+
+				//System.out.println(ManipulaData.calendarToStringAnoMes(list.get(i).getData()) + " - " + "Erro: " + erro);
+			}
+			//System.out.println(ManipulaData.calendarToStringAnoMes(list.get(i).getData()) + " - " + resultado);
+		}
+		//System.out.println(ManipulaData.calendarToStringAnoMes(dataMaiorErro) + " Maior erro: " + maiorErro);
+
+	}
+
+	public void mostraCSV(String[] indice) {
+		ArrayList<SalarioMinimo> list = (ArrayList<SalarioMinimo>) repository.findAll(Sort.by("data"));
+		Calendar dataMaiorErro = null;
+		String[] csv = new String[indice.length+1];
+		csv[0] = "COMPETENCIA;VALOR_CALCULADO;VALOR_GOOGLE";
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(indice[i]);
+
+			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(list.get(i).getValor());
+			boolean igual = valorFormatado.equals(indice[i]);
+			String resultado = igual ? "OK" : valorFormatado + " - " + indice[i];
+			csv[i+1] = ManipulaData.dateToStringDiaMesAno(ManipulaData.toDate(list.get(i).getData())) + ";" +
+					list.get(i).getValor() + ";" +
+					indice[i];
+			System.out.println(csv[i+1]);
+		}
+		try {
+			ManipulaArquivo.geraArquivo("teste_sm.csv", csv);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void testeIndice(String[] coluna) {
+		ArrayList<SalarioMinimo> list = (ArrayList<SalarioMinimo>) repository.findAll(Sort.by("data"));
+		for(int i=0; i<list.size(); i++) {
+			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(list.get(i).getValor());
+			boolean igual = valorFormatado.equals(coluna[i]);
+			String resultado = igual ? "OK" : valorFormatado + " - " + coluna[i];
+			System.out.println(ManipulaData.calendarToStringAnoMes(list.get(i).getData()) + " - " + resultado);
+		}
+	}
+
+	public void testando() {
+
+
+		System.out.println("Início comparação de salario minimo");
+		String[] normalizados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(1));
+		//teste(normalizados);
+		System.out.println("Fim comparação de salario minimo");
+
+		mostraCSV(normalizados);
+
+
+
+	}
 
 	public void updateMoeda() {
 		Iterable<SalarioMinimo> listSalarioMinimo = findAll();

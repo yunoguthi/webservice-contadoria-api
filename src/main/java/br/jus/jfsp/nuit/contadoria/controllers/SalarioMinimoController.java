@@ -46,6 +46,12 @@ public class SalarioMinimoController {
 		this.salarioMinimoConverter = salarioMinimoConverter;
 		this.assembler = assembler;
 	}
+
+	@GetMapping("/teste")
+	public ResponseEntity.BodyBuilder teste(){
+		service.testando();
+		return ResponseEntity.status(200);
+	}
 	
 	@GetMapping("/importa")
 	public ResponseEntity.BodyBuilder importaSM(){

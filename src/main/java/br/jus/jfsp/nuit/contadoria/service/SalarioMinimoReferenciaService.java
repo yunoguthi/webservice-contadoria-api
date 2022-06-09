@@ -6,6 +6,7 @@ import br.jus.jfsp.nuit.contadoria.models.SalarioMinimo;
 import br.jus.jfsp.nuit.contadoria.models.SalarioMinimoReferencia;
 import br.jus.jfsp.nuit.contadoria.repository.SalarioMinimoReferenciaRepository;
 import br.jus.jfsp.nuit.contadoria.repository.SalarioMinimoRepository;
+import br.jus.jfsp.nuit.contadoria.util.ManipulaArquivo;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
 import br.jus.jfsp.nuit.contadoria.util.ManipulaMoeda;
 import br.jus.jfsp.nuit.contadoria.util.consts.Consts;
@@ -16,11 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SalarioMinimoReferenciaService {
@@ -34,6 +33,42 @@ public class SalarioMinimoReferenciaService {
 
 	@Autowired
 	private UrlReaderService urlReader;
+
+	public void mostraCSV(String[] indice) {
+		ArrayList<SalarioMinimoReferencia> list = (ArrayList<SalarioMinimoReferencia>) repository.findAll(Sort.by("data"));
+		Calendar dataMaiorErro = null;
+		String[] csv = new String[indice.length+1];
+		csv[0] = "COMPETENCIA;VALOR_CALCULADO;VALOR_GOOGLE";
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(indice[i]);
+
+			String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(list.get(i).getValor());
+			boolean igual = valorFormatado.equals(indice[i]);
+			String resultado = igual ? "OK" : valorFormatado + " - " + indice[i];
+			csv[i+1] = ManipulaData.dateToStringDiaMesAno(ManipulaData.toDate(list.get(i).getData())) + ";" +
+					list.get(i).getValor() + ";" +
+					indice[i];
+			System.out.println(csv[i+1]);
+		}
+
+
+
+
+
+		try {
+			ManipulaArquivo.geraArquivo("teste_sm_ref.csv", csv);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void testando() {
+		System.out.println("Início comparação de salario minimo ref");
+		String[] normalizados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(2));
+		//teste(normalizados);
+		mostraCSV(normalizados);
+		System.out.println("Fim comparação de salario minimo ref");
+	}
 
 	public SalarioMinimoReferencia create(SalarioMinimoReferencia salarioMinimo) {
 		return repository.save(salarioMinimo);

@@ -12,14 +12,7 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -49,6 +42,10 @@ public class IndicesConsolidados extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	private String ano;
+
+	private String mes;
+
 	private Boolean dataBase;
 	private Double salarioMinimo;
 	private Double salarioMinimoReferencia;
@@ -58,15 +55,23 @@ public class IndicesConsolidados extends BaseEntity {
 	private Double proporcional;
 	private Double multiplicadorMoeda;
 	private Double ajusteMoeda;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceAtualizado;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceAcumulado;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceRes134;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceRes134Acumulado;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceSalarios;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceSalariosAcumulado;
-	private Double ipca;
+	private Float ipca;
 	private Double ipcaE;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceCondenatorias;
+	@Column(precision = 40, scale = 20)
 	private BigDecimal indiceCondenatoriasAcumulado;
 	private Double selic;
 	private Double juros;

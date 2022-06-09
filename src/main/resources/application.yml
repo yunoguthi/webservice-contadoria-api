@@ -1,9 +1,9 @@
 server:
   ssl:
     key-store: classpath:contadoria.jks
-    key-store-password: 123456
+    key-store-password: 123456ab
     key-alias: contadoria
-    key-password: 123456
+    key-password: 123456ab
     enabled: false
   port: 8081
   contextPath: /api
@@ -27,7 +27,7 @@ spring:
         lob:
           non_contextual_creation: true
       dialect: org.hibernate.dialect.PostgreSQLDialect
-      ddl-auto: create-drop
+      ddl-auto: update
 #trust:
  # store: classpath:contadoria.jks
 #  password: 123456

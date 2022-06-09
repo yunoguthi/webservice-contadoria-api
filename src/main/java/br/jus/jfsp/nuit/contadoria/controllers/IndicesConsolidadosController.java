@@ -56,6 +56,13 @@ public class IndicesConsolidadosController {
 		this.assembler = assembler;
 	}
 
+	@GetMapping("/teste")
+	@Hateoas
+	public ResponseEntity<String> teste() {
+		service.mostraCSVTeste();
+		return ResponseEntity.ok("ok");
+	}
+
 	@GetMapping("/importa")
 	public ResponseEntity.BodyBuilder importaIndicesConsolidados() {
 		service.importa();

@@ -103,16 +103,21 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 			Iterable<SalarioMinimo> listSalarioMinimo = salarioMinimoService.getAll(Sort.by("data").descending());
 			for (SalarioMinimo salarioMinimo: listSalarioMinimo) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(salarioMinimo.getData())) {
-					indicesConsolidados = findByData(salarioMinimo.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(salarioMinimo.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(salarioMinimo.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(salarioMinimo.getData());
+					indicesConsolidados.setMes(mes);
+					indicesConsolidados.setAno(ano);
 				}
 				indicesConsolidados.setSalarioMinimo(salarioMinimo.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
+					//System.out.println("indicesConsolidados " + indicesConsolidados.toString());
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
 
@@ -121,275 +126,322 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 			Iterable<SalarioMinimoReferencia> listSalarioMinimoReferencia = salarioMinimoReferenciaService.getAll(Sort.by("data").descending());
 			for (SalarioMinimoReferencia salarioMinimoReferencia: listSalarioMinimoReferencia) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(salarioMinimoReferencia.getData())) {
-					indicesConsolidados = findByData(salarioMinimoReferencia.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(salarioMinimoReferencia.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(salarioMinimoReferencia.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(salarioMinimoReferencia.getData());
+					indicesConsolidados.setMes(mes);
+					indicesConsolidados.setAno(ano);
 				}
 				indicesConsolidados.setSalarioMinimoReferencia(salarioMinimoReferencia.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao salario minimo ref");
 
 			// TETO CONTRIBUIÇÃO
 
 			Iterable<TetoContribuicao> listTetoContribuicao = tetoContribuicaoService.getAll(Sort.by("data").descending());
 			for (TetoContribuicao tetoContribuicao: listTetoContribuicao) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(tetoContribuicao.getData())) {
-					indicesConsolidados = findByData(tetoContribuicao.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(tetoContribuicao.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(tetoContribuicao.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(tetoContribuicao.getData());
 				}
 				indicesConsolidados.setTetoContribuicao(tetoContribuicao.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao teto contribuicao");
 
 			// TETO BENEFÍCIO
 
 			Iterable<TetoBeneficio> listTetoBeneficio = tetoBeneficioService.getAll(Sort.by("data").descending());
 			for (TetoBeneficio tetoBeneficio: listTetoBeneficio) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(tetoBeneficio.getData())) {
-					indicesConsolidados = findByData(tetoBeneficio.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(tetoBeneficio.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(tetoBeneficio.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(tetoBeneficio.getData());
 				}
 				indicesConsolidados.setTetoBeneficio(tetoBeneficio.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
+			System.out.println("fim importacao teto beneficio");
 			// REAJUSTE BENEFÍCIOS
 
 			Iterable<ReajusteBeneficio> listReajusteBeneficio = reajusteBeneficioService.getAll(Sort.by("data").descending());
 			for (ReajusteBeneficio reajusteBeneficio: listReajusteBeneficio) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(reajusteBeneficio.getData())) {
-					indicesConsolidados = findByData(reajusteBeneficio.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(reajusteBeneficio.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(reajusteBeneficio.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(reajusteBeneficio.getData());
 				}
 				indicesConsolidados.setIntegral(reajusteBeneficio.getIntegral());
 				indicesConsolidados.setProporcional(reajusteBeneficio.getProporcional());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
+			System.out.println("fim importacao reajuste beneficios");
 			// MULTIPLICADOR MOEDA
 
 			Iterable<MultiplicadorMoeda> listMultiplicadorMoeda = multiplicadorMoedaService.getAll(Sort.by("data").descending());
 			for (MultiplicadorMoeda multiplicadorMoeda: listMultiplicadorMoeda) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(multiplicadorMoeda.getData())) {
-					indicesConsolidados = findByData(multiplicadorMoeda.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(multiplicadorMoeda.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(multiplicadorMoeda.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(multiplicadorMoeda.getData());
 				}
 				indicesConsolidados.setMultiplicadorMoeda(multiplicadorMoeda.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao multiplicador moeda ");
 
 			// AJUSTE MOEDA
 
 			Iterable<AjusteMoeda> listAjusteMoeda = ajusteMoedaService.getAll(Sort.by("data").descending());
 			for (AjusteMoeda ajusteMoeda: listAjusteMoeda) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(ajusteMoeda.getData())) {
-					indicesConsolidados = findByData(ajusteMoeda.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(ajusteMoeda.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(ajusteMoeda.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(ajusteMoeda.getData());
 				}
 				indicesConsolidados.setAjusteMoeda(ajusteMoeda.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao ajuste moeda");
 
 			// ÍNDICES ATRASADOS
 
 			Iterable<IndicesAtrasados> listIndicesAtrasados = indicesAtrasadosService.getAll(Sort.by("data").descending());
 			for (IndicesAtrasados indicesAtrasados: listIndicesAtrasados) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(indicesAtrasados.getData())) {
-					indicesConsolidados = findByData(indicesAtrasados.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesAtrasados.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(indicesAtrasados.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesAtrasados.getData());
 				}
 				indicesConsolidados.setIndiceAcumulado(indicesAtrasados.getIndiceAtrasado());
 				indicesConsolidados.setIndiceAtualizado(indicesAtrasados.getIndice());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao indices Atrasados");
 
 			// ÍNDICES RES 134
 
 			Iterable<IndicesRes134> listIndicesRes134 = indicesRes134Service.getAll(Sort.by("data").descending());
 			for (IndicesRes134 indicesRes134: listIndicesRes134) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(indicesRes134.getData())) {
-					indicesConsolidados = findByData(indicesRes134.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesRes134.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(indicesRes134.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesRes134.getData());
 				}
 				indicesConsolidados.setIndiceRes134(indicesRes134.getIndice());
 				indicesConsolidados.setIndiceRes134Acumulado(indicesRes134.getIndiceAtrasado());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao res 134");
 
 			// ÍNDICES SALÁRIOS
 
 			Iterable<IndicesSalarios> listIndicesSalarios = indicesSalariosService.getAll(Sort.by("data").descending());
 			for (IndicesSalarios indicesSalarios: listIndicesSalarios) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(indicesSalarios.getData())) {
-					indicesConsolidados = findByData(indicesSalarios.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesSalarios.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(indicesSalarios.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesSalarios.getData());
 				}
 				indicesConsolidados.setIndiceSalarios(indicesSalarios.getIndice());
 				indicesConsolidados.setIndiceSalariosAcumulado(indicesSalarios.getIndiceAtrasado());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
-			// IPCA
-
-			Iterable<Ipca> listIpca = ipcaService.getAll(Sort.by("data").descending());
-			for (Ipca ipca: listIpca) {
-				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(ipca.getData())) {
-					indicesConsolidados = findByData(ipca.getData()).get();
-				} else {
-					indicesConsolidados.setData(ipca.getData());
-				}
-				indicesConsolidados.setIpca(ipca.getValor());
-				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
-						repository.save(indicesConsolidados);
-					}
-				} catch (Exception e) {}
-			}
+			System.out.println("fim importacao indices salarios");
 
 			// IPCA E
 
 			Iterable<IpcaE> listIpcaE = ipcaEService.getAll(Sort.by("data").descending());
 			for (IpcaE ipcaE: listIpcaE) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(ipcaE.getData())) {
-					indicesConsolidados = findByData(ipcaE.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(ipcaE.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(ipcaE.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(ipcaE.getData());
 				}
 				indicesConsolidados.setIpcaE(ipcaE.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
+			System.out.println("fim importacao ipca e");
 			// ÍNDICES COND
 
 			Iterable<IndicesCond> listIndicesCond = indicesCondService.getAll(Sort.by("data").descending());
 			for (IndicesCond indicesCond: listIndicesCond) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(indicesCond.getData())) {
-					indicesConsolidados = findByData(indicesCond.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesCond.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(indicesCond.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesCond.getData());
 				}
 				indicesConsolidados.setIndiceCondenatorias(indicesCond.getIndice());
 				indicesConsolidados.setIndiceCondenatoriasAcumulado(indicesCond.getIndiceAtrasado());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
+			System.out.println("fim importacao indices cond ");
 			// SELIC
 
 			Iterable<SelicMensal> listSelicMensal = selicMensalService.getAll(Sort.by("data").descending());
 			for (SelicMensal selicMensal: listSelicMensal) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(selicMensal.getData())) {
-					indicesConsolidados = findByData(selicMensal.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(selicMensal.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(selicMensal.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(selicMensal.getData());
 				}
 				indicesConsolidados.setSelic(selicMensal.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
+			System.out.println("fim importacao selic ");
 			// JUROS
 
 			Iterable<Juros> listJuros = jurosService.getAll(Sort.by("data").descending());
 			for (Juros juros: listJuros) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(juros.getData())) {
-					indicesConsolidados = findByData(juros.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(juros.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(juros.getData())) + "";
+				System.out.println(ano + "/" + mes);
+				if (repository.existsByMesAndAno(mes, ano)) {
+					System.out.println("JUROS DATA IGUAL");
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(juros.getData());
+					indicesConsolidados.setMes(mes);
+					indicesConsolidados.setAno(ano);
 				}
 				indicesConsolidados.setJuros(juros.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
-
+			System.out.println("fim importacao juros ");
 			// JUROS ALT
 
 			Iterable<JurosAlt> listJurosAlt = jurosAltService.getAll(Sort.by("data").descending());
 			for (JurosAlt jurosAlt: listJurosAlt) {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
-				if (repository.existsByData(jurosAlt.getData())) {
-					indicesConsolidados = findByData(jurosAlt.getData()).get();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(jurosAlt.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(jurosAlt.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(jurosAlt.getData());
 				}
 				indicesConsolidados.setJurosAlt(jurosAlt.getValor());
 				try {
-					if (!repository.existsByData(indicesConsolidados.getData())) {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
-					}
+					//}
 				} catch (Exception e) {}
 			}
+			System.out.println("fim importacao juros alt");
+
+			// IPCA
+
+			Iterable<Ipca> listIpca = ipcaService.getAll(Sort.by("data").descending());
+			for (Ipca ipca: listIpca) {
+				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
+				String ano = ManipulaData.getAno(ManipulaData.toDate(ipca.getData())) + "";
+				String mes = ManipulaData.getMes(ManipulaData.toDate(ipca.getData())) + "";
+				if (repository.existsByMesAndAno(mes, ano)) {
+					indicesConsolidados = findByMesAndAno(mes, ano).get();
+				} else {
+					indicesConsolidados.setData(ipca.getData());
+				}
+				indicesConsolidados.setIpca(ipca.getVariacaoMensal());
+				try {
+					//if (!repository.existsByData(indicesConsolidados.getData())) {
+					repository.save(indicesConsolidados);
+					//}
+				} catch (Exception e) {}
+			}
+			System.out.println("fim importacao ipca");
+
+
 			System.out.println("mostraCSV");
 			mostraCSV();
 			System.out.println("fim");
@@ -431,6 +483,192 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void mostraCSVTeste() {
+
+		ArrayList<IndicesConsolidados> listIndicesConsolidados = (ArrayList<IndicesConsolidados>) repository.findAll(Sort.by("data"));
+		String[] csv = new String[listIndicesConsolidados.size()+1];
+		csv[0] = "competencia;" +
+				"dataBase;" +
+				"dataBase_google;" +
+
+				"salarioMinimo;" +
+				"salarioMinimo_google;" +
+
+				"salarioMinimoReferencia;" +
+				"salarioMinimoReferencia_google;" +
+
+				"tetoContribuicao;" +
+				"tetoContribuicao_google;" +
+
+				"tetoBeneficio;" +
+				"tetoBeneficio_google;" +
+
+				"integral;" +
+				"integral_google;" +
+
+				"proporcional;" +
+				"proporcional_google;" +
+
+				"multiplicadorMoeda;" +
+				"multiplicadorMoeda_google;" +
+
+				"ajusteMoeda;" +
+				"ajusteMoeda_google;" +
+
+				"indiceAtualizado;" +
+				"indiceAtualizado_google;" +
+
+				"indiceAcumulado;" +
+				"indiceAcumulado_google;" +
+
+				"indiceRes134;" +
+				"indiceRes134_google;" +
+
+				"indiceRes134Acumulado;" +
+				"indiceRes134Acumulado_google;" +
+
+				"indiceSalarios;" +
+				"indiceSalarios_google;" +
+
+				"indiceSalariosAcumulado;" +
+				"indiceSalariosAcumulado_google;" +
+
+				"ipca;" +
+				"ipca_google;" +
+
+				"ipcaE;" +
+				"ipcaE_google;" +
+
+				"indiceCondenatorias;" +
+				"indiceCondenatorias_google;" +
+
+				"indiceCondenatoriasAcumulado;" +
+				"indiceCondenatoriasAcumulado_google;" +
+
+				"selic;" +
+				"selic_google;" +
+
+				"juros;" +
+				"juros_google;" +
+
+				"jurosAlt" +
+				"jurosAlt_google";
+
+
+		String linha = "";
+
+		String[] salarioMinimo = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(1));
+		String[] salarioMinimoRef = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(2));
+		String[] tetoContribuicao = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(3));
+		String[] tetoBeneficio = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(4));
+		String[] dataBase = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(5));
+		String[] integral = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(6));
+		String[] proporcional = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(7));
+		String[] multiplicadorMoeda = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(8));
+		String[] ajusteMoeda = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(9));
+		String[] indiceAtrasado = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(10));
+		String[] indiceAcumulado = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(11));
+		String[] res134 = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(12));
+		String[] rest134Acumulado = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(13));
+		String[] indiceSalario = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(14));
+		String[] indiceSalarioAcumulado = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(15));
+		String[] ipca = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(16));
+		String[] ipcaE = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(17));
+		String[] indiceCond = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(18));
+		String[] indiceCondAcumulado = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(19));
+		String[] selic = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(20));
+		String[] juros = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(21));
+
+		for(int i=0; i<listIndicesConsolidados.size(); i++) {
+//System.out.println(listIndicesConsolidados.get(i).getTetoContribuicao());
+			linha = ManipulaData.dateToStringAnoMes(ManipulaData.toDate(listIndicesConsolidados.get(i).getData()))  + ";" +
+					listIndicesConsolidados.get(i).getDataBase() + ";" +
+					dataBase[i] + ";" +
+
+					listIndicesConsolidados.get(i).getSalarioMinimo() + ";" +
+					salarioMinimo[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getSalarioMinimoReferencia()+ ";" +
+					salarioMinimoRef[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getTetoContribuicao() + ";" +
+					tetoContribuicao[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getTetoBeneficio() + ";" +
+					tetoBeneficio[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIntegral() + ";" +
+					integral[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getProporcional() + ";" +
+					proporcional[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getMultiplicadorMoeda() + ";" +
+					multiplicadorMoeda[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getAjusteMoeda() + ";" +
+					ajusteMoeda[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceAtualizado() + ";" +
+					indiceAtrasado[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceAcumulado() + ";" +
+					indiceAcumulado[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceRes134() + ";" +
+					res134[i].replaceAll(",", ".") + ";" +
+
+
+					listIndicesConsolidados.get(i).getIndiceRes134Acumulado() + ";" +
+					rest134Acumulado[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceSalarios() + ";" +
+					indiceSalario[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceSalariosAcumulado() + ";" +
+					indiceSalarioAcumulado[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIpca() + ";" +
+					ipca[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIpcaE() + ";" +
+					ipcaE[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceCondenatorias() + ";" +
+					indiceCond[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getIndiceCondenatoriasAcumulado() + ";" +
+					indiceCondAcumulado[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getSelic() + ";" +
+					selic[i].replaceAll(",", ".") + ";" +
+
+					listIndicesConsolidados.get(i).getJuros() + ";" +
+					juros[i].replaceAll(",", ".") + ";"
+
+					//listIndicesConsolidados.get(i).getJurosAlt() + ";" +
+					//jurosAlt[i].replaceAll(",", ".") + ";"
+			;
+
+			//csv[i+1] = listIndicesConsolidados.get(i).toString();
+			csv[i+1] = linha;
+		}
+		try {
+			ManipulaArquivo.geraArquivo("consolidados_teste_comp.csv", csv);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("fim teste");
+	}
+
+	public void testando() {
+		System.out.println("Início comparação de salario minimo ref");
+		String[] normalizados = ManipulaArquivo.normalizar(ManipulaArquivo.getColuna(2));
+		//teste(normalizados);
+		//mostraCSV(normalizados);
+		System.out.println("Fim comparação de salario minimo ref");
 	}
 
 	public IndicesConsolidados create(IndicesConsolidados indicesConsolidados) {
@@ -476,6 +714,10 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 
 	public Optional<IndicesConsolidados> findByData(Calendar data) {
 		return repository.findByData(data);
+	}
+
+	public Optional<IndicesConsolidados> findByMesAndAno(String mes, String ano) {
+		return repository.findByMesAndAno(mes, ano);
 	}
 
 	public Page<IndicesConsolidados> findLike(Pageable pageable, String like) throws RecordNotFoundException {

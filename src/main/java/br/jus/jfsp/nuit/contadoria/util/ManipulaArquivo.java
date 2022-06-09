@@ -53,12 +53,17 @@ public class ManipulaArquivo {
     public static String[] normalizar(String[] numeros) {
         String[] retorno = new String[numeros.length];
         for (int i = 0; i<numeros.length; i++) {
+            //System.out.println(i + " " + numeros[i]);
             Double numeroDouble = new Double(0.0);
             try {
                 numeroDouble = new Double(numeros[i]);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                //System.out.println(numeros[i]);
+                retorno[i] = numeros[i];
+                continue;
+            }
             String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(numeroDouble);
-            retorno[i] = valorFormatado;
+            retorno[i] = valorFormatado.replace(".", "");
         }
         return retorno;
     }

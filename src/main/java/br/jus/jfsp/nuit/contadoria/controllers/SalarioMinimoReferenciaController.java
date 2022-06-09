@@ -50,6 +50,13 @@ public class SalarioMinimoReferenciaController {
 		this.assembler = assembler;
 	}
 
+	@GetMapping("/teste")
+	@Hateoas
+	public ResponseEntity<String> teste() {
+		service.testando();
+		return ResponseEntity.ok("");
+	}
+
 	@GetMapping("/export")
 	@Hateoas
 	public Iterable<SalarioMinimoReferenciaTO> listAll(
