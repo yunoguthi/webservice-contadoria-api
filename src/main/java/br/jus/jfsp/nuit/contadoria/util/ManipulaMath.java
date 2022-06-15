@@ -14,6 +14,8 @@ public class ManipulaMath {
 
     private static final int LENGTH = 15;
 
+    private static final String NUMBER_FORMAT_14 = "#,##0.00000000000000";
+
     private static double getDivisor() {
         double number = 1.0;
         for (int i = 0; i < LENGTH-1; i++) {

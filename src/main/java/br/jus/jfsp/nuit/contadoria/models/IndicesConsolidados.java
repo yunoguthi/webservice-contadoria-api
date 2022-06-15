@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 @Entity
 @Table(name = "indices_consolidados", indexes = @Index(
-		name="idx_indices_consolidados", unique=true, columnList = "data"
+		name="idx_indices_consolidados", unique=true, columnList = "mes,ano"
 ))
 @Getter
 @Setter
@@ -39,7 +39,7 @@ public class IndicesConsolidados extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
 
 	private String ano;
@@ -114,8 +114,8 @@ public class IndicesConsolidados extends BaseEntity {
 		String salarioMinimoReferenciaStr = salarioMinimoReferencia!=null?salarioMinimoReferencia.doubleValue() + "":"0";
 		String tetoContribuicaoStr = tetoContribuicao!=null?tetoContribuicao.doubleValue() + "":"0";
 		String tetoBeneficioStr = tetoBeneficio!=null?tetoBeneficio.doubleValue() + "":"0";
-		String integralStr = 	integral!=null?integral.doubleValue() + "":"0";
-		String proporcionalStr = 		proporcional!=null?proporcional.doubleValue() + "":"0";
+		String integralStr = integral!=null?integral.doubleValue() + "":"0";
+		String proporcionalStr = proporcional!=null?proporcional.doubleValue() + "":"0";
 		String multiplicadorMoedaStr = 		multiplicadorMoeda!=null?df.format(multiplicadorMoeda) + "":"0";
 		String ajusteMoedaStr = 	ajusteMoeda!=null?df.format(ajusteMoeda) + "":"0";
 		String indiceAtualizadoStr = 		indiceAtualizado!=null?indiceAtualizado.doubleValue() + "":"0";
@@ -132,8 +132,7 @@ public class IndicesConsolidados extends BaseEntity {
 		String jurosStr = 		juros!=null?juros.doubleValue() + "":"0";
 		String jurosAltStr = jurosAlt!=null?df.format(jurosAlt) + "":"0";
 
-		String retorno =
-				"01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
+		String retorno = "01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
 						dataBase + ";" +
 						salarioMinimoStr + ";" +
 						salarioMinimoReferenciaStr + ";" +

@@ -174,6 +174,19 @@ public class ManipulaData {
 		cal.setTime(data);
 		return cal.get(Calendar.MONTH);
 	}
+
+	public static int getMesAlterado(Date data) {
+		int mes = getMes(data);
+		return mes++;
+	}
+
+	public static String getMesAlteradoStr(Date data) {
+		int mes = getMesAlterado(data);
+		if (mes < 10) {
+			return "0" + mes;
+		}
+		return mes + "";
+	}
 	
 	public static int getAno(Date data) {
 		Calendar cal = Calendar.getInstance();

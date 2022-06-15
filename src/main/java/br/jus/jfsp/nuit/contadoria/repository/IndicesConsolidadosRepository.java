@@ -21,7 +21,8 @@ public interface IndicesConsolidadosRepository extends PagingAndSortingRepositor
 
 	Optional<IndicesConsolidados> findByMesAndAno(String mes, String ano);
 
-	Boolean existsByMesAndAno(String mes, String ano);
+	@Query("select case when count(i)> 0 then true else false end from IndicesConsolidados i where i.ano=:ano and i.mes=:mes")
+	boolean existsByMesAndAno(@Param("mes") String mes, @Param("ano") String ano);
 
 
 	@Query("select max(data) from IndicesConsolidados")

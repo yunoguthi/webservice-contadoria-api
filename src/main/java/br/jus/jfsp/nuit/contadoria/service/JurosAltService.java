@@ -94,7 +94,7 @@ public class JurosAltService extends SgsBacenService {
 					try {
 						JurosAlt jurosAlt = new JurosAlt();
 						jurosAlt.setData(atualizacaoJudicial.getData());
-						jurosAlt.setValor(valor);
+						jurosAlt.setValor(valor*100);
 						if (!repository.existsByData(atualizacaoJudicial.getData())) {
 							repository.save(jurosAlt);
 						}
@@ -108,7 +108,7 @@ public class JurosAltService extends SgsBacenService {
 
 							JurosAlt jurosAlt = new JurosAlt();
 							jurosAlt.setData(atualizacaoJudicial.getData());
-							jurosAlt.setValor(valor);
+							jurosAlt.setValor(valor*100);
 							if (!repository.existsByData(atualizacaoJudicial.getData())) {
 								repository.save(jurosAlt);
 							}
@@ -117,14 +117,14 @@ public class JurosAltService extends SgsBacenService {
 							val = val.plus();
 							val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
 							val.add(new BigDecimal(-1.0));
-							//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
-							//valor = valor + 1;
-							//valor = Math.pow(valor.doubleValue(), raiz);
-							//valor = valor -1;
+							valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
+							valor = valor + 1;
+							valor = Math.pow(valor.doubleValue(), raiz);
+							valor = valor -1;
 							try {
 								JurosAlt jurosAlt = new JurosAlt();
 								jurosAlt.setData(atualizacaoJudicial.getData());
-								jurosAlt.setValor(selicMetaCopom.getValor()*0.7);
+								jurosAlt.setValor(valor*100);
 								if (!repository.existsByData(atualizacaoJudicial.getData())) {
 									repository.save(jurosAlt);
 								}

@@ -82,7 +82,7 @@ public class JurosService extends SgsBacenService {
 						valor = new Double(0.005);
 						Juros juros = new Juros();
 						juros.setData(selicMetaCopom.getData());
-						juros.setValor(valor);
+						juros.setValor(valor*100);
 						if (!repository.existsByData(selicMetaCopom.getData())) {
 							repository.save(juros);
 						}
@@ -91,13 +91,13 @@ public class JurosService extends SgsBacenService {
 						val = val.plus();
 						val = new BigDecimal(Math.pow(valor.doubleValue(), raiz));
 						val.add(new BigDecimal(-1.0));
-						//valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
-						//valor = valor + 1;
-						//valor = Math.pow(valor.doubleValue(), raiz);
-						//valor = valor -1;
+						valor = (new Double(selicMetaCopom.getValor()*0.7) / 100);
+						valor = valor + 1;
+						valor = Math.pow(valor.doubleValue(), raiz);
+						valor = valor -1;
 						Juros juros = new Juros();
 						juros.setData(selicMetaCopom.getData());
-						juros.setValor(selicMetaCopom.getValor() * 0.7);
+						juros.setValor(valor*100);
 						if (!repository.existsByData(selicMetaCopom.getData())) {
 							repository.save(juros);
 						}
