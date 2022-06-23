@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class ManipulaArquivo {
 
@@ -53,17 +55,29 @@ public class ManipulaArquivo {
     public static String[] normalizar(String[] numeros) {
         String[] retorno = new String[numeros.length];
         for (int i = 0; i<numeros.length; i++) {
+            //numeros[i] = numeros[i].replaceAll(".", "").replaceAll(",", ".");
             //System.out.println(i + " " + numeros[i]);
             Double numeroDouble = new Double(0.0);
             try {
                 numeroDouble = new Double(numeros[i]);
+                System.out.println(i + " " + numeros[i] + " = " + numeroDouble);
             } catch (Exception e) {
-                //System.out.println(numeros[i]);
+               // System.out.println(numeros[i]);
                 retorno[i] = numeros[i];
                 continue;
             }
-            String valorFormatado = new DecimalFormat("#,##0.00000000000000").format(numeroDouble);
-            retorno[i] = valorFormatado.replace(".", "");
+            String valorFormatado = new DecimalFormat("#.00000000000000000000#").format(numeroDouble);
+            retorno[i] = valorFormatado;
+            //retorno[i] = numeroDouble + "";
+
+            Locale localeBR = new Locale( "pt", "BR" );
+            NumberFormat numeroBR = NumberFormat.getNumberInstance(localeBR);
+            numeroBR.setMaximumFractionDigits(20);
+
+            //retorno[i] = numeroBR.format(numeroDouble).replace(".", "").replaceAll("E10", "");
+
+            System.out.println("NumberFormat " + retorno[i]);
+
         }
         return retorno;
     }
@@ -101,7 +115,11 @@ public class ManipulaArquivo {
     public static void main(String[] args) {
         //openFile();
         //getLinhas();
-        normalizar(getColuna(11));
+        //normalizar(getColuna(11));
+        String[] coluna = getColuna(9);
+        for (int i = 0; i< coluna.length; i++) {
+            System.out.println(coluna[i]);
+        }
 //        System.out.println(getColuna(11));
     }
 

@@ -49,7 +49,7 @@ public class IndicesSalariosService {
 			Double valor = atualizacaoSalario.getValor();
 			BigDecimal indice = new BigDecimal(1.0);
 			if (percentual == null && valor == null) {
-				indice = new BigDecimal(1.0);
+				indice = new BigDecimal(0.0);
 
 			} else if (percentual !=null && !percentual.equals(0.0)) {
 				indice = new BigDecimal((percentual / 100) + 1);
@@ -66,7 +66,15 @@ public class IndicesSalariosService {
 			indiceAnterior = indice;
 			valorAnterior = valor;
 			try {
-				repository.save(new IndicesSalarios(indice, atualizacaoSalario.getObservacao(), atualizacaoSalario.getData()));
+				IndicesSalarios indiceSalarios = new IndicesSalarios();
+				if (repository.existsByData(atualizacaoSalario.getData())) {
+					indiceSalarios = repository.findByData(atualizacaoSalario.getData()).get();
+				} else {
+					indiceSalarios.setData(atualizacaoSalario.getData());
+				}
+				indiceSalarios.setIndice(indice);
+				indiceSalarios.setObservacao(atualizacaoSalario.getObservacao());
+				repository.save(indiceSalarios);
 			} catch (Exception e) {}
 		}
 	}
@@ -76,7 +84,7 @@ public class IndicesSalariosService {
 		BigDecimal acumulado = new BigDecimal(1.0);
 		for (int i = listIndicesSalarios.size()-1; i>=0; i--) {
 			IndicesSalarios indicesSalarios = listIndicesSalarios.get(i);
-			if (!Double.isInfinite(indicesSalarios.getIndice().doubleValue()) && !indicesSalarios.getIndice().abs().equals(new BigDecimal(0.0))) {
+			if (!Double.isInfinite(indicesSalarios.getIndice().doubleValue()) && indicesSalarios.getIndice().abs().compareTo(new BigDecimal(0.0))!=0) {
 				acumulado = acumulado.multiply(indicesSalarios.getIndice());
 			}
 			acumulado = acumulado.setScale(14, BigDecimal.ROUND_HALF_UP);

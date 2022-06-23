@@ -177,11 +177,19 @@ public class ManipulaData {
 
 	public static int getMesAlterado(Date data) {
 		int mes = getMes(data);
-		return mes++;
+		return ++mes;
 	}
 
 	public static String getMesAlteradoStr(Date data) {
 		int mes = getMesAlterado(data);
+		if (mes < 10) {
+			return "0" + mes;
+		}
+		return mes + "";
+	}
+
+	public static String getMesStr(Date data) {
+		int mes = getMes(data);
 		if (mes < 10) {
 			return "0" + mes;
 		}

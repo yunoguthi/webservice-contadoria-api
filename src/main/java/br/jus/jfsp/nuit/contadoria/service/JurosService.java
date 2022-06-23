@@ -60,7 +60,7 @@ public class JurosService extends SgsBacenService {
 			Double raiz = 1.0 / 12.0;
 
 			if (atualizacaoJudicial.getData().compareTo(junho2009) <= 0) {
-				valor = new Double(0.01);
+				valor = new Double(1);
 				try {
 					if (!repository.existsByData(atualizacaoJudicial.getData())) {
 						repository.save(new Juros(valor, atualizacaoJudicial.getData()));
@@ -68,7 +68,7 @@ public class JurosService extends SgsBacenService {
 				} catch (Exception e) {}
 			}
 			if (atualizacaoJudicial.getData().compareTo(junho2009) > 0 && atualizacaoJudicial.getData().compareTo(maio2012) <= 0) {
-				valor = new Double(0.005);
+				valor = new Double(0.5);
 				try {
 					if (!repository.existsByData(atualizacaoJudicial.getData())) {
 						repository.save(new Juros(valor, atualizacaoJudicial.getData()));
@@ -79,10 +79,10 @@ public class JurosService extends SgsBacenService {
 				try {
 					SelicMetaCopom selicMetaCopom = selicMetaCopomService.findByData(atualizacaoJudicial.getData()).get();
 					if (selicMetaCopom.getValor().compareTo(new Double(8.5)) > 0) {
-						valor = new Double(0.005);
+						valor = new Double(0.5);
 						Juros juros = new Juros();
 						juros.setData(selicMetaCopom.getData());
-						juros.setValor(valor*100);
+						juros.setValor(valor);
 						if (!repository.existsByData(selicMetaCopom.getData())) {
 							repository.save(juros);
 						}

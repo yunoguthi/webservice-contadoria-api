@@ -105,10 +105,11 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(salarioMinimo.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(salarioMinimo.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
-					System.out.println("EXISTS");
+				if (repository.existsByData(salarioMinimo.getData())) {
+					//System.out.println("EXISTS");
+					//System.out.println(mes+"/"+ano + " - " + salarioMinimo.getValor());
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
-					System.out.println(indicesConsolidados.getAno() + "-" + indicesConsolidados.getMes());
+					//System.out.println(indicesConsolidados.getId() + indicesConsolidados.getAno() + "-" + indicesConsolidados.getMes());
 				} else {
 					indicesConsolidados.setData(salarioMinimo.getData());
 					indicesConsolidados.setMes(mes);
@@ -117,13 +118,26 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setSalarioMinimo(salarioMinimo.getValor());
 				try {
 					//if (!repository.existsByData(indicesConsolidados.getData())) {
-					//System.out.println("indicesConsolidados " + indicesConsolidados.toString());
-					System.out.println(indicesConsolidados.toString());
-					repository.save(indicesConsolidados);
+					//System.out.println(indicesConsolidados.toString());
+					//repository.save(indicesConsolidados);
+					Long id = indicesConsolidados.getId();
+					Double valor = salarioMinimo.getValor();
+
+					if (id!=0) {
+						System.out.println(id + " - " +mes + "/" + ano + " - " + valor);
+						System.out.println("indicesConsolidados " + indicesConsolidados.toString());
+						repository.save(indicesConsolidados);
+						//repository.setSalarioMinimo(id, valor);
+						//repository.setSalarioMinimo(mes, ano, valor);
+					} else {
+						System.out.println("ZERADO " + id + " - " +mes + "/" + ano + " - " + valor);
+
+					}
+
 					//}
 				} catch (Exception e) {}
 			}
-//
+
 			// SALÁRIO MÍNIMO REF
 
 			Iterable<SalarioMinimoReferencia> listSalarioMinimoReferencia = salarioMinimoReferenciaService.getAll(Sort.by("data").descending());
@@ -131,7 +145,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(salarioMinimoReferencia.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(salarioMinimoReferencia.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(salarioMinimoReferencia.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(salarioMinimoReferencia.getData());
@@ -154,7 +168,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(tetoContribuicao.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(tetoContribuicao.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(tetoContribuicao.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(tetoContribuicao.getData());
@@ -177,7 +191,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(tetoBeneficio.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(tetoBeneficio.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(tetoBeneficio.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(tetoBeneficio.getData());
@@ -199,7 +213,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(reajusteBeneficio.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(reajusteBeneficio.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(reajusteBeneficio.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(reajusteBeneficio.getData());
@@ -215,6 +229,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				} catch (Exception e) {}
 			}
 			System.out.println("fim importacao reajuste beneficios");
+
 			// MULTIPLICADOR MOEDA
 
 			Iterable<MultiplicadorMoeda> listMultiplicadorMoeda = multiplicadorMoedaService.getAll(Sort.by("data").descending());
@@ -222,7 +237,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(multiplicadorMoeda.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(multiplicadorMoeda.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(multiplicadorMoeda.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(multiplicadorMoeda.getData());
@@ -245,7 +260,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(ajusteMoeda.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(ajusteMoeda.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(ajusteMoeda.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(ajusteMoeda.getData());
@@ -268,7 +283,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesAtrasados.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(indicesAtrasados.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(indicesAtrasados.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesAtrasados.getData());
@@ -292,7 +307,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesRes134.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(indicesRes134.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(indicesRes134.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesRes134.getData());
@@ -316,7 +331,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesSalarios.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(indicesSalarios.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(indicesSalarios.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesSalarios.getData());
@@ -340,14 +355,17 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(ipcaE.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(ipcaE.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(ipcaE.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(ipcaE.getData());
 					indicesConsolidados.setMes(mes);
 					indicesConsolidados.setAno(ano);
 				}
-				indicesConsolidados.setIpcaE(ipcaE.getValor());
+
+				double variacaoMensal = 1 + (ipcaE.getValor()*0.01);
+				indicesConsolidados.setIpcaE(variacaoMensal);
+
 				try {
 					//if (!repository.existsByData(indicesConsolidados.getData())) {
 						repository.save(indicesConsolidados);
@@ -355,6 +373,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				} catch (Exception e) {}
 			}
 			System.out.println("fim importacao ipca e");
+
 			// ÍNDICES COND
 
 			Iterable<IndicesCond> listIndicesCond = indicesCondService.getAll(Sort.by("data").descending());
@@ -362,7 +381,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(indicesCond.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(indicesCond.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(indicesCond.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(indicesCond.getData());
@@ -378,6 +397,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				} catch (Exception e) {}
 			}
 			System.out.println("fim importacao indices cond ");
+
 			// SELIC
 
 			Iterable<SelicMensal> listSelicMensal = selicMensalService.getAll(Sort.by("data").descending());
@@ -385,7 +405,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(selicMensal.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(selicMensal.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(selicMensal.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(selicMensal.getData());
@@ -400,6 +420,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				} catch (Exception e) {}
 			}
 			System.out.println("fim importacao selic ");
+
 			// JUROS
 
 			Iterable<Juros> listJuros = jurosService.getAll(Sort.by("data").descending());
@@ -407,7 +428,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(juros.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(juros.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(juros.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(juros.getData());
@@ -422,6 +443,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				} catch (Exception e) {}
 			}
 			System.out.println("fim importacao juros ");
+
 			// JUROS ALT
 
 			Iterable<JurosAlt> listJurosAlt = jurosAltService.getAll(Sort.by("data").descending());
@@ -429,7 +451,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(jurosAlt.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(jurosAlt.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(jurosAlt.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(jurosAlt.getData());
@@ -452,12 +474,13 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				IndicesConsolidados indicesConsolidados = new IndicesConsolidados();
 				String ano = ManipulaData.getAno(ManipulaData.toDate(ipca.getData())) + "";
 				String mes = ManipulaData.getMesAlteradoStr(ManipulaData.toDate(ipca.getData())) + "";
-				if (repository.existsByMesAndAno(mes, ano)) {
+				if (repository.existsByData(ipca.getData())) {
 					indicesConsolidados = findByMesAndAno(mes, ano).get();
 				} else {
 					indicesConsolidados.setData(ipca.getData());
 				}
-				indicesConsolidados.setIpca(ipca.getVariacaoMensal());
+				float variacaoMensal = (float) (1 + (ipca.getVariacaoMensal()*0.01));
+				indicesConsolidados.setIpca(variacaoMensal);
 				try {
 					//if (!repository.existsByData(indicesConsolidados.getData())) {
 					repository.save(indicesConsolidados);
@@ -479,24 +502,24 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 		String[] csv = new String[listIndicesConsolidados.size()+1];
 		csv[0] = "Competencia;" +
 				"DataBase;" +
-				"salarioMinimo;" +
-				"salarioMinimoReferencia;" +
-				"tetoContribuicao;" +
-				"tetoBeneficio;" +
-				"integral;" +
-				"proporcional;" +
-				"multiplicadorMoeda;" +
-				"ajusteMoeda;" +
-				"indiceAtualizacao;" +
-				"indiceAcumulado;" +
-				"indiceRes134;" +
-				"indiceRes134Acumulado;" +
-				"indiceSalarios;" +
-				"indiceSalariosAcumulado;" +
+				"SalarioMinimo;" +
+				"SalarioMinimoReferencia;" +
+				"TetoContribuicao;" +
+				"TetoBeneficio;" +
+				"Integral;" +
+				"Proporcional;" +
+				"MultiplicadorMoeda;" +
+				"AjusteMoeda;" +
+				"IndiceAtualizacao;" +
+				"IndiceAcumulado;" +
+				"IndiceRes134;" +
+				"IndiceRes134Acumulado;" +
+				"IndiceSalarios;" +
+				"IndiceSalariosAcumulado;" +
 				"IPCA;" +
 				"IPCAE;" +
-				"indiceCondenatorias;" +
-				"indiceCondenatoriasAcumulado;" +
+				"IndiceCondenatorias;" +
+				"IndiceCondenatoriasAcumulado;" +
 				"Selic;" +
 				"Juros;" +
 				"JurosAlt";
@@ -618,7 +641,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				String jurosStr = listIndicesConsolidados.get(i).getJuros()!=null?df.format(listIndicesConsolidados.get(i).getJuros()):listIndicesConsolidados.get(i).getJuros() + "";
 				String jurosAltStr = listIndicesConsolidados.get(i).getJurosAlt()!=null?df.format(listIndicesConsolidados.get(i).getJuros()):listIndicesConsolidados.get(i).getJurosAlt() + "";
 
-				System.out.println(ManipulaData.dateToStringAnoMes(ManipulaData.toDate(listIndicesConsolidados.get(i).getData())) + " " + integralStr);
+				//System.out.println(ManipulaData.dateToStringAnoMes(ManipulaData.toDate(listIndicesConsolidados.get(i).getData())) + " " + integralStr);
 
 				linha = ManipulaData.dateToStringAnoMes(ManipulaData.toDate(listIndicesConsolidados.get(i).getData()))  + ";" +
 						listIndicesConsolidados.get(i).getDataBase() + ";" +
@@ -692,7 +715,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				//csv[i+1] = listIndicesConsolidados.get(i).toString();
 				csv[i+1] = linha;
 			} catch (Exception e) {
-				System.out.println(i);
+				//System.out.println(i);
 				//System.out.println(listIndicesConsolidados.get(i).getDataBase() + " - " + listIndicesConsolidados.get(i).getIntegral());
 			}
 

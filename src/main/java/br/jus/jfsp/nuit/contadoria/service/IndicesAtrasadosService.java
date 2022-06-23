@@ -189,7 +189,11 @@ public class IndicesAtrasadosService {
 			try {
 				System.out.println(ManipulaData.calendarToStringAnoMes(atualizacaoJudicial.getData()) + " - " + indice);
 				IndicesAtrasados indicesAtrasados = new IndicesAtrasados();
-				indicesAtrasados.setData(atualizacaoJudicial.getData());
+				if (repository.existsByData(atualizacaoJudicial.getData())) {
+					indicesAtrasados = repository.findByData(atualizacaoJudicial.getData()).get();
+				} else {
+					indicesAtrasados.setData(atualizacaoJudicial.getData());
+				}
 				indicesAtrasados.setIndice(indice);
 				indicesAtrasados.setDescricao(atualizacaoJudicial.getDescricao());
 				repository.save(indicesAtrasados);

@@ -1,37 +1,34 @@
 package br.jus.jfsp.nuit.contadoria.models;
 
 import br.jus.jfsp.nuit.contadoria.util.ManipulaData;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
-@Table(name = "indices_consolidados", indexes = @Index(
-		name="idx_indices_consolidados", unique=true, columnList = "mes,ano"
-))
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
+//@Getter
+//@Setter
+@Table(name = "indices_consolidados")
+//@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+//@Builder
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Audited
 @AuditTable(value = "indices_consolidados_audit")
 @EntityListeners(AuditingEntityListener.class)
-public class IndicesConsolidados extends BaseEntity {
+public class IndicesConsolidados {
 
 	@PrePersist
 	public void onPrePersist() {
@@ -39,8 +36,27 @@ public class IndicesConsolidados extends BaseEntity {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	protected Date createdDate;
+
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	protected Date modifiedDate;
+
+	@CreatedBy
+	public String createdBy;
+
+	@LastModifiedBy
+	protected String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	protected Calendar data;
+
+	protected Double valor;
 
 	private String ano;
 
@@ -132,7 +148,8 @@ public class IndicesConsolidados extends BaseEntity {
 		String jurosStr = 		juros!=null?juros.doubleValue() + "":"0";
 		String jurosAltStr = jurosAlt!=null?df.format(jurosAlt) + "":"0";
 
-		String retorno = "01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
+		String retorno = id + ";" +
+				"01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
 						dataBase + ";" +
 						salarioMinimoStr + ";" +
 						salarioMinimoReferenciaStr + ";" +
@@ -160,4 +177,21 @@ public class IndicesConsolidados extends BaseEntity {
 		return
 				retorno.replaceAll("null", "0").replace(",", ".").trim();
 	}
+
+//	@Override
+//	public boolean equals(Object o) {
+//		System.out.println("equals");
+//		if (!(o instanceof IndicesConsolidados)) {
+//			return false;
+//		}
+//		IndicesConsolidados indicesConsolidados = (IndicesConsolidados) o;
+//		if (this.getMes().equals(indicesConsolidados.getMes()) &&
+//				this.getAno().equals(indicesConsolidados.getAno())) {
+//			return true;
+//		}
+//		return false;
+//	}
+
+
+
 }

@@ -84,17 +84,16 @@ public class IndicesCondService {
 				if (ipcaE.getData().compareTo(dezembro1991) == 0 ||
 						ipcaE.getData().compareTo(dezembro2000) > 0) {
 					try {
-						if (!repository.existsByData(ipcaE.getData()) && indiceAnterior != null) {
+						//if (!repository.existsByData(ipcaE.getData()) && indiceAnterior != null) {
 							repository.save(new IndicesCond(indice, ipcaE.getObservacao(), ipcaE.getData()));
-						}
+						//}
 					} catch (Exception e) {}
 				}
 				if (ipcaE.getData().compareTo(dezembro2000) == 0) {
 					BigDecimal dezembro = new BigDecimal(1.06035557011);
-					if (!repository.existsByData(ipcaE.getData())) {
+					//if (!repository.existsByData(ipcaE.getData())) {
 						repository.save(new IndicesCond(dezembro, "", ipcaE.getData()));
-
-					}
+					//}
 				}
 				indiceAnterior = indice;
 			}
