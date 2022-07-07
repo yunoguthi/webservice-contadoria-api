@@ -148,7 +148,7 @@ public class IndicesConsolidados {
 		String jurosStr = 		juros!=null?juros.doubleValue() + "":"0";
 		String jurosAltStr = jurosAlt!=null?df.format(jurosAlt) + "":"0";
 
-		String retorno = id + ";" +
+		String retorno =
 				"01/" + mesStr  + "/" + ManipulaData.getAno(ManipulaData.toDate(data)) + ";" +
 						dataBase + ";" +
 						salarioMinimoStr + ";" +

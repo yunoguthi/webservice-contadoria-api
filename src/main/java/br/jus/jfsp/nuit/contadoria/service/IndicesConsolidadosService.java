@@ -483,6 +483,7 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				indicesConsolidados.setIpca(variacaoMensal);
 				try {
 					//if (!repository.existsByData(indicesConsolidados.getData())) {
+					System.out.println(mes+ano + " - " + variacaoMensal);
 					repository.save(indicesConsolidados);
 					//}
 				} catch (Exception e) {}
