@@ -20,7 +20,9 @@ import java.util.Date;
 @Data
 //@Getter
 //@Setter
-@Table(name = "indices_consolidados")
+@Table(name = "indices_consolidados", indexes = @Index(
+		name="idx_indices_consolidados", unique=true, columnList = "ano,mes"
+))
 //@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 //@Builder
 //@AllArgsConstructor
