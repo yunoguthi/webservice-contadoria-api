@@ -94,7 +94,7 @@ public class JurosAltService extends SgsBacenService {
 					try {
 						JurosAlt jurosAlt = new JurosAlt();
 						jurosAlt.setData(atualizacaoJudicial.getData());
-						jurosAlt.setValor(valor*100);
+						jurosAlt.setValor(valor);
 						if (!repository.existsByData(atualizacaoJudicial.getData())) {
 							repository.save(jurosAlt);
 						}
@@ -108,7 +108,7 @@ public class JurosAltService extends SgsBacenService {
 
 							JurosAlt jurosAlt = new JurosAlt();
 							jurosAlt.setData(atualizacaoJudicial.getData());
-							jurosAlt.setValor(valor*100);
+							jurosAlt.setValor(valor);
 							if (!repository.existsByData(atualizacaoJudicial.getData())) {
 								repository.save(jurosAlt);
 							}
@@ -124,7 +124,7 @@ public class JurosAltService extends SgsBacenService {
 							try {
 								JurosAlt jurosAlt = new JurosAlt();
 								jurosAlt.setData(atualizacaoJudicial.getData());
-								jurosAlt.setValor(valor*100);
+								jurosAlt.setValor(valor);
 								if (!repository.existsByData(atualizacaoJudicial.getData())) {
 									repository.save(jurosAlt);
 								}

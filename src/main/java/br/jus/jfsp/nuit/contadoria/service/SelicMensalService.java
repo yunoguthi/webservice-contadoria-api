@@ -62,7 +62,7 @@ public class SelicMensalService extends SgsBacenService {
 				Double valor = new Double(lMap.get("valor")+"");
 				SelicMensal selicMensal = new SelicMensal();
 				selicMensal.setData(ManipulaData.toCalendar(data));
-				selicMensal.setValor(valor);
+				selicMensal.setValor(valor/100);
 				selicMensal.setUltimaAtualizacao(ManipulaData.getHoje());
 				selicMensal.setFonte(Consts.SGS_BACEN);
 				int mesAtual = ManipulaData.getMes(ManipulaData.getHoje());

@@ -364,6 +364,10 @@ public class IndicesConsolidadosService extends SidraIbgeService {
 				}
 
 				double variacaoMensal = 1 + (ipcaE.getValor()*0.01);
+				// TODO verificar com Erick
+				if (mes.equals("12") && ano.equals("2020")) {
+					variacaoMensal = 1.06035557011;
+				}
 				indicesConsolidados.setIpcaE(variacaoMensal);
 
 				try {
