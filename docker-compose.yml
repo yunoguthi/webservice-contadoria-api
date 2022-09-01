@@ -8,9 +8,9 @@ services:
     networks:
       - contadoria
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/contadoria
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://containers-us-west-85.railway.app:6141/railway
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1
+      - SPRING_DATASOURCE_PASSWORD=cCs7wUjvhSlQVKFRdlwJ
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     links:
       - keycloak
